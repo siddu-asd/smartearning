@@ -1,5 +1,10 @@
 {
   "buildCommand": "npm run build",
   "framework": "nextjs",
-  "installCommand": "npm install && cd .. && npm install"
+  "installCommand": "npm install --legacy-peer-deps && cd .. && npm install --include=dev --legacy-peer-deps",
+  "rewrites": [
+    { "source": "/", "destination": "/site/index.html" },
+    { "source": "/assets/:path*", "destination": "/site/assets/:path*" },
+    { "source": "/((?!admin|api|_next|site).*)", "destination": "/site/index.html" }
+  ]
 }
