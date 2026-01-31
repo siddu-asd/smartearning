@@ -10,6 +10,7 @@ const ContactUs1 = () => {
     });
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
+    const [openFaq, setOpenFaq] = useState<number | null>(null);
 
     useEffect(() => {
         setIsVisible(true);
@@ -21,205 +22,322 @@ const ContactUs1 = () => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        // Just show success - no storage
         setIsSubmitted(true);
-        // Reset form
         setFormData({ name: '', email: '', subject: '', message: '' });
     };
 
     const faqs = [
-        { q: 'How do you find these deals?', a: 'We have a dedicated team that scours the internet, partners with brands, and tracks flash sales to bring you the best prices.' },
-        { q: 'Are the deals really verified?', a: 'Yes! Every deal is manually verified before being posted to ensure authenticity.' },
-        { q: 'How can I submit a deal I found?', a: 'You can email us at help@siddudeals.online or use the contact form!' },
+        { 
+            q: 'How do you find these deals?', 
+            a: 'We have a dedicated team that scours the internet, partners with brands, and tracks flash sales to bring you the best prices. Our team works around the clock to ensure you never miss a great deal.' 
+        },
+        { 
+            q: 'Are the deals really verified?', 
+            a: 'Yes! Every deal is manually verified before being posted to ensure authenticity. We test each coupon code and check product availability before sharing with our community.' 
+        },
+        { 
+            q: 'How can I submit a deal I found?', 
+            a: 'You can email us at help@siddudeals.online or use the contact form on this page! We love hearing from our community and will review your submission within 24 hours.' 
+        },
+        { 
+            q: 'How quickly do you respond to inquiries?', 
+            a: 'We typically respond to all inquiries within 24 hours during business days. For urgent matters, please mention "URGENT" in your subject line and we\'ll prioritize your request.' 
+        },
     ];
 
+    // Color scheme
+    const colors = {
+        primary: '#2563EB',
+        secondary: '#10B981',
+        accent: '#F59E0B',
+        dark: '#111827',
+        gray: '#6B7280',
+        lightBg: '#F9FAFB',
+        border: '#E5E7EB',
+        white: '#FFFFFF'
+    };
+
     return (
-        <div className="page-content" style={{ background: 'linear-gradient(180deg, #0f0c29 0%, #1a1a2e 100%)', minHeight: '100vh' }}>
+        <div className="page-content" style={{ background: colors.white, minHeight: '100vh' }}>
             {/* Hero Section */}
             <section style={{ 
-                background: 'linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%)',
-                padding: '120px 0 100px',
+                background: 'linear-gradient(135deg, #2563EB 0%, #7C3AED 100%)',
+                padding: '100px 0 80px',
                 position: 'relative',
                 overflow: 'hidden'
             }}>
-                {/* Animated Background Elements */}
-                <div style={{ position: 'absolute', top: '-100px', right: '-100px', width: '500px', height: '500px', background: 'radial-gradient(circle, rgba(102,126,234,0.3) 0%, transparent 70%)', borderRadius: '50%', filter: 'blur(60px)', animation: 'float 8s ease-in-out infinite' }}></div>
-                <div style={{ position: 'absolute', bottom: '-80px', left: '10%', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(118,75,162,0.3) 0%, transparent 70%)', borderRadius: '50%', filter: 'blur(60px)', animation: 'float 10s ease-in-out infinite reverse' }}></div>
-                
-                {/* Grid Pattern */}
-                <div style={{
-                    position: 'absolute',
-                    inset: 0,
-                    backgroundImage: `
-                        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-                        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px)
-                    `,
-                    backgroundSize: '50px 50px',
-                    opacity: 0.5
+                {/* Decorative circles */}
+                <div style={{ 
+                    position: 'absolute', 
+                    top: '-50px', 
+                    right: '-50px', 
+                    width: '200px', 
+                    height: '200px', 
+                    background: 'rgba(255,255,255,0.1)', 
+                    borderRadius: '50%' 
+                }} />
+                <div style={{ 
+                    position: 'absolute', 
+                    bottom: '-30px', 
+                    left: '10%', 
+                    width: '150px', 
+                    height: '150px', 
+                    background: 'rgba(255,255,255,0.08)', 
+                    borderRadius: '50%' 
                 }} />
                 
                 <div className="container" style={{ position: 'relative', zIndex: 10 }}>
-                    <nav aria-label="breadcrumb" className="mb-3">
+                    <nav aria-label="breadcrumb" className="mb-4">
                         <ol className="breadcrumb mb-0" style={{ background: 'transparent' }}>
-                            <li className="breadcrumb-item"><Link to="/" style={{ color: 'rgba(255,255,255,0.7)' }}>Home</Link></li>
-                            <li className="breadcrumb-item active" style={{ color: '#FFD700' }}>Contact Us</li>
+                            <li className="breadcrumb-item">
+                                <Link to="/" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none' }}>Home</Link>
+                            </li>
+                            <li className="breadcrumb-item active" style={{ color: colors.white }}>Contact Us</li>
                         </ol>
                     </nav>
                     <div className="row align-items-center">
                         <div className="col-lg-8" style={{
                             opacity: isVisible ? 1 : 0,
-                            transform: isVisible ? 'translateY(0)' : 'translateY(30px)',
-                            transition: 'all 0.8s ease'
+                            transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
+                            transition: 'all 0.6s ease'
                         }}>
                             <h1 style={{ 
-                                color: '#fff', 
-                                fontSize: 'clamp(2.5rem, 5vw, 4rem)', 
-                                fontWeight: '900',
-                                lineHeight: '1.1',
-                                marginBottom: '20px'
+                                color: colors.white, 
+                                fontSize: 'clamp(2rem, 4vw, 3rem)', 
+                                fontWeight: '700',
+                                lineHeight: '1.2',
+                                marginBottom: '16px'
                             }}>
-                                Let's <span style={{ 
-                                    background: 'linear-gradient(135deg, #FFD700 0%, #FF8C00 100%)',
-                                    WebkitBackgroundClip: 'text',
-                                    WebkitTextFillColor: 'transparent',
-                                    backgroundClip: 'text'
-                                }}>Connect</span> 👋
+                                Get In Touch
                             </h1>
                             <p style={{ 
-                                color: 'rgba(255,255,255,0.85)', 
+                                color: 'rgba(255,255,255,0.9)', 
                                 fontSize: '18px',
-                                maxWidth: '600px',
-                                lineHeight: '1.7'
+                                maxWidth: '500px',
+                                lineHeight: '1.6',
+                                marginBottom: 0
                             }}>
-                                Have a deal tip? Questions about a product? Want to partner with us? We'd love to hear from you!
+                                Have questions or feedback? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
                             </p>
                         </div>
                     </div>
                 </div>
             </section>
 
-            {/* Email Contact Card */}
-            <section style={{ marginTop: '-50px', position: 'relative', zIndex: 20, padding: '0 15px' }}>
+            {/* Contact Info Cards */}
+            <section style={{ marginTop: '-40px', position: 'relative', zIndex: 20, padding: '0 15px' }}>
                 <div className="container">
-                    <div className="row justify-content-center">
-                        <div className="col-lg-6 col-md-8">
-                            <a 
-                                href="mailto:help@siddudeals.online"
-                                style={{ textDecoration: 'none', display: 'block' }}
+                    <div className="row g-4">
+                        {/* Email Card */}
+                        <div className="col-lg-4 col-md-6">
+                            <div style={{
+                                background: colors.white,
+                                borderRadius: '16px',
+                                padding: '32px 24px',
+                                boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+                                border: `1px solid ${colors.border}`,
+                                textAlign: 'center',
+                                transition: 'all 0.3s ease',
+                                height: '100%'
+                            }}
+                            onMouseEnter={(e) => {
+                                e.currentTarget.style.transform = 'translateY(-4px)';
+                                e.currentTarget.style.boxShadow = '0 12px 30px rgba(37,99,235,0.15)';
+                            }}
+                            onMouseLeave={(e) => {
+                                e.currentTarget.style.transform = 'translateY(0)';
+                                e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.08)';
+                            }}
                             >
                                 <div style={{
-                                    background: 'linear-gradient(145deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)',
-                                    backdropFilter: 'blur(20px)',
-                                    borderRadius: '24px',
-                                    padding: '40px',
-                                    boxShadow: '0 25px 80px rgba(0,0,0,0.3)',
-                                    border: '1px solid rgba(255,255,255,0.15)',
-                                    transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
-                                    textAlign: 'center'
-                                }}
-                                onMouseEnter={(e) => {
-                                    e.currentTarget.style.transform = 'translateY(-10px) scale(1.02)';
-                                    e.currentTarget.style.boxShadow = '0 35px 100px rgba(102,126,234,0.3)';
-                                }}
-                                onMouseLeave={(e) => {
-                                    e.currentTarget.style.transform = 'translateY(0) scale(1)';
-                                    e.currentTarget.style.boxShadow = '0 25px 80px rgba(0,0,0,0.3)';
-                                }}
-                                >
-                                    <div style={{
-                                        width: '90px',
-                                        height: '90px',
-                                        background: 'linear-gradient(135deg, rgba(102,126,234,0.3) 0%, rgba(118,75,162,0.3) 100%)',
-                                        borderRadius: '50%',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        fontSize: '40px',
-                                        margin: '0 auto 25px',
-                                        boxShadow: '0 10px 40px rgba(102,126,234,0.3)'
-                                    }}>
-                                        📧
-                                    </div>
-                                    <h3 style={{ fontWeight: '800', color: '#fff', marginBottom: '10px', fontSize: '1.5rem' }}>Email Us Directly</h3>
-                                    <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '15px', marginBottom: '20px' }}>
-                                        We typically respond within 24 hours
-                                    </p>
-                                    <span style={{ 
-                                        background: 'linear-gradient(135deg, #FFD700 0%, #FF8C00 100%)',
-                                        WebkitBackgroundClip: 'text',
-                                        WebkitTextFillColor: 'transparent',
-                                        backgroundClip: 'text',
-                                        fontWeight: '700',
-                                        fontSize: '20px',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        gap: '8px'
-                                    }}>
-                                        help@siddudeals.online
-                                        <span style={{ color: '#FFD700' }}>→</span>
-                                    </span>
+                                    width: '64px',
+                                    height: '64px',
+                                    background: `${colors.primary}15`,
+                                    borderRadius: '12px',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    margin: '0 auto 20px'
+                                }}>
+                                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke={colors.primary} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                                        <polyline points="22,6 12,13 2,6"/>
+                                    </svg>
                                 </div>
-                            </a>
+                                <h4 style={{ fontWeight: '600', color: colors.dark, marginBottom: '8px', fontSize: '18px' }}>Email Us</h4>
+                                <p style={{ color: colors.gray, fontSize: '14px', marginBottom: '12px' }}>
+                                    We'll respond within 24 hours
+                                </p>
+                                <a href="mailto:help@siddudeals.online" style={{ 
+                                    color: colors.primary, 
+                                    fontWeight: '600', 
+                                    textDecoration: 'none',
+                                    fontSize: '15px'
+                                }}>
+                                    help@siddudeals.online
+                                </a>
+                            </div>
+                        </div>
+
+                        {/* Phone Card */}
+                        <div className="col-lg-4 col-md-6">
+                            <div style={{
+                                background: colors.white,
+                                borderRadius: '16px',
+                                padding: '32px 24px',
+                                boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+                                border: `1px solid ${colors.border}`,
+                                textAlign: 'center',
+                                transition: 'all 0.3s ease',
+                                height: '100%'
+                            }}
+                            onMouseEnter={(e) => {
+                                e.currentTarget.style.transform = 'translateY(-4px)';
+                                e.currentTarget.style.boxShadow = '0 12px 30px rgba(16,185,129,0.15)';
+                            }}
+                            onMouseLeave={(e) => {
+                                e.currentTarget.style.transform = 'translateY(0)';
+                                e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.08)';
+                            }}
+                            >
+                                <div style={{
+                                    width: '64px',
+                                    height: '64px',
+                                    background: `${colors.secondary}15`,
+                                    borderRadius: '12px',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    margin: '0 auto 20px'
+                                }}>
+                                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke={colors.secondary} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                                    </svg>
+                                </div>
+                                <h4 style={{ fontWeight: '600', color: colors.dark, marginBottom: '8px', fontSize: '18px' }}>Call Us</h4>
+                                <p style={{ color: colors.gray, fontSize: '14px', marginBottom: '12px' }}>
+                                    Mon-Fri from 9am to 6pm
+                                </p>
+                                <span style={{ 
+                                    color: colors.secondary, 
+                                    fontWeight: '600',
+                                    fontSize: '15px'
+                                }}>
+                                    Available via Email
+                                </span>
+                            </div>
+                        </div>
+
+                        {/* Location Card */}
+                        <div className="col-lg-4 col-md-12">
+                            <div style={{
+                                background: colors.white,
+                                borderRadius: '16px',
+                                padding: '32px 24px',
+                                boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+                                border: `1px solid ${colors.border}`,
+                                textAlign: 'center',
+                                transition: 'all 0.3s ease',
+                                height: '100%'
+                            }}
+                            onMouseEnter={(e) => {
+                                e.currentTarget.style.transform = 'translateY(-4px)';
+                                e.currentTarget.style.boxShadow = '0 12px 30px rgba(245,158,11,0.15)';
+                            }}
+                            onMouseLeave={(e) => {
+                                e.currentTarget.style.transform = 'translateY(0)';
+                                e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.08)';
+                            }}
+                            >
+                                <div style={{
+                                    width: '64px',
+                                    height: '64px',
+                                    background: `${colors.accent}15`,
+                                    borderRadius: '12px',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    margin: '0 auto 20px'
+                                }}>
+                                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke={colors.accent} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                        <circle cx="12" cy="10" r="3"/>
+                                    </svg>
+                                </div>
+                                <h4 style={{ fontWeight: '600', color: colors.dark, marginBottom: '8px', fontSize: '18px' }}>Location</h4>
+                                <p style={{ color: colors.gray, fontSize: '14px', marginBottom: '12px' }}>
+                                    We operate online
+                                </p>
+                                <span style={{ 
+                                    color: colors.accent, 
+                                    fontWeight: '600',
+                                    fontSize: '15px'
+                                }}>
+                                    Worldwide Service
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            {/* Contact Form & FAQ */}
-            <section style={{ padding: '80px 0' }}>
+            {/* Contact Form Section */}
+            <section style={{ padding: '80px 0', background: colors.white }}>
                 <div className="container">
                     <div className="row g-5">
                         {/* Contact Form */}
                         <div className="col-lg-7">
                             <div style={{
-                                background: 'linear-gradient(145deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 100%)',
-                                backdropFilter: 'blur(20px)',
-                                borderRadius: '28px',
-                                padding: '45px',
-                                border: '1px solid rgba(255,255,255,0.1)',
-                                boxShadow: '0 20px 60px rgba(0,0,0,0.2)'
+                                background: colors.white,
+                                borderRadius: '20px',
+                                padding: '40px',
+                                border: `1px solid ${colors.border}`,
+                                boxShadow: '0 4px 20px rgba(0,0,0,0.05)'
                             }}>
                                 {isSubmitted ? (
                                     /* Success State */
                                     <div style={{ textAlign: 'center', padding: '40px 20px' }}>
                                         <div style={{
-                                            width: '100px',
-                                            height: '100px',
-                                            background: 'linear-gradient(135deg, #11998e 0%, #38ef7d 100%)',
+                                            width: '80px',
+                                            height: '80px',
+                                            background: `${colors.secondary}15`,
                                             borderRadius: '50%',
                                             display: 'flex',
                                             alignItems: 'center',
                                             justifyContent: 'center',
-                                            fontSize: '50px',
-                                            margin: '0 auto 30px',
-                                            animation: 'scaleIn 0.5s ease-out',
-                                            boxShadow: '0 20px 50px rgba(17,153,142,0.4)'
+                                            margin: '0 auto 24px'
                                         }}>
-                                            ✓
+                                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke={colors.secondary} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                                <polyline points="20 6 9 17 4 12"/>
+                                            </svg>
                                         </div>
-                                        <h2 style={{ color: '#fff', fontWeight: '800', marginBottom: '15px', fontSize: '2rem' }}>
-                                            Message Sent! 🎉
+                                        <h2 style={{ color: colors.dark, fontWeight: '700', marginBottom: '12px', fontSize: '1.75rem' }}>
+                                            Message Sent Successfully!
                                         </h2>
-                                        <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '16px', maxWidth: '400px', margin: '0 auto 30px', lineHeight: '1.7' }}>
-                                            Thanks for reaching out! We'll get back to you at <span style={{ color: '#FFD700' }}>help@siddudeals.online</span> soon.
+                                        <p style={{ color: colors.gray, fontSize: '16px', maxWidth: '400px', margin: '0 auto 24px', lineHeight: '1.6' }}>
+                                            Thank you for reaching out. We'll get back to you at <span style={{ color: colors.primary, fontWeight: '600' }}>help@siddudeals.online</span> within 24 hours.
                                         </p>
                                         <button
                                             onClick={() => setIsSubmitted(false)}
                                             style={{
-                                                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                                                color: '#fff',
-                                                padding: '16px 40px',
-                                                borderRadius: '50px',
+                                                background: colors.primary,
+                                                color: colors.white,
+                                                padding: '14px 32px',
+                                                borderRadius: '10px',
                                                 border: 'none',
-                                                fontWeight: '700',
-                                                fontSize: '16px',
+                                                fontWeight: '600',
+                                                fontSize: '15px',
                                                 cursor: 'pointer',
-                                                transition: 'all 0.3s ease',
-                                                boxShadow: '0 15px 40px rgba(102,126,234,0.3)'
+                                                transition: 'all 0.3s ease'
                                             }}
-                                            onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-3px)'}
-                                            onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+                                            onMouseEnter={(e) => {
+                                                e.currentTarget.style.background = '#1d4ed8';
+                                                e.currentTarget.style.transform = 'translateY(-2px)';
+                                            }}
+                                            onMouseLeave={(e) => {
+                                                e.currentTarget.style.background = colors.primary;
+                                                e.currentTarget.style.transform = 'translateY(0)';
+                                            }}
                                         >
                                             Send Another Message
                                         </button>
@@ -227,34 +345,19 @@ const ContactUs1 = () => {
                                 ) : (
                                     /* Form */
                                     <>
-                                        <div style={{
-                                            display: 'inline-flex',
-                                            alignItems: 'center',
-                                            gap: '10px',
-                                            background: 'linear-gradient(135deg, rgba(102,126,234,0.3) 0%, rgba(118,75,162,0.3) 100%)',
-                                            padding: '10px 24px',
-                                            borderRadius: '50px',
-                                            marginBottom: '20px'
-                                        }}>
-                                            <span>✉️</span>
-                                            <span style={{ color: '#fff', fontSize: '13px', fontWeight: '600', letterSpacing: '1px' }}>SEND MESSAGE</span>
-                                        </div>
-                                        <h2 style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)', fontWeight: '800', marginBottom: '10px', color: '#fff' }}>
-                                            Drop Us a <span style={{ 
-                                                background: 'linear-gradient(135deg, #FFD700 0%, #FF8C00 100%)',
-                                                WebkitBackgroundClip: 'text',
-                                                WebkitTextFillColor: 'transparent',
-                                                backgroundClip: 'text'
-                                            }}>Line</span>
+                                        <h2 style={{ fontSize: '1.5rem', fontWeight: '700', marginBottom: '8px', color: colors.dark }}>
+                                            Send Us a Message
                                         </h2>
-                                        <p style={{ color: 'rgba(255,255,255,0.7)', marginBottom: '30px' }}>
-                                            Fill out the form below and we'll get back to you within 24 hours
+                                        <p style={{ color: colors.gray, marginBottom: '32px', fontSize: '15px' }}>
+                                            Fill out the form below and we'll get back to you within 24 hours.
                                         </p>
 
                                         <form onSubmit={handleSubmit}>
                                             <div className="row g-4">
                                                 <div className="col-md-6">
-                                                    <label style={{ fontWeight: '600', marginBottom: '10px', display: 'block', color: 'rgba(255,255,255,0.9)' }}>Your Name *</label>
+                                                    <label style={{ fontWeight: '500', marginBottom: '8px', display: 'block', color: colors.dark, fontSize: '14px' }}>
+                                                        Your Name <span style={{ color: '#EF4444' }}>*</span>
+                                                    </label>
                                                     <input
                                                         type="text"
                                                         name="name"
@@ -264,27 +367,29 @@ const ContactUs1 = () => {
                                                         placeholder="John Doe"
                                                         style={{
                                                             width: '100%',
-                                                            padding: '16px 20px',
-                                                            borderRadius: '14px',
-                                                            border: '2px solid rgba(255,255,255,0.1)',
+                                                            padding: '14px 16px',
+                                                            borderRadius: '10px',
+                                                            border: `1px solid ${colors.border}`,
                                                             fontSize: '15px',
-                                                            transition: 'all 0.3s',
+                                                            transition: 'all 0.2s ease',
                                                             outline: 'none',
-                                                            background: 'rgba(255,255,255,0.05)',
-                                                            color: '#fff'
+                                                            background: colors.white,
+                                                            color: colors.dark
                                                         }}
                                                         onFocus={(e) => {
-                                                            e.target.style.borderColor = '#667eea';
-                                                            e.target.style.boxShadow = '0 0 0 4px rgba(102,126,234,0.2)';
+                                                            e.target.style.borderColor = colors.primary;
+                                                            e.target.style.boxShadow = `0 0 0 3px ${colors.primary}20`;
                                                         }}
                                                         onBlur={(e) => {
-                                                            e.target.style.borderColor = 'rgba(255,255,255,0.1)';
+                                                            e.target.style.borderColor = colors.border;
                                                             e.target.style.boxShadow = 'none';
                                                         }}
                                                     />
                                                 </div>
                                                 <div className="col-md-6">
-                                                    <label style={{ fontWeight: '600', marginBottom: '10px', display: 'block', color: 'rgba(255,255,255,0.9)' }}>Your Email *</label>
+                                                    <label style={{ fontWeight: '500', marginBottom: '8px', display: 'block', color: colors.dark, fontSize: '14px' }}>
+                                                        Your Email <span style={{ color: '#EF4444' }}>*</span>
+                                                    </label>
                                                     <input
                                                         type="email"
                                                         name="email"
@@ -294,27 +399,29 @@ const ContactUs1 = () => {
                                                         placeholder="john@example.com"
                                                         style={{
                                                             width: '100%',
-                                                            padding: '16px 20px',
-                                                            borderRadius: '14px',
-                                                            border: '2px solid rgba(255,255,255,0.1)',
+                                                            padding: '14px 16px',
+                                                            borderRadius: '10px',
+                                                            border: `1px solid ${colors.border}`,
                                                             fontSize: '15px',
-                                                            transition: 'all 0.3s',
+                                                            transition: 'all 0.2s ease',
                                                             outline: 'none',
-                                                            background: 'rgba(255,255,255,0.05)',
-                                                            color: '#fff'
+                                                            background: colors.white,
+                                                            color: colors.dark
                                                         }}
                                                         onFocus={(e) => {
-                                                            e.target.style.borderColor = '#667eea';
-                                                            e.target.style.boxShadow = '0 0 0 4px rgba(102,126,234,0.2)';
+                                                            e.target.style.borderColor = colors.primary;
+                                                            e.target.style.boxShadow = `0 0 0 3px ${colors.primary}20`;
                                                         }}
                                                         onBlur={(e) => {
-                                                            e.target.style.borderColor = 'rgba(255,255,255,0.1)';
+                                                            e.target.style.borderColor = colors.border;
                                                             e.target.style.boxShadow = 'none';
                                                         }}
                                                     />
                                                 </div>
                                                 <div className="col-12">
-                                                    <label style={{ fontWeight: '600', marginBottom: '10px', display: 'block', color: 'rgba(255,255,255,0.9)' }}>Subject *</label>
+                                                    <label style={{ fontWeight: '500', marginBottom: '8px', display: 'block', color: colors.dark, fontSize: '14px' }}>
+                                                        Subject <span style={{ color: '#EF4444' }}>*</span>
+                                                    </label>
                                                     <select
                                                         name="subject"
                                                         value={formData.subject}
@@ -322,25 +429,37 @@ const ContactUs1 = () => {
                                                         required
                                                         style={{
                                                             width: '100%',
-                                                            padding: '16px 20px',
-                                                            borderRadius: '14px',
-                                                            border: '2px solid rgba(255,255,255,0.1)',
+                                                            padding: '14px 16px',
+                                                            borderRadius: '10px',
+                                                            border: `1px solid ${colors.border}`,
                                                             fontSize: '15px',
-                                                            background: 'rgba(255,255,255,0.05)',
-                                                            color: formData.subject ? '#fff' : 'rgba(255,255,255,0.5)',
-                                                            outline: 'none'
+                                                            background: colors.white,
+                                                            color: formData.subject ? colors.dark : colors.gray,
+                                                            outline: 'none',
+                                                            cursor: 'pointer',
+                                                            transition: 'all 0.2s ease'
+                                                        }}
+                                                        onFocus={(e) => {
+                                                            e.target.style.borderColor = colors.primary;
+                                                            e.target.style.boxShadow = `0 0 0 3px ${colors.primary}20`;
+                                                        }}
+                                                        onBlur={(e) => {
+                                                            e.target.style.borderColor = colors.border;
+                                                            e.target.style.boxShadow = 'none';
                                                         }}
                                                     >
-                                                        <option value="" style={{ background: '#1a1a2e' }}>Select a topic...</option>
-                                                        <option value="deal-tip" style={{ background: '#1a1a2e', color: '#fff' }}>🔥 Submit a Deal Tip</option>
-                                                        <option value="partnership" style={{ background: '#1a1a2e', color: '#fff' }}>🤝 Partnership Inquiry</option>
-                                                        <option value="feedback" style={{ background: '#1a1a2e', color: '#fff' }}>💬 Feedback</option>
-                                                        <option value="support" style={{ background: '#1a1a2e', color: '#fff' }}>🆘 Support/Issue</option>
-                                                        <option value="other" style={{ background: '#1a1a2e', color: '#fff' }}>📋 Other</option>
+                                                        <option value="">Select a topic...</option>
+                                                        <option value="deal-tip">Submit a Deal Tip</option>
+                                                        <option value="partnership">Partnership Inquiry</option>
+                                                        <option value="feedback">Feedback</option>
+                                                        <option value="support">Support / Issue</option>
+                                                        <option value="other">Other</option>
                                                     </select>
                                                 </div>
                                                 <div className="col-12">
-                                                    <label style={{ fontWeight: '600', marginBottom: '10px', display: 'block', color: 'rgba(255,255,255,0.9)' }}>Your Message *</label>
+                                                    <label style={{ fontWeight: '500', marginBottom: '8px', display: 'block', color: colors.dark, fontSize: '14px' }}>
+                                                        Your Message <span style={{ color: '#EF4444' }}>*</span>
+                                                    </label>
                                                     <textarea
                                                         name="message"
                                                         value={formData.message}
@@ -350,53 +469,59 @@ const ContactUs1 = () => {
                                                         placeholder="Tell us what's on your mind..."
                                                         style={{
                                                             width: '100%',
-                                                            padding: '16px 20px',
-                                                            borderRadius: '14px',
-                                                            border: '2px solid rgba(255,255,255,0.1)',
+                                                            padding: '14px 16px',
+                                                            borderRadius: '10px',
+                                                            border: `1px solid ${colors.border}`,
                                                             fontSize: '15px',
                                                             resize: 'vertical',
                                                             outline: 'none',
-                                                            background: 'rgba(255,255,255,0.05)',
-                                                            color: '#fff'
+                                                            background: colors.white,
+                                                            color: colors.dark,
+                                                            fontFamily: 'inherit',
+                                                            transition: 'all 0.2s ease'
                                                         }}
                                                         onFocus={(e) => {
-                                                            e.target.style.borderColor = '#667eea';
-                                                            e.target.style.boxShadow = '0 0 0 4px rgba(102,126,234,0.2)';
+                                                            e.target.style.borderColor = colors.primary;
+                                                            e.target.style.boxShadow = `0 0 0 3px ${colors.primary}20`;
                                                         }}
                                                         onBlur={(e) => {
-                                                            e.target.style.borderColor = 'rgba(255,255,255,0.1)';
+                                                            e.target.style.borderColor = colors.border;
                                                             e.target.style.boxShadow = 'none';
                                                         }}
-                                                    ></textarea>
+                                                    />
                                                 </div>
                                                 <div className="col-12">
                                                     <button
                                                         type="submit"
                                                         style={{
-                                                            background: 'linear-gradient(135deg, #FFD700 0%, #FF8C00 100%)',
-                                                            color: '#000',
-                                                            padding: '18px 45px',
-                                                            borderRadius: '50px',
+                                                            background: 'linear-gradient(135deg, #2563EB 0%, #7C3AED 100%)',
+                                                            color: colors.white,
+                                                            padding: '16px 40px',
+                                                            borderRadius: '10px',
                                                             border: 'none',
-                                                            fontWeight: '800',
+                                                            fontWeight: '600',
                                                             fontSize: '16px',
                                                             cursor: 'pointer',
-                                                            transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
-                                                            boxShadow: '0 15px 40px rgba(255,215,0,0.3)',
+                                                            transition: 'all 0.3s ease',
+                                                            boxShadow: '0 4px 15px rgba(37,99,235,0.3)',
                                                             display: 'inline-flex',
                                                             alignItems: 'center',
-                                                            gap: '10px'
+                                                            gap: '8px'
                                                         }}
                                                         onMouseEnter={(e) => {
-                                                            e.currentTarget.style.transform = 'translateY(-5px) scale(1.02)';
-                                                            e.currentTarget.style.boxShadow = '0 25px 50px rgba(255,215,0,0.4)';
+                                                            e.currentTarget.style.transform = 'translateY(-2px)';
+                                                            e.currentTarget.style.boxShadow = '0 8px 25px rgba(37,99,235,0.4)';
                                                         }}
                                                         onMouseLeave={(e) => {
-                                                            e.currentTarget.style.transform = 'translateY(0) scale(1)';
-                                                            e.currentTarget.style.boxShadow = '0 15px 40px rgba(255,215,0,0.3)';
+                                                            e.currentTarget.style.transform = 'translateY(0)';
+                                                            e.currentTarget.style.boxShadow = '0 4px 15px rgba(37,99,235,0.3)';
                                                         }}
                                                     >
-                                                        🚀 Send Message
+                                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                            <line x1="22" y1="2" x2="11" y2="13"/>
+                                                            <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                                                        </svg>
+                                                        Send Message
                                                     </button>
                                                 </div>
                                             </div>
@@ -408,70 +533,110 @@ const ContactUs1 = () => {
 
                         {/* FAQ Section */}
                         <div className="col-lg-5">
-                            <div style={{
-                                display: 'inline-flex',
-                                alignItems: 'center',
-                                gap: '10px',
-                                background: 'linear-gradient(135deg, rgba(102,126,234,0.3) 0%, rgba(118,75,162,0.3) 100%)',
-                                padding: '10px 24px',
-                                borderRadius: '50px',
-                                marginBottom: '20px'
-                            }}>
-                                <span>❓</span>
-                                <span style={{ color: '#fff', fontSize: '13px', fontWeight: '600', letterSpacing: '1px' }}>FAQ</span>
-                            </div>
-                            <h3 style={{ fontSize: '1.8rem', fontWeight: '800', marginBottom: '30px', color: '#fff' }}>
-                                Common <span style={{ 
-                                    background: 'linear-gradient(135deg, #FFD700 0%, #FF8C00 100%)',
-                                    WebkitBackgroundClip: 'text',
-                                    WebkitTextFillColor: 'transparent',
-                                    backgroundClip: 'text'
-                                }}>Questions</span>
+                            <h3 style={{ fontSize: '1.5rem', fontWeight: '700', marginBottom: '8px', color: colors.dark }}>
+                                Frequently Asked Questions
                             </h3>
+                            <p style={{ color: colors.gray, marginBottom: '24px', fontSize: '15px' }}>
+                                Find answers to common questions below.
+                            </p>
 
-                            <div className="d-flex flex-column gap-4">
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                                 {faqs.map((faq, index) => (
                                     <div 
                                         key={index}
                                         style={{
-                                            background: 'linear-gradient(145deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 100%)',
-                                            backdropFilter: 'blur(10px)',
-                                            borderRadius: '20px',
-                                            padding: '25px',
-                                            border: '1px solid rgba(255,255,255,0.1)',
+                                            background: colors.white,
+                                            borderRadius: '12px',
+                                            border: `1px solid ${openFaq === index ? colors.primary : colors.border}`,
+                                            overflow: 'hidden',
                                             transition: 'all 0.3s ease'
                                         }}
-                                        onMouseEnter={(e) => {
-                                            e.currentTarget.style.transform = 'translateX(10px)';
-                                            e.currentTarget.style.borderColor = 'rgba(102,126,234,0.3)';
-                                        }}
-                                        onMouseLeave={(e) => {
-                                            e.currentTarget.style.transform = 'translateX(0)';
-                                            e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)';
-                                        }}
                                     >
-                                        <h6 style={{ fontWeight: '700', marginBottom: '12px', color: '#fff', fontSize: '16px' }}>
-                                            {faq.q}
-                                        </h6>
-                                        <p style={{ color: 'rgba(255,255,255,0.7)', margin: 0, fontSize: '14px', lineHeight: '1.7' }}>
-                                            {faq.a}
-                                        </p>
+                                        <button
+                                            onClick={() => setOpenFaq(openFaq === index ? null : index)}
+                                            style={{
+                                                width: '100%',
+                                                padding: '18px 20px',
+                                                background: 'transparent',
+                                                border: 'none',
+                                                display: 'flex',
+                                                justifyContent: 'space-between',
+                                                alignItems: 'center',
+                                                cursor: 'pointer',
+                                                textAlign: 'left'
+                                            }}
+                                        >
+                                            <span style={{ fontWeight: '600', color: colors.dark, fontSize: '15px', paddingRight: '16px' }}>
+                                                {faq.q}
+                                            </span>
+                                            <svg 
+                                                width="20" 
+                                                height="20" 
+                                                viewBox="0 0 24 24" 
+                                                fill="none" 
+                                                stroke={colors.primary}
+                                                strokeWidth="2" 
+                                                strokeLinecap="round" 
+                                                strokeLinejoin="round"
+                                                style={{
+                                                    transform: openFaq === index ? 'rotate(180deg)' : 'rotate(0)',
+                                                    transition: 'transform 0.3s ease',
+                                                    flexShrink: 0
+                                                }}
+                                            >
+                                                <polyline points="6 9 12 15 18 9"/>
+                                            </svg>
+                                        </button>
+                                        <div style={{
+                                            maxHeight: openFaq === index ? '200px' : '0',
+                                            overflow: 'hidden',
+                                            transition: 'max-height 0.3s ease'
+                                        }}>
+                                            <p style={{ 
+                                                color: colors.gray, 
+                                                margin: 0, 
+                                                padding: '0 20px 18px',
+                                                fontSize: '14px', 
+                                                lineHeight: '1.7' 
+                                            }}>
+                                                {faq.a}
+                                            </p>
+                                        </div>
                                     </div>
                                 ))}
                             </div>
 
+                            {/* Quick Contact Box */}
                             <div style={{
-                                background: 'linear-gradient(135deg, rgba(102,126,234,0.2) 0%, rgba(118,75,162,0.2) 100%)',
-                                borderRadius: '20px',
-                                padding: '30px',
-                                marginTop: '30px',
-                                textAlign: 'center',
-                                border: '1px solid rgba(255,255,255,0.1)'
+                                background: colors.lightBg,
+                                borderRadius: '16px',
+                                padding: '28px',
+                                marginTop: '24px',
+                                border: `1px solid ${colors.border}`
                             }}>
-                                <span style={{ fontSize: '40px', display: 'block', marginBottom: '15px' }}>💡</span>
-                                <h6 style={{ fontWeight: '700', marginBottom: '10px', color: '#fff' }}>Pro Tip!</h6>
-                                <p style={{ color: 'rgba(255,255,255,0.7)', margin: 0, fontSize: '14px', lineHeight: '1.7' }}>
-                                    Email us directly at <span style={{ color: '#FFD700', fontWeight: '600' }}>help@siddudeals.online</span> for fastest response!
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
+                                    <div style={{
+                                        width: '40px',
+                                        height: '40px',
+                                        background: `${colors.accent}15`,
+                                        borderRadius: '10px',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center'
+                                    }}>
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={colors.accent} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                            <circle cx="12" cy="12" r="10"/>
+                                            <line x1="12" y1="16" x2="12" y2="12"/>
+                                            <line x1="12" y1="8" x2="12.01" y2="8"/>
+                                        </svg>
+                                    </div>
+                                    <h6 style={{ fontWeight: '600', margin: 0, color: colors.dark, fontSize: '16px' }}>Need Quick Help?</h6>
+                                </div>
+                                <p style={{ color: colors.gray, margin: 0, fontSize: '14px', lineHeight: '1.6' }}>
+                                    For the fastest response, email us directly at{' '}
+                                    <a href="mailto:help@siddudeals.online" style={{ color: colors.primary, fontWeight: '600', textDecoration: 'none' }}>
+                                        help@siddudeals.online
+                                    </a>
                                 </p>
                             </div>
                         </div>
@@ -481,40 +646,45 @@ const ContactUs1 = () => {
 
             {/* CTA Section */}
             <section style={{ 
-                background: 'linear-gradient(135deg, rgba(102,126,234,0.2) 0%, rgba(118,75,162,0.2) 100%)',
-                padding: '80px 0',
-                borderTop: '1px solid rgba(255,255,255,0.1)'
+                background: colors.lightBg,
+                padding: '60px 0',
+                borderTop: `1px solid ${colors.border}`
             }}>
                 <div className="container text-center">
-                    <h3 style={{ color: '#fff', fontWeight: '800', marginBottom: '15px', fontSize: 'clamp(1.5rem, 3vw, 2rem)' }}>
-                        Want to Partner With Us? 🤝
+                    <h3 style={{ color: colors.dark, fontWeight: '700', marginBottom: '12px', fontSize: '1.5rem' }}>
+                        Want to Partner With Us?
                     </h3>
-                    <p style={{ color: 'rgba(255,255,255,0.8)', marginBottom: '30px', maxWidth: '500px', margin: '0 auto 30px' }}>
-                        Brands and retailers - let's bring exclusive deals to students!
+                    <p style={{ color: colors.gray, marginBottom: '24px', maxWidth: '500px', margin: '0 auto 24px', fontSize: '15px' }}>
+                        Brands and retailers — let's bring exclusive deals to our community together!
                     </p>
                     <a href="mailto:help@siddudeals.online" style={{
-                        background: 'linear-gradient(135deg, #FFD700 0%, #FF8C00 100%)',
-                        color: '#000',
-                        padding: '18px 40px',
-                        borderRadius: '50px',
-                        fontWeight: '800',
+                        background: 'linear-gradient(135deg, #2563EB 0%, #7C3AED 100%)',
+                        color: colors.white,
+                        padding: '14px 32px',
+                        borderRadius: '10px',
+                        fontWeight: '600',
                         textDecoration: 'none',
                         display: 'inline-flex',
                         alignItems: 'center',
-                        gap: '10px',
-                        boxShadow: '0 15px 40px rgba(255,215,0,0.3)',
-                        transition: 'all 0.3s ease'
+                        gap: '8px',
+                        boxShadow: '0 4px 15px rgba(37,99,235,0.3)',
+                        transition: 'all 0.3s ease',
+                        fontSize: '15px'
                     }}
                     onMouseEnter={(e) => {
-                        e.currentTarget.style.transform = 'translateY(-5px)';
-                        e.currentTarget.style.boxShadow = '0 25px 50px rgba(255,215,0,0.4)';
+                        e.currentTarget.style.transform = 'translateY(-2px)';
+                        e.currentTarget.style.boxShadow = '0 8px 25px rgba(37,99,235,0.4)';
                     }}
                     onMouseLeave={(e) => {
                         e.currentTarget.style.transform = 'translateY(0)';
-                        e.currentTarget.style.boxShadow = '0 15px 40px rgba(255,215,0,0.3)';
+                        e.currentTarget.style.boxShadow = '0 4px 15px rgba(37,99,235,0.3)';
                     }}
                     >
-                        📧 help@siddudeals.online
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                            <polyline points="22,6 12,13 2,6"/>
+                        </svg>
+                        Contact Us for Partnerships
                     </a>
                 </div>
             </section>

@@ -1,15 +1,37 @@
 import { Link } from "react-router-dom";
 import { IMAGES } from "../../constant/theme";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 const AboutUs = () => {
     const [isVisible, setIsVisible] = useState(false);
     const [counters, setCounters] = useState({ students: 0, deals: 0, brands: 0, saved: 0 });
+    const [statsVisible, setStatsVisible] = useState(false);
+    const statsRef = useRef<HTMLDivElement>(null);
     
     useEffect(() => {
         setIsVisible(true);
         
-        // Animate counters
+        // Intersection Observer for stats section
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting && !statsVisible) {
+                        setStatsVisible(true);
+                        animateCounters();
+                    }
+                });
+            },
+            { threshold: 0.3 }
+        );
+        
+        if (statsRef.current) {
+            observer.observe(statsRef.current);
+        }
+        
+        return () => observer.disconnect();
+    }, [statsVisible]);
+    
+    const animateCounters = () => {
         const duration = 2000;
         const steps = 60;
         const interval = duration / steps;
@@ -20,266 +42,325 @@ const AboutUs = () => {
         const timer = setInterval(() => {
             step++;
             const progress = step / steps;
+            const easeOut = 1 - Math.pow(1 - progress, 3);
+            
             setCounters({
-                students: Math.floor(targets.students * progress),
-                deals: Math.floor(targets.deals * progress),
-                brands: Math.floor(targets.brands * progress),
-                saved: Math.floor(targets.saved * progress * 10) / 10
+                students: Math.floor(targets.students * easeOut),
+                deals: Math.floor(targets.deals * easeOut),
+                brands: Math.floor(targets.brands * easeOut),
+                saved: Math.floor(targets.saved * easeOut * 10) / 10
             });
             
             if (step >= steps) clearInterval(timer);
         }, interval);
-        
-        return () => clearInterval(timer);
-    }, []);
+    };
     
-    // Team/Stats data
     const stats = [
-        { number: `${(counters.students / 1000).toFixed(0)}K+`, label: 'Happy Students', icon: '🎓', color: '#667eea' },
-        { number: `${(counters.deals / 1000).toFixed(0)}K+`, label: 'Active Deals', icon: '🔥', color: '#EC4899' },
+        { number: `${(counters.students / 1000).toFixed(0)}K+`, label: 'Happy Students', icon: '🎓', color: '#2563EB' },
+        { number: `${(counters.deals / 1000).toFixed(0)}K+`, label: 'Active Deals', icon: '🔥', color: '#10B981' },
         { number: `${counters.brands}+`, label: 'Partner Brands', icon: '🤝', color: '#F59E0B' },
-        { number: `₹${counters.saved}Cr+`, label: 'Saved by Users', icon: '💰', color: '#10B981' },
+        { number: `₹${counters.saved}Cr+`, label: 'Saved by Users', icon: '💰', color: '#7C3AED' },
     ];
 
     const categories = [
-        { icon: '💻', name: 'Laptops & Computers', desc: 'Best deals on laptops perfect for studying, coding, and entertainment', color: '#4F46E5' },
+        { icon: '💻', name: 'Laptops & Computers', desc: 'Best deals on laptops perfect for studying, coding, and entertainment', color: '#2563EB' },
         { icon: '📱', name: 'Smartphones', desc: 'Affordable mobile phones and accessories for staying connected', color: '#7C3AED' },
-        { icon: '🎧', name: 'Audio & Headphones', desc: 'Quality headphones and speakers for music and online classes', color: '#EC4899' },
-        { icon: '🪑', name: 'Study Furniture', desc: 'Comfortable chairs and desks for long study sessions', color: '#10B981' },
-        { icon: '🏠', name: 'Home Appliances', desc: 'Essential appliances for dorm rooms and apartments', color: '#F59E0B' },
-        { icon: '📺', name: 'Entertainment', desc: 'TVs, gaming consoles, and streaming devices for downtime', color: '#EF4444' },
+        { icon: '🎧', name: 'Audio & Headphones', desc: 'Quality headphones and speakers for music and online classes', color: '#10B981' },
+        { icon: '🪑', name: 'Study Furniture', desc: 'Comfortable chairs and desks for long study sessions', color: '#F59E0B' },
+        { icon: '🏠', name: 'Home Appliances', desc: 'Essential appliances for dorm rooms and apartments', color: '#EF4444' },
+        { icon: '📺', name: 'Entertainment', desc: 'TVs, gaming consoles, and streaming devices for downtime', color: '#06B6D4' },
     ];
 
     const whyChooseUs = [
-        { icon: '✨', title: 'Curated Deals', desc: 'Every deal is handpicked and verified by our team' },
-        { icon: '⚡', title: 'Real-Time Updates', desc: 'New deals added every hour, so you never miss out' },
-        { icon: '🛡️', title: '100% Free', desc: 'No hidden fees, no subscriptions, completely free' },
-        { icon: '🎯', title: 'Student Focused', desc: 'Products and deals specifically relevant to students' },
+        { icon: '✨', title: 'Curated Deals', desc: 'Every deal is handpicked and verified by our team to ensure quality and savings' },
+        { icon: '⚡', title: 'Real-Time Updates', desc: 'New deals added every hour, so you never miss out on amazing discounts' },
+        { icon: '🛡️', title: '100% Free Service', desc: 'No hidden fees, no subscriptions - completely free for all students' },
+        { icon: '🎯', title: 'Student Focused', desc: 'Products and deals specifically curated for student needs and budgets' },
     ];
 
     return (
-        <div className="page-content" style={{ background: 'linear-gradient(180deg, #0f0c29 0%, #1a1a2e 100%)' }}>
+        <div className="page-content" style={{ background: '#FFFFFF' }}>
             {/* Hero Section */}
             <section style={{ 
-                minHeight: '80vh',
+                minHeight: '70vh',
                 display: 'flex',
                 alignItems: 'center',
-                padding: '100px 0',
+                padding: '80px 0 60px',
                 position: 'relative',
-                overflow: 'hidden'
+                overflow: 'hidden',
+                background: 'linear-gradient(135deg, #2563EB 0%, #7C3AED 100%)'
             }}>
-                {/* Animated Background Elements */}
+                {/* Decorative Elements */}
                 <div style={{
                     position: 'absolute',
-                    top: '10%',
-                    left: '-10%',
-                    width: '600px',
-                    height: '600px',
-                    background: 'radial-gradient(circle, rgba(102,126,234,0.2) 0%, transparent 70%)',
-                    borderRadius: '50%',
-                    filter: 'blur(80px)',
-                    animation: 'float 8s ease-in-out infinite'
+                    top: '-50px',
+                    right: '-50px',
+                    width: '300px',
+                    height: '300px',
+                    background: 'rgba(255,255,255,0.1)',
+                    borderRadius: '50%'
                 }} />
                 <div style={{
                     position: 'absolute',
-                    bottom: '5%',
-                    right: '-10%',
-                    width: '500px',
-                    height: '500px',
-                    background: 'radial-gradient(circle, rgba(118,75,162,0.2) 0%, transparent 70%)',
-                    borderRadius: '50%',
-                    filter: 'blur(80px)',
-                    animation: 'float 10s ease-in-out infinite reverse'
-                }} />
-                <div style={{
-                    position: 'absolute',
-                    top: '50%',
-                    left: '50%',
+                    bottom: '-100px',
+                    left: '-100px',
                     width: '400px',
                     height: '400px',
-                    background: 'radial-gradient(circle, rgba(255,215,0,0.1) 0%, transparent 70%)',
-                    borderRadius: '50%',
-                    filter: 'blur(60px)',
-                    transform: 'translate(-50%, -50%)'
+                    background: 'rgba(255,255,255,0.05)',
+                    borderRadius: '50%'
                 }} />
                 
                 <div className="container" style={{ position: 'relative', zIndex: 10 }}>
                     <div className="row align-items-center">
-                        <div className="col-lg-7 mb-5 mb-lg-0">
+                        <div className="col-lg-8 mx-auto text-center">
                             <nav aria-label="breadcrumb" className="mb-4">
-                                <ol className="breadcrumb mb-0" style={{ background: 'transparent' }}>
+                                <ol className="breadcrumb mb-0 justify-content-center" style={{ background: 'transparent' }}>
                                     <li className="breadcrumb-item">
-                                        <Link to="/" style={{ color: 'rgba(255,255,255,0.6)', textDecoration: 'none', transition: 'color 0.3s' }}>Home</Link>
+                                        <Link to="/" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none' }}>Home</Link>
                                     </li>
-                                    <li className="breadcrumb-item active" style={{ color: '#FFD700' }}>About Us</li>
+                                    <li className="breadcrumb-item active" style={{ color: '#fff' }}>About Us</li>
                                 </ol>
                             </nav>
                             
                             <div style={{
                                 display: 'inline-flex',
                                 alignItems: 'center',
-                                gap: '10px',
-                                background: 'linear-gradient(135deg, rgba(102,126,234,0.3) 0%, rgba(118,75,162,0.3) 100%)',
-                                padding: '12px 24px',
+                                gap: '8px',
+                                background: 'rgba(255,255,255,0.2)',
+                                padding: '10px 20px',
                                 borderRadius: '50px',
-                                marginBottom: '25px',
-                                border: '1px solid rgba(255,255,255,0.1)',
+                                marginBottom: '24px',
                                 opacity: isVisible ? 1 : 0,
                                 transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
                                 transition: 'all 0.6s ease'
                             }}>
-                                <span style={{ animation: 'heartbeat 2s infinite' }}>🚀</span>
-                                <span style={{ color: '#fff', fontSize: '13px', fontWeight: '600', letterSpacing: '1px' }}>ABOUT STUDENTCRAZYDEALS</span>
+                                <span>🎓</span>
+                                <span style={{ color: '#fff', fontSize: '14px', fontWeight: '600', letterSpacing: '0.5px' }}>FOR STUDENTS, BY STUDENTS</span>
                             </div>
                             
                             <h1 style={{ 
                                 color: '#fff', 
-                                fontSize: 'clamp(2.5rem, 5vw, 4rem)', 
-                                fontWeight: '900',
-                                lineHeight: '1.1',
-                                marginBottom: '25px',
+                                fontSize: 'clamp(2.2rem, 5vw, 3.5rem)', 
+                                fontWeight: '800',
+                                lineHeight: '1.2',
+                                marginBottom: '20px',
                                 opacity: isVisible ? 1 : 0,
                                 transform: isVisible ? 'translateY(0)' : 'translateY(30px)',
                                 transition: 'all 0.6s ease 0.1s'
                             }}>
-                                Your Gateway to <br/>
-                                <span style={{ 
-                                    background: 'linear-gradient(135deg, #FFD700 0%, #FF8C00 100%)',
-                                    WebkitBackgroundClip: 'text',
-                                    WebkitTextFillColor: 'transparent',
-                                    backgroundClip: 'text'
-                                }}>Amazing Student Deals</span>
+                                About StudentCrazyDeals
                             </h1>
                             
                             <p style={{ 
-                                color: 'rgba(255,255,255,0.8)', 
+                                color: 'rgba(255,255,255,0.9)', 
                                 fontSize: 'clamp(16px, 2vw, 20px)',
-                                marginBottom: '35px',
-                                maxWidth: '550px',
+                                marginBottom: '32px',
+                                maxWidth: '600px',
+                                margin: '0 auto 32px',
                                 lineHeight: '1.7',
                                 opacity: isVisible ? 1 : 0,
                                 transform: isVisible ? 'translateY(0)' : 'translateY(30px)',
                                 transition: 'all 0.6s ease 0.2s'
                             }}>
-                                We find the best discounts so you don't have to. Save big on laptops, mobiles, furniture & more!
+                                Your one-stop destination for finding the best deals on everything students need - from laptops to furniture!
                             </p>
                             
                             <div style={{
                                 display: 'flex',
-                                gap: '15px',
+                                gap: '16px',
+                                justifyContent: 'center',
                                 flexWrap: 'wrap',
                                 opacity: isVisible ? 1 : 0,
                                 transform: isVisible ? 'translateY(0)' : 'translateY(30px)',
                                 transition: 'all 0.6s ease 0.3s'
                             }}>
-                                <Link to="/deals" style={{
-                                    background: 'linear-gradient(135deg, #FFD700 0%, #FF8C00 100%)',
-                                    color: '#000',
-                                    padding: '18px 40px',
-                                    borderRadius: '50px',
-                                    fontWeight: '800',
+                                <Link to="/shop" style={{
+                                    background: '#fff',
+                                    color: '#2563EB',
+                                    padding: '16px 32px',
+                                    borderRadius: '12px',
+                                    fontWeight: '700',
                                     textDecoration: 'none',
                                     display: 'inline-flex',
                                     alignItems: 'center',
-                                    gap: '10px',
-                                    boxShadow: '0 15px 40px rgba(255,215,0,0.3)',
+                                    gap: '8px',
+                                    boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
                                     transition: 'all 0.3s ease'
                                 }}
                                 onMouseEnter={(e) => {
-                                    e.currentTarget.style.transform = 'translateY(-5px)';
-                                    e.currentTarget.style.boxShadow = '0 25px 50px rgba(255,215,0,0.4)';
+                                    e.currentTarget.style.transform = 'translateY(-3px)';
+                                    e.currentTarget.style.boxShadow = '0 8px 30px rgba(0,0,0,0.2)';
                                 }}
                                 onMouseLeave={(e) => {
                                     e.currentTarget.style.transform = 'translateY(0)';
-                                    e.currentTarget.style.boxShadow = '0 15px 40px rgba(255,215,0,0.3)';
+                                    e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.15)';
                                 }}
                                 >
                                     🔥 Browse Deals
                                 </Link>
                                 <Link to="/contact" style={{
-                                    background: 'rgba(255,255,255,0.1)',
-                                    backdropFilter: 'blur(10px)',
+                                    background: 'transparent',
                                     color: '#fff',
-                                    padding: '18px 35px',
-                                    borderRadius: '50px',
+                                    padding: '16px 32px',
+                                    borderRadius: '12px',
                                     fontWeight: '600',
                                     textDecoration: 'none',
                                     display: 'inline-flex',
                                     alignItems: 'center',
-                                    gap: '10px',
-                                    border: '2px solid rgba(255,255,255,0.2)',
+                                    gap: '8px',
+                                    border: '2px solid rgba(255,255,255,0.5)',
                                     transition: 'all 0.3s ease'
                                 }}
                                 onMouseEnter={(e) => {
-                                    e.currentTarget.style.background = 'rgba(255,255,255,0.2)';
-                                    e.currentTarget.style.borderColor = 'rgba(255,255,255,0.4)';
+                                    e.currentTarget.style.background = 'rgba(255,255,255,0.1)';
+                                    e.currentTarget.style.borderColor = '#fff';
                                 }}
                                 onMouseLeave={(e) => {
-                                    e.currentTarget.style.background = 'rgba(255,255,255,0.1)';
-                                    e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)';
+                                    e.currentTarget.style.background = 'transparent';
+                                    e.currentTarget.style.borderColor = 'rgba(255,255,255,0.5)';
                                 }}
                                 >
-                                    📧 Get in Touch
+                                    📧 Contact Us
                                 </Link>
                             </div>
                         </div>
-                        
-                        <div className="col-lg-5">
+                    </div>
+                </div>
+            </section>
+
+            {/* Who We Are Section */}
+            <section style={{ 
+                padding: '80px 0',
+                background: '#FFFFFF'
+            }}>
+                <div className="container">
+                    <div className="row align-items-center">
+                        <div className="col-lg-6 mb-5 mb-lg-0">
                             <div style={{
                                 position: 'relative',
-                                opacity: isVisible ? 1 : 0,
-                                transform: isVisible ? 'translateX(0) scale(1)' : 'translateX(50px) scale(0.9)',
-                                transition: 'all 0.8s ease 0.4s'
+                                borderRadius: '24px',
+                                overflow: 'hidden',
+                                boxShadow: '0 20px 60px rgba(37, 99, 235, 0.15)'
                             }}>
-                                {/* Glow Effect */}
+                                <img 
+                                    src={IMAGES.AboutPic1} 
+                                    alt="Students Shopping" 
+                                    style={{ 
+                                        width: '100%', 
+                                        height: 'auto',
+                                        display: 'block'
+                                    }} 
+                                />
                                 <div style={{
                                     position: 'absolute',
-                                    top: '50%',
-                                    left: '50%',
-                                    transform: 'translate(-50%, -50%)',
-                                    width: '100%',
-                                    height: '100%',
-                                    background: 'radial-gradient(circle, rgba(102,126,234,0.4) 0%, transparent 70%)',
-                                    filter: 'blur(50px)',
-                                    zIndex: -1
-                                }} />
-                                
-                                {/* Image Container with Glass Effect */}
-                                <div style={{
-                                    background: 'linear-gradient(145deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.02) 100%)',
-                                    backdropFilter: 'blur(10px)',
-                                    borderRadius: '32px',
-                                    padding: '20px',
-                                    border: '1px solid rgba(255,255,255,0.1)',
-                                    boxShadow: '0 30px 60px rgba(0,0,0,0.4)'
+                                    bottom: '24px',
+                                    left: '24px',
+                                    background: '#fff',
+                                    padding: '16px 24px',
+                                    borderRadius: '12px',
+                                    boxShadow: '0 8px 30px rgba(0,0,0,0.1)',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '12px'
                                 }}>
-                                    <img 
-                                        src={IMAGES.HeroSectionImage} 
-                                        alt="About StudentCrazyDeals"
-                                        style={{
-                                            width: '100%',
-                                            maxWidth: '400px',
-                                            borderRadius: '20px',
-                                            filter: 'drop-shadow(0 20px 40px rgba(0,0,0,0.3))'
-                                        }}
-                                    />
+                                    <span style={{ fontSize: '32px' }}>🎯</span>
+                                    <div>
+                                        <div style={{ fontWeight: '700', color: '#111827', fontSize: '18px' }}>Since 2023</div>
+                                        <div style={{ color: '#6B7280', fontSize: '14px' }}>Helping Students Save</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-lg-6">
+                            <div style={{ paddingLeft: '20px' }}>
+                                <div style={{
+                                    display: 'inline-flex',
+                                    alignItems: 'center',
+                                    gap: '8px',
+                                    background: '#EFF6FF',
+                                    padding: '8px 16px',
+                                    borderRadius: '50px',
+                                    marginBottom: '20px'
+                                }}>
+                                    <span style={{ color: '#2563EB', fontSize: '14px', fontWeight: '600' }}>WHO WE ARE</span>
                                 </div>
                                 
-                                {/* Floating Badge */}
-                                <div style={{
-                                    position: 'absolute',
-                                    top: '-20px',
-                                    right: '-20px',
-                                    background: 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
-                                    color: '#fff',
-                                    padding: '15px 25px',
-                                    borderRadius: '16px',
-                                    fontWeight: '700',
-                                    fontSize: '14px',
-                                    boxShadow: '0 15px 30px rgba(16,185,129,0.4)',
-                                    animation: 'float 3s ease-in-out infinite'
+                                <h2 style={{ 
+                                    color: '#111827', 
+                                    fontSize: 'clamp(1.8rem, 4vw, 2.5rem)', 
+                                    fontWeight: '800',
+                                    lineHeight: '1.2',
+                                    marginBottom: '20px'
                                 }}>
-                                    100% Verified ✓
+                                    Empowering Students to 
+                                    <span style={{ color: '#2563EB' }}> Save More</span>
+                                </h2>
+                                
+                                <p style={{ 
+                                    color: '#6B7280', 
+                                    fontSize: '16px',
+                                    lineHeight: '1.8',
+                                    marginBottom: '20px'
+                                }}>
+                                    StudentCrazyDeals was born from a simple idea: students shouldn't have to break the bank to get quality products. We're a team of passionate deal hunters dedicated to finding the best discounts, offers, and exclusive deals from top brands.
+                                </p>
+                                
+                                <p style={{ 
+                                    color: '#6B7280', 
+                                    fontSize: '16px',
+                                    lineHeight: '1.8',
+                                    marginBottom: '28px'
+                                }}>
+                                    Whether you're looking for a new laptop, smartphone, furniture for your dorm, or everyday essentials - we've got you covered with verified deals that actually save you money.
+                                </p>
+                                
+                                <div style={{
+                                    display: 'flex',
+                                    gap: '24px',
+                                    flexWrap: 'wrap'
+                                }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                        <div style={{
+                                            width: '24px',
+                                            height: '24px',
+                                            background: '#10B981',
+                                            borderRadius: '50%',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center'
+                                        }}>
+                                            <span style={{ color: '#fff', fontSize: '12px' }}>✓</span>
+                                        </div>
+                                        <span style={{ color: '#111827', fontWeight: '500' }}>Verified Deals</span>
+                                    </div>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                        <div style={{
+                                            width: '24px',
+                                            height: '24px',
+                                            background: '#10B981',
+                                            borderRadius: '50%',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center'
+                                        }}>
+                                            <span style={{ color: '#fff', fontSize: '12px' }}>✓</span>
+                                        </div>
+                                        <span style={{ color: '#111827', fontWeight: '500' }}>Daily Updates</span>
+                                    </div>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                        <div style={{
+                                            width: '24px',
+                                            height: '24px',
+                                            background: '#10B981',
+                                            borderRadius: '50%',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center'
+                                        }}>
+                                            <span style={{ color: '#fff', fontSize: '12px' }}>✓</span>
+                                        </div>
+                                        <span style={{ color: '#111827', fontWeight: '500' }}>100% Free</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -287,538 +368,423 @@ const AboutUs = () => {
                 </div>
             </section>
 
-            {/* Stats Section */}
-            <section style={{ padding: '80px 0', position: 'relative' }}>
+            {/* Stats Counter Section */}
+            <section ref={statsRef} style={{ 
+                padding: '80px 0',
+                background: '#F9FAFB'
+            }}>
                 <div className="container">
-                    <div style={{
-                        background: 'linear-gradient(145deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%)',
-                        backdropFilter: 'blur(20px)',
-                        borderRadius: '32px',
-                        padding: '50px 40px',
-                        border: '1px solid rgba(255,255,255,0.1)',
-                        position: 'relative',
-                        overflow: 'hidden'
-                    }}>
-                        {/* Decorative gradient */}
-                        <div style={{
-                            position: 'absolute',
-                            top: 0,
-                            left: 0,
-                            right: 0,
-                            height: '4px',
-                            background: 'linear-gradient(90deg, #667eea 0%, #764ba2 50%, #FFD700 100%)'
-                        }} />
-                        
-                        <div className="row g-4">
-                            {stats.map((stat, index) => (
-                                <div className="col-lg-3 col-md-6 col-6" key={index}>
-                                    <div style={{ 
-                                        textAlign: 'center',
-                                        padding: '20px',
-                                        borderRadius: '20px',
-                                        transition: 'all 0.3s ease'
-                                    }}
-                                    onMouseEnter={(e) => {
-                                        e.currentTarget.style.background = 'rgba(255,255,255,0.05)';
-                                        e.currentTarget.style.transform = 'translateY(-5px)';
-                                    }}
-                                    onMouseLeave={(e) => {
-                                        e.currentTarget.style.background = 'transparent';
-                                        e.currentTarget.style.transform = 'translateY(0)';
-                                    }}
-                                    >
-                                        <span style={{ 
-                                            fontSize: '50px', 
-                                            display: 'block', 
-                                            marginBottom: '15px',
-                                            filter: `drop-shadow(0 0 20px ${stat.color}50)`
-                                        }}>{stat.icon}</span>
-                                        <div style={{ 
-                                            fontSize: 'clamp(2rem, 4vw, 3rem)', 
-                                            fontWeight: '900',
-                                            background: `linear-gradient(135deg, ${stat.color} 0%, #fff 100%)`,
-                                            WebkitBackgroundClip: 'text',
-                                            WebkitTextFillColor: 'transparent',
-                                            backgroundClip: 'text',
-                                            marginBottom: '5px'
-                                        }}>
-                                            {stat.number}
-                                        </div>
-                                        <div style={{ color: 'rgba(255,255,255,0.6)', fontSize: '14px', fontWeight: '500' }}>{stat.label}</div>
+                    <div className="row justify-content-center mb-5">
+                        <div className="col-lg-8 text-center">
+                            <h2 style={{ 
+                                color: '#111827', 
+                                fontSize: 'clamp(1.8rem, 4vw, 2.5rem)', 
+                                fontWeight: '800',
+                                marginBottom: '16px'
+                            }}>
+                                Our Impact in Numbers
+                            </h2>
+                            <p style={{ 
+                                color: '#6B7280', 
+                                fontSize: '16px',
+                                maxWidth: '500px',
+                                margin: '0 auto'
+                            }}>
+                                Here's what we've achieved together with our amazing community
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div className="row">
+                        {stats.map((stat, index) => (
+                            <div key={index} className="col-6 col-lg-3 mb-4 mb-lg-0">
+                                <div style={{
+                                    background: '#FFFFFF',
+                                    borderRadius: '20px',
+                                    padding: '32px 24px',
+                                    textAlign: 'center',
+                                    boxShadow: '0 4px 20px rgba(0,0,0,0.05)',
+                                    border: '1px solid #E5E7EB',
+                                    transition: 'all 0.3s ease',
+                                    opacity: statsVisible ? 1 : 0,
+                                    transform: statsVisible ? 'translateY(0)' : 'translateY(30px)',
+                                    transitionDelay: `${index * 0.1}s`
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.transform = 'translateY(-8px)';
+                                    e.currentTarget.style.boxShadow = '0 12px 40px rgba(0,0,0,0.1)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.transform = 'translateY(0)';
+                                    e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.05)';
+                                }}
+                                >
+                                    <div style={{
+                                        width: '64px',
+                                        height: '64px',
+                                        background: `${stat.color}15`,
+                                        borderRadius: '16px',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        margin: '0 auto 16px',
+                                        fontSize: '28px'
+                                    }}>
+                                        {stat.icon}
+                                    </div>
+                                    <div style={{
+                                        fontSize: 'clamp(1.8rem, 4vw, 2.5rem)',
+                                        fontWeight: '800',
+                                        color: stat.color,
+                                        marginBottom: '8px',
+                                        fontFamily: 'system-ui'
+                                    }}>
+                                        {stat.number}
+                                    </div>
+                                    <div style={{
+                                        color: '#6B7280',
+                                        fontSize: '14px',
+                                        fontWeight: '500'
+                                    }}>
+                                        {stat.label}
                                     </div>
                                 </div>
-                            ))}
-                        </div>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </section>
 
-            {/* What We Do Section */}
-            <section style={{ padding: '100px 0', position: 'relative', overflow: 'hidden' }}>
-                {/* Background Decoration */}
-                <div style={{
-                    position: 'absolute',
-                    top: '20%',
-                    right: '-20%',
-                    width: '600px',
-                    height: '600px',
-                    background: 'radial-gradient(circle, rgba(102,126,234,0.1) 0%, transparent 70%)',
-                    borderRadius: '50%',
-                    filter: 'blur(80px)'
-                }} />
-                
-                <div className="container" style={{ position: 'relative', zIndex: 10 }}>
-                    <div className="row align-items-center g-5">
-                        <div className="col-lg-6">
-                            <div style={{ 
+            {/* What We Offer Section */}
+            <section style={{ 
+                padding: '80px 0',
+                background: '#FFFFFF'
+            }}>
+                <div className="container">
+                    <div className="row justify-content-center mb-5">
+                        <div className="col-lg-8 text-center">
+                            <div style={{
                                 display: 'inline-flex',
                                 alignItems: 'center',
-                                gap: '10px',
-                                background: 'linear-gradient(135deg, rgba(102,126,234,0.3) 0%, rgba(118,75,162,0.3) 100%)',
-                                padding: '12px 24px',
+                                gap: '8px',
+                                background: '#F0FDF4',
+                                padding: '8px 16px',
                                 borderRadius: '50px',
-                                marginBottom: '25px',
-                                border: '1px solid rgba(255,255,255,0.1)'
+                                marginBottom: '16px'
                             }}>
-                                <span>🎯</span>
-                                <span style={{ color: '#fff', fontSize: '13px', fontWeight: '600', letterSpacing: '1px' }}>OUR MISSION</span>
+                                <span style={{ color: '#10B981', fontSize: '14px', fontWeight: '600' }}>CATEGORIES</span>
                             </div>
-                            
                             <h2 style={{ 
-                                fontSize: 'clamp(2rem, 4vw, 3rem)', 
-                                fontWeight: '900', 
-                                marginBottom: '25px',
-                                color: '#fff'
+                                color: '#111827', 
+                                fontSize: 'clamp(1.8rem, 4vw, 2.5rem)', 
+                                fontWeight: '800',
+                                marginBottom: '16px'
                             }}>
-                                Helping Students <br/>
-                                <span style={{ 
-                                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                                    WebkitBackgroundClip: 'text',
-                                    WebkitTextFillColor: 'transparent',
-                                    backgroundClip: 'text'
-                                }}>Save Money</span>
+                                What We Offer
                             </h2>
-                            
-                            <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '17px', lineHeight: '1.9', marginBottom: '20px' }}>
-                                <strong style={{ color: '#FFD700' }}>StudentCrazyDeals</strong> is your trusted source for finding the best deals on products every student needs. We scour the internet to find incredible discounts on tech gadgets, study furniture, home appliances, and more.
-                            </p>
-                            
-                            <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '17px', lineHeight: '1.9', marginBottom: '35px' }}>
-                                Our mission is simple: help students save money without compromising on quality. Every deal is manually verified to ensure you get genuine discounts.
-                            </p>
-                            
-                            <div className="d-flex flex-wrap gap-4">
-                                {[{ text: 'Verified Deals', icon: '✓' }, { text: 'Daily Updates', icon: '✓' }, { text: '100% Free', icon: '✓' }].map((item, i) => (
-                                    <div key={i} className="d-flex align-items-center gap-3" style={{
-                                        background: 'rgba(16,185,129,0.1)',
-                                        padding: '12px 20px',
-                                        borderRadius: '50px',
-                                        border: '1px solid rgba(16,185,129,0.2)'
-                                    }}>
-                                        <span style={{ 
-                                            color: '#10B981', 
-                                            fontSize: '18px',
-                                            fontWeight: '700'
-                                        }}>{item.icon}</span>
-                                        <span style={{ fontWeight: '600', color: '#fff' }}>{item.text}</span>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                        
-                        <div className="col-lg-6">
-                            <div style={{
-                                position: 'relative'
+                            <p style={{ 
+                                color: '#6B7280', 
+                                fontSize: '16px',
+                                maxWidth: '550px',
+                                margin: '0 auto'
                             }}>
-                                {/* Glow */}
+                                From tech gadgets to home essentials, we cover all categories that matter to students
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div className="row">
+                        {categories.map((category, index) => (
+                            <div key={index} className="col-md-6 col-lg-4 mb-4">
                                 <div style={{
-                                    position: 'absolute',
-                                    top: '50%',
-                                    left: '50%',
-                                    transform: 'translate(-50%, -50%)',
-                                    width: '80%',
-                                    height: '80%',
-                                    background: 'radial-gradient(circle, rgba(102,126,234,0.3) 0%, transparent 70%)',
-                                    filter: 'blur(50px)',
-                                    zIndex: -1
-                                }} />
-                                
-                                <div style={{
-                                    background: 'linear-gradient(145deg, rgba(102,126,234,0.2) 0%, rgba(118,75,162,0.1) 100%)',
-                                    borderRadius: '32px',
-                                    padding: '40px',
-                                    border: '1px solid rgba(255,255,255,0.1)'
-                                }}>
-                                    <img 
-                                        src={IMAGES.laptopSaleCategory} 
-                                        alt="Student Deals" 
-                                        style={{ 
-                                            width: '100%',
-                                            borderRadius: '20px',
-                                            boxShadow: '0 30px 60px rgba(0,0,0,0.3)',
-                                            transition: 'transform 0.5s ease'
-                                        }}
-                                        onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.03)'}
-                                        onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-                                    />
+                                    background: '#FFFFFF',
+                                    borderRadius: '20px',
+                                    padding: '32px',
+                                    height: '100%',
+                                    boxShadow: '0 4px 20px rgba(0,0,0,0.05)',
+                                    border: '1px solid #E5E7EB',
+                                    transition: 'all 0.3s ease',
+                                    cursor: 'pointer'
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.transform = 'translateY(-8px)';
+                                    e.currentTarget.style.boxShadow = '0 16px 50px rgba(0,0,0,0.1)';
+                                    e.currentTarget.style.borderColor = category.color;
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.transform = 'translateY(0)';
+                                    e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.05)';
+                                    e.currentTarget.style.borderColor = '#E5E7EB';
+                                }}
+                                >
+                                    <div style={{
+                                        width: '56px',
+                                        height: '56px',
+                                        background: `${category.color}15`,
+                                        borderRadius: '14px',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        marginBottom: '20px',
+                                        fontSize: '28px'
+                                    }}>
+                                        {category.icon}
+                                    </div>
+                                    <h3 style={{
+                                        color: '#111827',
+                                        fontSize: '18px',
+                                        fontWeight: '700',
+                                        marginBottom: '12px'
+                                    }}>
+                                        {category.name}
+                                    </h3>
+                                    <p style={{
+                                        color: '#6B7280',
+                                        fontSize: '14px',
+                                        lineHeight: '1.6',
+                                        margin: 0
+                                    }}>
+                                        {category.desc}
+                                    </p>
                                 </div>
                             </div>
-                        </div>
+                        ))}
                     </div>
                 </div>
             </section>
 
             {/* Why Choose Us Section */}
             <section style={{ 
-                padding: '100px 0',
-                background: 'linear-gradient(180deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.05) 100%)'
+                padding: '80px 0',
+                background: '#F9FAFB'
             }}>
                 <div className="container">
-                    <div className="text-center mb-5">
-                        <div style={{ 
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            gap: '10px',
-                            background: 'linear-gradient(135deg, rgba(236,72,153,0.3) 0%, rgba(239,68,68,0.3) 100%)',
-                            padding: '10px 24px',
-                            borderRadius: '50px',
-                            marginBottom: '20px',
-                            border: '1px solid rgba(236,72,153,0.2)'
-                        }}>
-                            <span>💎</span>
-                            <span style={{ color: '#fff', fontSize: '13px', fontWeight: '600', letterSpacing: '1px' }}>WHY CHOOSE US</span>
-                        </div>
-                        <h2 style={{ 
-                            fontSize: 'clamp(2rem, 4vw, 3rem)', 
-                            fontWeight: '900', 
-                            marginBottom: '15px',
-                            color: '#fff'
-                        }}>
-                            What Makes Us <span style={{ 
-                                background: 'linear-gradient(135deg, #EC4899 0%, #EF4444 100%)',
-                                WebkitBackgroundClip: 'text',
-                                WebkitTextFillColor: 'transparent',
-                                backgroundClip: 'text'
-                            }}>Different</span>
-                        </h2>
-                    </div>
-                    
-                    <div className="row g-4">
-                        {whyChooseUs.map((item, index) => (
-                            <div className="col-lg-3 col-md-6" key={index}>
-                                <div style={{
-                                    background: 'linear-gradient(145deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%)',
-                                    borderRadius: '24px',
-                                    padding: '40px 30px',
-                                    textAlign: 'center',
-                                    border: '1px solid rgba(255,255,255,0.1)',
-                                    height: '100%',
-                                    transition: 'all 0.4s ease'
-                                }}
-                                onMouseEnter={(e) => {
-                                    e.currentTarget.style.transform = 'translateY(-10px)';
-                                    e.currentTarget.style.borderColor = 'rgba(102,126,234,0.3)';
-                                    e.currentTarget.style.boxShadow = '0 30px 60px rgba(102,126,234,0.2)';
-                                }}
-                                onMouseLeave={(e) => {
-                                    e.currentTarget.style.transform = 'translateY(0)';
-                                    e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)';
-                                    e.currentTarget.style.boxShadow = 'none';
-                                }}
-                                >
-                                    <span style={{ 
-                                        fontSize: '50px', 
-                                        display: 'block', 
-                                        marginBottom: '20px',
-                                        filter: 'drop-shadow(0 0 20px rgba(102,126,234,0.5))'
-                                    }}>{item.icon}</span>
-                                    <h5 style={{ fontWeight: '800', marginBottom: '12px', color: '#fff', fontSize: '1.1rem' }}>{item.title}</h5>
-                                    <p style={{ color: 'rgba(255,255,255,0.6)', margin: 0, fontSize: '14px', lineHeight: '1.7' }}>{item.desc}</p>
-                                </div>
+                    <div className="row align-items-center">
+                        <div className="col-lg-5 mb-5 mb-lg-0">
+                            <div style={{
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '8px',
+                                background: '#FEF3C7',
+                                padding: '8px 16px',
+                                borderRadius: '50px',
+                                marginBottom: '16px'
+                            }}>
+                                <span style={{ color: '#F59E0B', fontSize: '14px', fontWeight: '600' }}>WHY US</span>
                             </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* Categories Section */}
-            <section style={{ padding: '100px 0' }}>
-                <div className="container">
-                    <div className="text-center mb-5">
-                        <div style={{ 
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            gap: '10px',
-                            background: 'linear-gradient(135deg, rgba(102,126,234,0.3) 0%, rgba(118,75,162,0.3) 100%)',
-                            padding: '10px 24px',
-                            borderRadius: '50px',
-                            marginBottom: '20px',
-                            border: '1px solid rgba(255,255,255,0.1)'
-                        }}>
-                            <span>🛒</span>
-                            <span style={{ color: '#fff', fontSize: '13px', fontWeight: '600', letterSpacing: '1px' }}>CATEGORIES</span>
+                            <h2 style={{ 
+                                color: '#111827', 
+                                fontSize: 'clamp(1.8rem, 4vw, 2.5rem)', 
+                                fontWeight: '800',
+                                lineHeight: '1.2',
+                                marginBottom: '20px'
+                            }}>
+                                Why Students 
+                                <span style={{ color: '#F59E0B' }}> Love Us</span>
+                            </h2>
+                            <p style={{ 
+                                color: '#6B7280', 
+                                fontSize: '16px',
+                                lineHeight: '1.8',
+                                marginBottom: '28px'
+                            }}>
+                                We're not just another deals website. We understand student life, student budgets, and student needs. That's why thousands of students trust us for their shopping decisions.
+                            </p>
+                            <Link to="/shop" style={{
+                                background: 'linear-gradient(135deg, #2563EB 0%, #7C3AED 100%)',
+                                color: '#fff',
+                                padding: '16px 32px',
+                                borderRadius: '12px',
+                                fontWeight: '600',
+                                textDecoration: 'none',
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '8px',
+                                boxShadow: '0 4px 20px rgba(37, 99, 235, 0.3)',
+                                transition: 'all 0.3s ease'
+                            }}
+                            onMouseEnter={(e) => {
+                                e.currentTarget.style.transform = 'translateY(-3px)';
+                                e.currentTarget.style.boxShadow = '0 8px 30px rgba(37, 99, 235, 0.4)';
+                            }}
+                            onMouseLeave={(e) => {
+                                e.currentTarget.style.transform = 'translateY(0)';
+                                e.currentTarget.style.boxShadow = '0 4px 20px rgba(37, 99, 235, 0.3)';
+                            }}
+                            >
+                                Start Saving Now →
+                            </Link>
                         </div>
-                        <h2 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: '900', marginBottom: '15px', color: '#fff' }}>
-                            Deals We Find <span style={{ 
-                                background: 'linear-gradient(135deg, #FFD700 0%, #FF8C00 100%)',
-                                WebkitBackgroundClip: 'text',
-                                WebkitTextFillColor: 'transparent',
-                                backgroundClip: 'text'
-                            }}>For You</span>
-                        </h2>
-                        <p style={{ color: 'rgba(255,255,255,0.6)', maxWidth: '500px', margin: '0 auto' }}>Handpicked offers across categories students need most</p>
-                    </div>
-
-                    <div className="row g-4">
-                        {categories.map((cat, index) => (
-                            <div className="col-lg-4 col-md-6" key={index}>
-                                <div style={{
-                                    background: 'linear-gradient(145deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%)',
-                                    borderRadius: '24px',
-                                    padding: '40px 30px',
-                                    height: '100%',
-                                    textAlign: 'center',
-                                    border: '1px solid rgba(255,255,255,0.1)',
-                                    transition: 'all 0.4s ease',
-                                    position: 'relative',
-                                    overflow: 'hidden'
-                                }}
-                                onMouseEnter={(e) => {
-                                    e.currentTarget.style.transform = 'translateY(-10px)';
-                                    e.currentTarget.style.borderColor = `${cat.color}50`;
-                                }}
-                                onMouseLeave={(e) => {
-                                    e.currentTarget.style.transform = 'translateY(0)';
-                                    e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)';
-                                }}
-                                >
-                                    {/* Glow effect */}
-                                    <div style={{
-                                        position: 'absolute',
-                                        top: '0',
-                                        left: '50%',
-                                        transform: 'translateX(-50%)',
-                                        width: '100px',
-                                        height: '100px',
-                                        background: `radial-gradient(circle, ${cat.color}30 0%, transparent 70%)`,
-                                        filter: 'blur(30px)'
-                                    }} />
-                                    
-                                    <span style={{ 
-                                        fontSize: '60px', 
-                                        display: 'block', 
-                                        marginBottom: '20px',
-                                        filter: `drop-shadow(0 0 15px ${cat.color}50)`,
-                                        position: 'relative',
-                                        zIndex: 10
-                                    }}>{cat.icon}</span>
-                                    <h5 style={{ fontWeight: '800', marginBottom: '12px', color: '#fff' }}>{cat.name}</h5>
-                                    <p style={{ color: 'rgba(255,255,255,0.6)', margin: 0, fontSize: '14px', lineHeight: '1.7' }}>{cat.desc}</p>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* How It Works */}
-            <section style={{ 
-                padding: '100px 0',
-                background: 'linear-gradient(180deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.05) 100%)'
-            }}>
-                <div className="container">
-                    <div className="text-center mb-5">
-                        <div style={{ 
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            gap: '10px',
-                            background: 'linear-gradient(135deg, rgba(16,185,129,0.3) 0%, rgba(5,150,105,0.3) 100%)',
-                            padding: '10px 24px',
-                            borderRadius: '50px',
-                            marginBottom: '20px',
-                            border: '1px solid rgba(16,185,129,0.2)'
-                        }}>
-                            <span>⚡</span>
-                            <span style={{ color: '#fff', fontSize: '13px', fontWeight: '600', letterSpacing: '1px' }}>SIMPLE PROCESS</span>
-                        </div>
-                        <h2 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: '900', color: '#fff' }}>
-                            How It <span style={{ 
-                                background: 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
-                                WebkitBackgroundClip: 'text',
-                                WebkitTextFillColor: 'transparent',
-                                backgroundClip: 'text'
-                            }}>Works</span>
-                        </h2>
-                        <p style={{ color: 'rgba(255,255,255,0.6)' }}>Finding your perfect deal is easy</p>
-                    </div>
-
-                    <div className="row g-4">
-                        {[
-                            { step: '01', icon: '🔍', title: 'Browse Deals', desc: 'Explore our curated collection of student-friendly deals across all categories', color: '#667eea' },
-                            { step: '02', icon: '❤️', title: 'Find Your Deal', desc: 'Click on any product that catches your eye to see more details', color: '#EC4899' },
-                            { step: '03', icon: '🎉', title: 'Get the Discount', desc: 'Click "Get Deal" and you\'ll be taken directly to the retailer\'s discounted page', color: '#10B981' },
-                        ].map((item, index) => (
-                            <div className="col-lg-4" key={index}>
-                                <div style={{
-                                    background: 'linear-gradient(145deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%)',
-                                    borderRadius: '28px',
-                                    padding: '50px 35px',
-                                    textAlign: 'center',
-                                    border: '1px solid rgba(255,255,255,0.1)',
-                                    position: 'relative',
-                                    overflow: 'hidden',
-                                    transition: 'all 0.4s ease'
-                                }}
-                                onMouseEnter={(e) => {
-                                    e.currentTarget.style.transform = 'translateY(-10px)';
-                                    e.currentTarget.style.borderColor = `${item.color}50`;
-                                }}
-                                onMouseLeave={(e) => {
-                                    e.currentTarget.style.transform = 'translateY(0)';
-                                    e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)';
-                                }}
-                                >
-                                    <span style={{
-                                        position: 'absolute',
-                                        top: '20px',
-                                        left: '25px',
-                                        fontSize: '80px',
-                                        fontWeight: '900',
-                                        color: 'rgba(255,255,255,0.03)',
-                                        lineHeight: 1
-                                    }}>
-                                        {item.step}
-                                    </span>
-                                    <div style={{
-                                        width: '90px',
-                                        height: '90px',
-                                        background: `linear-gradient(135deg, ${item.color} 0%, ${item.color}99 100%)`,
-                                        borderRadius: '24px',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        fontSize: '40px',
-                                        margin: '0 auto 25px',
-                                        boxShadow: `0 20px 40px ${item.color}40`,
-                                        position: 'relative',
-                                        zIndex: 10
-                                    }}>
-                                        {item.icon}
+                        <div className="col-lg-7">
+                            <div className="row">
+                                {whyChooseUs.map((item, index) => (
+                                    <div key={index} className="col-sm-6 mb-4">
+                                        <div style={{
+                                            background: '#FFFFFF',
+                                            borderRadius: '20px',
+                                            padding: '28px',
+                                            height: '100%',
+                                            boxShadow: '0 4px 20px rgba(0,0,0,0.05)',
+                                            border: '1px solid #E5E7EB',
+                                            transition: 'all 0.3s ease'
+                                        }}
+                                        onMouseEnter={(e) => {
+                                            e.currentTarget.style.transform = 'translateY(-5px)';
+                                            e.currentTarget.style.boxShadow = '0 12px 40px rgba(0,0,0,0.1)';
+                                        }}
+                                        onMouseLeave={(e) => {
+                                            e.currentTarget.style.transform = 'translateY(0)';
+                                            e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.05)';
+                                        }}
+                                        >
+                                            <div style={{
+                                                fontSize: '36px',
+                                                marginBottom: '16px'
+                                            }}>
+                                                {item.icon}
+                                            </div>
+                                            <h4 style={{
+                                                color: '#111827',
+                                                fontSize: '18px',
+                                                fontWeight: '700',
+                                                marginBottom: '10px'
+                                            }}>
+                                                {item.title}
+                                            </h4>
+                                            <p style={{
+                                                color: '#6B7280',
+                                                fontSize: '14px',
+                                                lineHeight: '1.6',
+                                                margin: 0
+                                            }}>
+                                                {item.desc}
+                                            </p>
+                                        </div>
                                     </div>
-                                    <h5 style={{ fontWeight: '800', marginBottom: '15px', color: '#fff', fontSize: '1.3rem' }}>{item.title}</h5>
-                                    <p style={{ color: 'rgba(255,255,255,0.6)', margin: 0, lineHeight: '1.7' }}>{item.desc}</p>
-                                </div>
+                                ))}
                             </div>
-                        ))}
+                        </div>
                     </div>
                 </div>
             </section>
 
             {/* CTA Section */}
-            <section style={{ padding: '100px 0' }}>
-                <div className="container">
-                    <div style={{
-                        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                        borderRadius: '32px',
-                        padding: 'clamp(50px, 6vw, 80px)',
-                        textAlign: 'center',
-                        position: 'relative',
-                        overflow: 'hidden'
-                    }}>
-                        {/* Decorative Elements */}
-                        <div style={{
-                            position: 'absolute',
-                            top: '-100px',
-                            right: '-100px',
-                            width: '300px',
-                            height: '300px',
-                            background: 'rgba(255,255,255,0.1)',
-                            borderRadius: '50%'
-                        }} />
-                        <div style={{
-                            position: 'absolute',
-                            bottom: '-80px',
-                            left: '10%',
-                            width: '200px',
-                            height: '200px',
-                            background: 'rgba(255,255,255,0.08)',
-                            borderRadius: '50%'
-                        }} />
-                        <div style={{
-                            position: 'absolute',
-                            top: '30%',
-                            left: '5%',
-                            width: '100px',
-                            height: '100px',
-                            background: 'rgba(255,215,0,0.2)',
-                            borderRadius: '50%',
-                            filter: 'blur(40px)'
-                        }} />
-                        
-                        <div style={{ position: 'relative', zIndex: 10 }}>
-                            <div style={{ fontSize: '70px', marginBottom: '20px', animation: 'float 3s ease-in-out infinite' }}>💰</div>
-                            <h2 style={{ color: '#fff', fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: '900', marginBottom: '20px' }}>
-                                Ready to Save Money?
+            <section style={{ 
+                padding: '80px 0',
+                background: 'linear-gradient(135deg, #2563EB 0%, #7C3AED 100%)',
+                position: 'relative',
+                overflow: 'hidden'
+            }}>
+                {/* Decorative Elements */}
+                <div style={{
+                    position: 'absolute',
+                    top: '-80px',
+                    right: '-80px',
+                    width: '250px',
+                    height: '250px',
+                    background: 'rgba(255,255,255,0.1)',
+                    borderRadius: '50%'
+                }} />
+                <div style={{
+                    position: 'absolute',
+                    bottom: '-60px',
+                    left: '-60px',
+                    width: '200px',
+                    height: '200px',
+                    background: 'rgba(255,255,255,0.05)',
+                    borderRadius: '50%'
+                }} />
+                
+                <div className="container" style={{ position: 'relative', zIndex: 10 }}>
+                    <div className="row justify-content-center">
+                        <div className="col-lg-8 text-center">
+                            <div style={{
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '8px',
+                                background: 'rgba(255,255,255,0.2)',
+                                padding: '10px 20px',
+                                borderRadius: '50px',
+                                marginBottom: '24px'
+                            }}>
+                                <span>🚀</span>
+                                <span style={{ color: '#fff', fontSize: '14px', fontWeight: '600' }}>JOIN 50,000+ STUDENTS</span>
+                            </div>
+                            
+                            <h2 style={{ 
+                                color: '#fff', 
+                                fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', 
+                                fontWeight: '800',
+                                marginBottom: '20px'
+                            }}>
+                                Ready to Start Saving?
                             </h2>
+                            
                             <p style={{ 
                                 color: 'rgba(255,255,255,0.9)', 
-                                marginBottom: '35px', 
-                                maxWidth: '550px', 
-                                margin: '0 auto 35px',
                                 fontSize: '18px',
-                                lineHeight: '1.7'
+                                marginBottom: '32px',
+                                maxWidth: '500px',
+                                margin: '0 auto 32px'
                             }}>
-                                Start browsing thousands of deals curated just for students
+                                Join our community and never miss out on the best deals for students. It's completely free!
                             </p>
-                            <div className="d-flex flex-wrap justify-content-center gap-4">
-                                <Link to="/deals" style={{
-                                    background: 'linear-gradient(135deg, #FFD700 0%, #FF8C00 100%)',
-                                    color: '#000',
-                                    padding: '20px 45px',
-                                    borderRadius: '50px',
-                                    fontWeight: '800',
+                            
+                            <div style={{
+                                display: 'flex',
+                                gap: '16px',
+                                justifyContent: 'center',
+                                flexWrap: 'wrap'
+                            }}>
+                                <Link to="/shop" style={{
+                                    background: '#fff',
+                                    color: '#2563EB',
+                                    padding: '18px 36px',
+                                    borderRadius: '12px',
+                                    fontWeight: '700',
                                     textDecoration: 'none',
                                     display: 'inline-flex',
                                     alignItems: 'center',
                                     gap: '10px',
-                                    boxShadow: '0 15px 40px rgba(255,215,0,0.3)',
-                                    transition: 'all 0.3s ease'
+                                    boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
+                                    transition: 'all 0.3s ease',
+                                    fontSize: '16px'
                                 }}
                                 onMouseEnter={(e) => {
-                                    e.currentTarget.style.transform = 'translateY(-5px)';
-                                    e.currentTarget.style.boxShadow = '0 25px 50px rgba(255,215,0,0.4)';
+                                    e.currentTarget.style.transform = 'translateY(-3px)';
+                                    e.currentTarget.style.boxShadow = '0 8px 30px rgba(0,0,0,0.25)';
                                 }}
                                 onMouseLeave={(e) => {
                                     e.currentTarget.style.transform = 'translateY(0)';
-                                    e.currentTarget.style.boxShadow = '0 15px 40px rgba(255,215,0,0.3)';
+                                    e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.15)';
                                 }}
                                 >
                                     🔥 Explore Deals
                                 </Link>
                                 <Link to="/contact" style={{
-                                    background: 'rgba(255,255,255,0.15)',
-                                    backdropFilter: 'blur(10px)',
+                                    background: 'transparent',
                                     color: '#fff',
-                                    padding: '20px 40px',
-                                    borderRadius: '50px',
+                                    padding: '18px 36px',
+                                    borderRadius: '12px',
                                     fontWeight: '600',
                                     textDecoration: 'none',
                                     display: 'inline-flex',
                                     alignItems: 'center',
                                     gap: '10px',
-                                    border: '2px solid rgba(255,255,255,0.3)',
-                                    transition: 'all 0.3s ease'
+                                    border: '2px solid rgba(255,255,255,0.5)',
+                                    transition: 'all 0.3s ease',
+                                    fontSize: '16px'
                                 }}
                                 onMouseEnter={(e) => {
-                                    e.currentTarget.style.background = 'rgba(255,255,255,0.25)';
-                                    e.currentTarget.style.borderColor = 'rgba(255,255,255,0.5)';
+                                    e.currentTarget.style.background = 'rgba(255,255,255,0.1)';
+                                    e.currentTarget.style.borderColor = '#fff';
                                 }}
                                 onMouseLeave={(e) => {
-                                    e.currentTarget.style.background = 'rgba(255,255,255,0.15)';
-                                    e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)';
+                                    e.currentTarget.style.background = 'transparent';
+                                    e.currentTarget.style.borderColor = 'rgba(255,255,255,0.5)';
                                 }}
                                 >
-                                    📧 Contact Us
+                                    💬 Get in Touch
                                 </Link>
                             </div>
                         </div>

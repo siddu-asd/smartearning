@@ -1,63 +1,79 @@
 import { useState, useEffect } from 'react';
 import { AffiliateProduct } from '../constant/affiliateData';
 
+// ============================================
+// INTERFACE
+// ============================================
 interface AffiliateProductCardProps {
   product: AffiliateProduct;
   variant?: 'grid' | 'list';
+  index?: number;
 }
 
-// Meesho Brand Colors
-const MEESHO = {
-  pink: '#F43397',
-  pinkLight: '#FFF0F7',
-  pinkDark: '#D91A7A',
-  purple: '#570A57',
-  green: '#00AA4F',
-  greenLight: '#E8F8EF',
-  orange: '#FF6B35',
-  gray: '#666666',
-  grayLight: '#F5F5F5',
-  black: '#333333',
+// ============================================
+// COLOR THEME - Clean Professional
+// ============================================
+const COLORS = {
+  primary: '#2563EB',       // Blue
+  primaryDark: '#1D4ED8',   // Darker blue
+  primaryLight: '#DBEAFE',  // Light blue bg
+  secondary: '#10B981',     // Green
+  secondaryLight: '#D1FAE5', // Light green
+  accent: '#F59E0B',        // Amber
+  accentLight: '#FEF3C7',   // Light amber
+  dark: '#111827',          // Dark text
+  gray: '#6B7280',          // Gray text
+  grayLight: '#9CA3AF',     // Lighter gray
+  lightBg: '#F9FAFB',       // Light background
   white: '#FFFFFF',
+  border: '#E5E7EB',        // Border color
+  borderLight: '#F3F4F6',   // Lighter border
+  error: '#EF4444',         // Red for discounts
+  errorLight: '#FEE2E2',    // Light red bg
 };
 
-// Helper to truncate long product names
-const truncateName = (name: string, maxLength: number = 50) => {
-  const shortName = name.includes('|') ? name.split('|')[0].trim() : name;
-  if (shortName.length > maxLength) {
-    return shortName.substring(0, maxLength) + '...';
+// ============================================
+// HELPER FUNCTIONS
+// ============================================
+
+// Truncate long product names
+const truncateName = (name: string, maxLength: number = 50): string => {
+  const cleanName = name.includes('|') ? name.split('|')[0].trim() : name;
+  if (cleanName.length > maxLength) {
+    return cleanName.substring(0, maxLength).trim() + '...';
   }
-  return shortName;
+  return cleanName;
 };
 
-// Format price with commas
-const formatPrice = (price: number) => {
+// Format price in Indian format with commas
+const formatPrice = (price: number): string => {
   return price.toLocaleString('en-IN');
 };
 
 // Calculate discount percentage
-const calculateDiscount = (mrp: number, discounted: number) => {
-  return Math.round(((mrp - discounted) / mrp) * 100);
+const calculateDiscount = (mrp: number, discountedPrice: number): number => {
+  if (mrp <= 0 || discountedPrice <= 0) return 0;
+  return Math.round(((mrp - discountedPrice) / mrp) * 100);
 };
 
-/**
- * Quick View Modal - Meesho Style
- */
-function QuickViewModal({ 
-  product, 
-  isOpen, 
-  onClose 
-}: { 
-  product: AffiliateProduct; 
-  isOpen: boolean; 
+// ============================================
+// QUICK VIEW MODAL COMPONENT
+// ============================================
+interface QuickViewModalProps {
+  product: AffiliateProduct;
+  isOpen: boolean;
   onClose: () => void;
-}) {
+}
+
+function QuickViewModal({ product, isOpen, onClose }: QuickViewModalProps) {
   const [isVisible, setIsVisible] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(0);
 
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
-      setTimeout(() => setIsVisible(true), 10);
+      const timer = setTimeout(() => setIsVisible(true), 10);
+      return () => clearTimeout(timer);
     } else {
       document.body.style.overflow = 'auto';
       setIsVisible(false);
@@ -67,196 +83,370 @@ function QuickViewModal({
     };
   }, [isOpen]);
 
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    if (isOpen) {
+      window.addEventListener('keydown', handleEscape);
+    }
+    return () => window.removeEventListener('keydown', handleEscape);
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
   const hasDiscount = product.mrp && product.discountedPrice && product.mrp > product.discountedPrice;
   const discountPercent = hasDiscount ? calculateDiscount(product.mrp!, product.discountedPrice!) : 0;
+  const displayPrice = product.discountedPrice || product.mrp || 0;
 
   return (
-    <div 
-      style={{ 
+    <div
+      style={{
         position: 'fixed',
         top: 0,
         left: 0,
         right: 0,
         bottom: 0,
-        backgroundColor: 'rgba(0, 0, 0, 0.6)',
+        backgroundColor: 'rgba(17, 24, 39, 0.7)',
+        backdropFilter: 'blur(4px)',
         zIndex: 99999,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: '20px'
+        padding: '20px',
+        opacity: isVisible ? 1 : 0,
+        transition: 'opacity 0.2s ease',
       }}
       onClick={onClose}
     >
-      <div 
-        onClick={e => e.stopPropagation()}
+      <div
+        onClick={(e) => e.stopPropagation()}
         style={{
           width: '100%',
-          maxWidth: '750px',
-          background: MEESHO.white,
-          borderRadius: '12px',
-          overflow: 'hidden',
-          transform: isVisible ? 'scale(1)' : 'scale(0.95)',
-          opacity: isVisible ? 1 : 0,
-          transition: 'all 0.3s ease',
+          maxWidth: '900px',
           maxHeight: '90vh',
-          overflowY: 'auto'
+          background: COLORS.white,
+          borderRadius: '16px',
+          overflow: 'hidden',
+          boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+          transform: isVisible ? 'scale(1) translateY(0)' : 'scale(0.95) translateY(20px)',
+          opacity: isVisible ? 1 : 0,
+          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+          display: 'flex',
+          flexDirection: 'column',
         }}
       >
-        {/* Close Button */}
-        <button 
-          onClick={onClose}
+        {/* Modal Header */}
+        <div
           style={{
-            position: 'absolute',
-            top: '12px',
-            right: '12px',
-            background: MEESHO.grayLight,
-            border: 'none',
-            borderRadius: '50%',
-            width: '36px',
-            height: '36px',
-            fontSize: '18px',
-            cursor: 'pointer',
-            zIndex: 10,
             display: 'flex',
+            justifyContent: 'space-between',
             alignItems: 'center',
-            justifyContent: 'center',
-            color: MEESHO.gray
+            padding: '16px 24px',
+            borderBottom: `1px solid ${COLORS.border}`,
+            background: COLORS.lightBg,
           }}
         >
-          ✕
-        </button>
+          <h3 style={{ margin: 0, fontSize: '18px', fontWeight: 600, color: COLORS.dark }}>
+            Product Details
+          </h3>
+          <button
+            onClick={onClose}
+            style={{
+              width: '36px',
+              height: '36px',
+              borderRadius: '50%',
+              border: 'none',
+              background: COLORS.white,
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              transition: 'all 0.2s ease',
+              boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = COLORS.error;
+              e.currentTarget.style.color = COLORS.white;
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = COLORS.white;
+              e.currentTarget.style.color = COLORS.dark;
+            }}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M18 6L6 18M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
 
-        <div className="row g-0">
-          {/* Product Image */}
-          <div className="col-md-5">
-            <div 
-              style={{ 
-                background: MEESHO.grayLight,
-                height: '100%',
-                minHeight: '320px',
+        {/* Modal Body */}
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'minmax(300px, 1fr) minmax(300px, 1fr)',
+            gap: '0',
+            overflow: 'auto',
+            flex: 1,
+          }}
+        >
+          {/* Image Section */}
+          <div
+            style={{
+              padding: '24px',
+              background: COLORS.lightBg,
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '16px',
+            }}
+          >
+            {/* Main Image */}
+            <div
+              style={{
+                aspectRatio: '1',
+                background: COLORS.white,
+                borderRadius: '12px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                padding: '24px',
-                position: 'relative'
+                overflow: 'hidden',
+                border: `1px solid ${COLORS.border}`,
               }}
             >
-              {hasDiscount && (
-                <div style={{
-                  position: 'absolute',
-                  top: '12px',
-                  left: '12px',
-                  background: MEESHO.pink,
-                  color: MEESHO.white,
-                  padding: '4px 10px',
-                  borderRadius: '4px',
-                  fontSize: '13px',
-                  fontWeight: '700'
-                }}>
-                  {discountPercent}% OFF
-                </div>
-              )}
-              <img 
-                src={product.images[0]} 
+              <img
+                src={product.images[selectedImage] || product.images[0]}
                 alt={product.name}
-                style={{ maxWidth: '100%', maxHeight: '260px', objectFit: 'contain' }}
+                style={{
+                  maxWidth: '100%',
+                  maxHeight: '100%',
+                  objectFit: 'contain',
+                }}
               />
             </div>
-          </div>
-          
-          {/* Product Info */}
-          <div className="col-md-7">
-            <div style={{ padding: '24px' }}>
-              <span style={{ 
-                display: 'inline-block',
-                background: MEESHO.pinkLight,
-                color: MEESHO.pink,
-                fontSize: '11px',
-                fontWeight: '600',
-                padding: '4px 10px',
-                borderRadius: '4px',
-                marginBottom: '10px'
-              }}>
-                {product.category?.name || 'Student Deal'}
-              </span>
-              
-              <h4 style={{ 
-                fontWeight: '600', 
-                marginBottom: '14px', 
-                color: MEESHO.black,
-                fontSize: '18px',
-                lineHeight: '1.4'
-              }}>
-                {product.name}
-              </h4>
-              
-              {/* Pricing */}
-              <div style={{ marginBottom: '16px' }}>
-                {product.mrp && product.discountedPrice ? (
-                  <div style={{ display: 'flex', alignItems: 'baseline', gap: '10px', flexWrap: 'wrap' }}>
-                    <span style={{ color: MEESHO.black, fontSize: '24px', fontWeight: '700' }}>
-                      ₹{formatPrice(product.discountedPrice)}
-                    </span>
-                    <span style={{ color: MEESHO.gray, fontSize: '16px', textDecoration: 'line-through' }}>
-                      ₹{formatPrice(product.mrp)}
-                    </span>
-                    <span style={{ color: MEESHO.green, fontSize: '14px', fontWeight: '600' }}>
-                      {discountPercent}% off
-                    </span>
-                  </div>
-                ) : (
-                  <span style={{ color: MEESHO.black, fontSize: '24px', fontWeight: '700' }}>
-                    ₹{formatPrice(product.discountedPrice || product.mrp || 0)}
-                  </span>
-                )}
-              </div>
 
-              {/* Free Delivery Badge */}
-              <div style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '6px',
-                background: MEESHO.greenLight,
-                padding: '8px 12px',
-                borderRadius: '6px',
-                marginBottom: '16px'
-              }}>
-                <span style={{ color: MEESHO.green, fontSize: '13px', fontWeight: '600' }}>
-                  🚚 Free Delivery
-                </span>
+            {/* Thumbnail Gallery */}
+            {product.images.length > 1 && (
+              <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
+                {product.images.slice(0, 4).map((img, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setSelectedImage(idx)}
+                    style={{
+                      width: '60px',
+                      height: '60px',
+                      borderRadius: '8px',
+                      border: selectedImage === idx 
+                        ? `2px solid ${COLORS.primary}` 
+                        : `1px solid ${COLORS.border}`,
+                      background: COLORS.white,
+                      padding: '4px',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s ease',
+                    }}
+                  >
+                    <img
+                      src={img}
+                      alt=""
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'contain',
+                        borderRadius: '4px',
+                      }}
+                    />
+                  </button>
+                ))}
               </div>
-              
-              <p style={{ color: MEESHO.gray, fontSize: '14px', lineHeight: '1.6', marginBottom: '20px' }}>
-                {product.shortDescription}
-              </p>
-              
-              {/* Buy Button */}
-              <a 
-                href={product.affiliateUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ 
-                  display: 'block',
-                  width: '100%',
-                  background: MEESHO.pink,
-                  color: MEESHO.white,
-                  borderRadius: '8px',
-                  fontWeight: '600',
-                  padding: '14px 24px',
-                  fontSize: '15px',
-                  border: 'none',
-                  textAlign: 'center',
-                  textDecoration: 'none',
-                  transition: 'background 0.2s ease'
+            )}
+          </div>
+
+          {/* Details Section */}
+          <div
+            style={{
+              padding: '24px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '20px',
+              overflow: 'auto',
+            }}
+          >
+            {/* Title */}
+            <h2
+              style={{
+                margin: 0,
+                fontSize: '22px',
+                fontWeight: 600,
+                color: COLORS.dark,
+                lineHeight: 1.4,
+              }}
+            >
+              {product.name}
+            </h2>
+
+            {/* Price Section */}
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'baseline',
+                gap: '12px',
+                flexWrap: 'wrap',
+              }}
+            >
+              <span
+                style={{
+                  fontSize: '28px',
+                  fontWeight: 700,
+                  color: COLORS.dark,
                 }}
-                onMouseEnter={(e) => e.currentTarget.style.background = MEESHO.pinkDark}
-                onMouseLeave={(e) => e.currentTarget.style.background = MEESHO.pink}
               >
-                Buy Now
-              </a>
+                ₹{formatPrice(displayPrice)}
+              </span>
+              {hasDiscount && (
+                <>
+                  <span
+                    style={{
+                      fontSize: '18px',
+                      color: COLORS.grayLight,
+                      textDecoration: 'line-through',
+                    }}
+                  >
+                    ₹{formatPrice(product.mrp!)}
+                  </span>
+                  <span
+                    style={{
+                      fontSize: '16px',
+                      fontWeight: 600,
+                      color: COLORS.secondary,
+                      background: COLORS.secondaryLight,
+                      padding: '4px 10px',
+                      borderRadius: '20px',
+                    }}
+                  >
+                    {discountPercent}% OFF
+                  </span>
+                </>
+              )}
             </div>
+
+            {/* Description */}
+            {product.shortDescription && (
+              <div>
+                <h4
+                  style={{
+                    margin: '0 0 8px 0',
+                    fontSize: '14px',
+                    fontWeight: 600,
+                    color: COLORS.gray,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.5px',
+                  }}
+                >
+                  Description
+                </h4>
+                <p
+                  style={{
+                    margin: 0,
+                    fontSize: '15px',
+                    color: COLORS.gray,
+                    lineHeight: 1.6,
+                  }}
+                >
+                  {product.shortDescription}
+                </p>
+              </div>
+            )}
+
+            {/* Pros */}
+            {product.pros && product.pros.length > 0 && (
+              <div>
+                <h4
+                  style={{
+                    margin: '0 0 8px 0',
+                    fontSize: '14px',
+                    fontWeight: 600,
+                    color: COLORS.gray,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.5px',
+                  }}
+                >
+                  Highlights
+                </h4>
+                <ul
+                  style={{
+                    margin: 0,
+                    padding: 0,
+                    listStyle: 'none',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '6px',
+                  }}
+                >
+                  {product.pros.slice(0, 4).map((pro, idx) => (
+                    <li
+                      key={idx}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'flex-start',
+                        gap: '8px',
+                        fontSize: '14px',
+                        color: COLORS.dark,
+                      }}
+                    >
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke={COLORS.secondary}
+                        strokeWidth="2"
+                        style={{ flexShrink: 0, marginTop: '2px' }}
+                      >
+                        <path d="M20 6L9 17l-5-5" />
+                      </svg>
+                      {pro}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* Spacer */}
+            <div style={{ flex: 1 }} />
+
+            {/* Buy Now Button */}
+            <a
+              href={product.affiliateUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '10px',
+                padding: '16px 32px',
+                background: `linear-gradient(135deg, ${COLORS.primary} 0%, ${COLORS.primaryDark} 100%)`,
+                color: COLORS.white,
+                fontSize: '16px',
+                fontWeight: 600,
+                borderRadius: '12px',
+                textDecoration: 'none',
+                transition: 'all 0.3s ease',
+                boxShadow: '0 4px 14px rgba(37, 99, 235, 0.4)',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'translateY(-2px)';
+                e.currentTarget.style.boxShadow = '0 6px 20px rgba(37, 99, 235, 0.5)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = '0 4px 14px rgba(37, 99, 235, 0.4)';
+              }}
+            >
+              <span>{product.buttonText || 'Buy Now'}</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M7 17L17 7M17 7H7M17 7v10" />
+              </svg>
+            </a>
           </div>
         </div>
       </div>
@@ -264,347 +454,626 @@ function QuickViewModal({
   );
 }
 
-/**
- * Affiliate Product Card - Meesho Style
- */
-export default function AffiliateProductCard({ 
-  product, 
-  variant = 'grid'
-}: AffiliateProductCardProps) {
-  const [showQuickView, setShowQuickView] = useState(false);
+// ============================================
+// MAIN PRODUCT CARD COMPONENT
+// ============================================
+export default function AffiliateProductCard({ product, variant = 'grid', index }: AffiliateProductCardProps) {
   const [isHovered, setIsHovered] = useState(false);
-  const displayName = truncateName(product.name);
+  const [showQuickView, setShowQuickView] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
+
   const hasDiscount = product.mrp && product.discountedPrice && product.mrp > product.discountedPrice;
   const discountPercent = hasDiscount ? calculateDiscount(product.mrp!, product.discountedPrice!) : 0;
+  const displayPrice = product.discountedPrice || product.mrp || 0;
+  const productImage = product.images[0] || '';
 
-  // List variant
+  // Animation delay based on index
+  const animationDelay = index !== undefined ? `${index * 0.05}s` : '0s';
+
+  // ============================================
+  // LIST VARIANT
+  // ============================================
   if (variant === 'list') {
     return (
       <>
-        <div 
-          style={{ 
-            background: MEESHO.white,
-            borderRadius: '8px',
-            border: `1px solid ${MEESHO.grayLight}`,
-            overflow: 'hidden',
-            transition: 'box-shadow 0.2s ease',
-            boxShadow: isHovered ? '0 4px 12px rgba(0,0,0,0.08)' : 'none'
-          }}
+        <div
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
+          style={{
+            display: 'flex',
+            gap: '20px',
+            background: COLORS.white,
+            borderRadius: '12px',
+            border: `1px solid ${isHovered ? COLORS.primary : COLORS.border}`,
+            padding: '16px',
+            transition: 'all 0.3s ease',
+            boxShadow: isHovered 
+              ? '0 10px 30px rgba(37, 99, 235, 0.15)' 
+              : '0 1px 3px rgba(0, 0, 0, 0.05)',
+            transform: isHovered ? 'translateY(-2px)' : 'translateY(0)',
+            animation: 'fadeInUp 0.5s ease forwards',
+            animationDelay,
+            opacity: 0,
+          }}
         >
-          <div className="row g-0 align-items-center">
-            <div className="col-4">
-              <div 
-                style={{ 
-                  background: MEESHO.grayLight,
-                  padding: '16px',
-                  cursor: 'pointer',
-                  position: 'relative',
-                  height: '120px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center'
+          {/* Image */}
+          <div
+            style={{
+              width: '160px',
+              height: '160px',
+              flexShrink: 0,
+              background: COLORS.lightBg,
+              borderRadius: '10px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              overflow: 'hidden',
+              position: 'relative',
+              cursor: 'pointer',
+            }}
+            onClick={() => setShowQuickView(true)}
+          >
+            {/* Discount Badge */}
+            {hasDiscount && discountPercent > 0 && (
+              <div
+                style={{
+                  position: 'absolute',
+                  top: '8px',
+                  left: '8px',
+                  background: `linear-gradient(135deg, ${COLORS.error} 0%, #DC2626 100%)`,
+                  color: COLORS.white,
+                  fontSize: '11px',
+                  fontWeight: 700,
+                  padding: '4px 8px',
+                  borderRadius: '6px',
+                  zIndex: 1,
                 }}
-                onClick={() => setShowQuickView(true)}
               >
-                {hasDiscount && (
-                  <span style={{
-                    position: 'absolute',
-                    top: '8px',
-                    left: '8px',
-                    background: MEESHO.pink,
-                    color: MEESHO.white,
-                    padding: '2px 6px',
-                    borderRadius: '3px',
-                    fontSize: '10px',
-                    fontWeight: '700'
-                  }}>
-                    {discountPercent}% OFF
-                  </span>
-                )}
-                <img 
-                  src={product.images[0]} 
-                  alt={product.name}
-                  style={{ maxHeight: '90px', maxWidth: '100%', objectFit: 'contain' }}
-                />
+                {discountPercent}% OFF
               </div>
-            </div>
-            <div className="col-8 p-3">
-              <h6 style={{ 
-                fontSize: '13px', 
-                fontWeight: '500', 
-                color: MEESHO.black,
-                marginBottom: '8px',
-                lineHeight: '1.4'
-              }}>
-                {displayName}
-              </h6>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
-                <span style={{ color: MEESHO.black, fontSize: '15px', fontWeight: '700' }}>
-                  ₹{formatPrice(product.discountedPrice || product.mrp || 0)}
+            )}
+            <img
+              src={productImage}
+              alt={product.name}
+              onLoad={() => setImageLoaded(true)}
+              style={{
+                maxWidth: '90%',
+                maxHeight: '90%',
+                objectFit: 'contain',
+                opacity: imageLoaded ? 1 : 0,
+                transition: 'opacity 0.3s ease, transform 0.3s ease',
+                transform: isHovered ? 'scale(1.05)' : 'scale(1)',
+              }}
+            />
+          </div>
+
+          {/* Content */}
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            {/* Title */}
+            <h3
+              onClick={() => setShowQuickView(true)}
+              style={{
+                margin: 0,
+                fontSize: '16px',
+                fontWeight: 600,
+                color: COLORS.dark,
+                lineHeight: 1.4,
+                cursor: 'pointer',
+                transition: 'color 0.2s ease',
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = COLORS.primary)}
+              onMouseLeave={(e) => (e.currentTarget.style.color = COLORS.dark)}
+            >
+              {product.name}
+            </h3>
+
+            {/* Description */}
+            {product.shortDescription && (
+              <p
+                style={{
+                  margin: 0,
+                  fontSize: '14px',
+                  color: COLORS.gray,
+                  lineHeight: 1.5,
+                  display: '-webkit-box',
+                  WebkitLineClamp: 2,
+                  WebkitBoxOrient: 'vertical',
+                  overflow: 'hidden',
+                }}
+              >
+                {product.shortDescription}
+              </p>
+            )}
+
+            {/* Price & Button Row */}
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                marginTop: 'auto',
+                gap: '16px',
+              }}
+            >
+              {/* Price */}
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', flexWrap: 'wrap' }}>
+                <span style={{ fontSize: '20px', fontWeight: 700, color: COLORS.dark }}>
+                  ₹{formatPrice(displayPrice)}
                 </span>
                 {hasDiscount && (
-                  <>
-                    <span style={{ color: MEESHO.gray, fontSize: '12px', textDecoration: 'line-through' }}>
-                      ₹{formatPrice(product.mrp!)}
-                    </span>
-                    <span style={{ color: MEESHO.green, fontSize: '11px', fontWeight: '600' }}>
-                      {discountPercent}% off
-                    </span>
-                  </>
+                  <span
+                    style={{
+                      fontSize: '14px',
+                      color: COLORS.grayLight,
+                      textDecoration: 'line-through',
+                    }}
+                  >
+                    ₹{formatPrice(product.mrp!)}
+                  </span>
                 )}
               </div>
-              <span style={{ 
-                display: 'inline-block',
-                color: MEESHO.green, 
-                fontSize: '11px', 
-                fontWeight: '500' 
-              }}>
-                🚚 Free Delivery
-              </span>
+
+              {/* Get Deal Button */}
+              <a
+                href={product.affiliateUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  padding: '10px 20px',
+                  background: `linear-gradient(135deg, ${COLORS.primary} 0%, ${COLORS.primaryDark} 100%)`,
+                  color: COLORS.white,
+                  fontSize: '14px',
+                  fontWeight: 600,
+                  borderRadius: '8px',
+                  textDecoration: 'none',
+                  transition: 'all 0.3s ease',
+                  boxShadow: '0 2px 8px rgba(37, 99, 235, 0.3)',
+                  whiteSpace: 'nowrap',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(37, 99, 235, 0.4)';
+                  e.currentTarget.style.transform = 'translateY(-1px)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.boxShadow = '0 2px 8px rgba(37, 99, 235, 0.3)';
+                  e.currentTarget.style.transform = 'translateY(0)';
+                }}
+              >
+                Get Deal
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M7 17L17 7M17 7H7M17 7v10" />
+                </svg>
+              </a>
             </div>
           </div>
         </div>
+
+        {/* Quick View Modal */}
         <QuickViewModal product={product} isOpen={showQuickView} onClose={() => setShowQuickView(false)} />
+
+        {/* Keyframes */}
+        <style>{`
+          @keyframes fadeInUp {
+            from {
+              opacity: 0;
+              transform: translateY(20px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+        `}</style>
       </>
     );
   }
 
-  // Grid variant - Meesho Style Card
+  // ============================================
+  // GRID VARIANT (DEFAULT)
+  // ============================================
   return (
     <>
-      <div 
-        style={{ 
-          background: MEESHO.white,
-          borderRadius: '8px',
-          overflow: 'hidden',
-          border: `1px solid ${MEESHO.grayLight}`,
-          boxShadow: isHovered ? '0 4px 16px rgba(0,0,0,0.1)' : '0 1px 4px rgba(0,0,0,0.04)',
-          transition: 'all 0.2s ease',
-          height: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          cursor: 'pointer'
-        }}
+      <div
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        onClick={() => setShowQuickView(true)}
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          background: COLORS.white,
+          borderRadius: '12px',
+          border: `1px solid ${isHovered ? COLORS.primary : COLORS.border}`,
+          overflow: 'hidden',
+          transition: 'all 0.3s ease',
+          boxShadow: isHovered 
+            ? '0 12px 40px rgba(37, 99, 235, 0.15)' 
+            : '0 1px 3px rgba(0, 0, 0, 0.05)',
+          transform: isHovered ? 'translateY(-4px)' : 'translateY(0)',
+          height: '100%',
+          animation: 'fadeInUp 0.5s ease forwards',
+          animationDelay,
+          opacity: 0,
+        }}
       >
-        {/* Image Section */}
-        <div 
-          style={{ 
-            background: MEESHO.grayLight,
+        {/* Image Container */}
+        <div
+          onClick={() => setShowQuickView(true)}
+          style={{
             position: 'relative',
-            padding: '16px',
             aspectRatio: '1',
+            background: COLORS.lightBg,
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center'
+            justifyContent: 'center',
+            overflow: 'hidden',
+            cursor: 'pointer',
           }}
         >
           {/* Discount Badge */}
-          {hasDiscount && (
-            <div 
+          {hasDiscount && discountPercent > 0 && (
+            <div
               style={{
                 position: 'absolute',
-                top: '8px',
-                left: '8px',
-                background: MEESHO.pink,
-                color: MEESHO.white,
-                padding: '4px 8px',
-                borderRadius: '4px',
+                top: '12px',
+                left: '12px',
+                background: `linear-gradient(135deg, ${COLORS.error} 0%, #DC2626 100%)`,
+                color: COLORS.white,
                 fontSize: '12px',
-                fontWeight: '700'
+                fontWeight: 700,
+                padding: '6px 10px',
+                borderRadius: '8px',
+                zIndex: 2,
+                boxShadow: '0 2px 8px rgba(239, 68, 68, 0.4)',
               }}
             >
               {discountPercent}% OFF
             </div>
           )}
-          
-          <img 
-            src={product.images[0]} 
+
+          {/* Quick View Button on Hover */}
+          <div
+            style={{
+              position: 'absolute',
+              bottom: '12px',
+              left: '50%',
+              transform: `translateX(-50%) translateY(${isHovered ? '0' : '20px'})`,
+              opacity: isHovered ? 1 : 0,
+              transition: 'all 0.3s ease',
+              zIndex: 2,
+            }}
+          >
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowQuickView(true);
+              }}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+                padding: '8px 16px',
+                background: 'rgba(255, 255, 255, 0.95)',
+                border: 'none',
+                borderRadius: '20px',
+                fontSize: '13px',
+                fontWeight: 600,
+                color: COLORS.dark,
+                cursor: 'pointer',
+                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+                transition: 'all 0.2s ease',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = COLORS.primary;
+                e.currentTarget.style.color = COLORS.white;
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.95)';
+                e.currentTarget.style.color = COLORS.dark;
+              }}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="11" cy="11" r="8" />
+                <path d="M21 21l-4.35-4.35" />
+              </svg>
+              Quick View
+            </button>
+          </div>
+
+          {/* Product Image */}
+          <img
+            src={productImage}
             alt={product.name}
-            style={{ 
-              maxHeight: '140px',
-              maxWidth: '100%',
+            onLoad={() => setImageLoaded(true)}
+            style={{
+              maxWidth: '80%',
+              maxHeight: '80%',
               objectFit: 'contain',
-              transition: 'transform 0.3s ease',
-              transform: isHovered ? 'scale(1.05)' : 'scale(1)'
+              opacity: imageLoaded ? 1 : 0,
+              transition: 'all 0.4s ease',
+              transform: isHovered ? 'scale(1.08)' : 'scale(1)',
             }}
           />
         </div>
-        
-        {/* Content Section */}
-        <div style={{ 
-          padding: '12px', 
-          flex: 1, 
-          display: 'flex', 
-          flexDirection: 'column'
-        }}>
-          {/* Title */}
-          <h6 
-            style={{ 
-              fontWeight: '500', 
-              fontSize: '14px', 
-              lineHeight: '1.4',
-              marginBottom: '8px',
-              color: MEESHO.black,
+
+        {/* Content */}
+        <div
+          style={{
+            padding: '16px',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '12px',
+            flex: 1,
+          }}
+        >
+          {/* Product Title */}
+          <h3
+            onClick={() => setShowQuickView(true)}
+            style={{
+              margin: 0,
+              fontSize: '15px',
+              fontWeight: 600,
+              color: COLORS.dark,
+              lineHeight: 1.4,
+              cursor: 'pointer',
               display: '-webkit-box',
               WebkitLineClamp: 2,
-              WebkitBoxOrient: 'vertical' as const,
+              WebkitBoxOrient: 'vertical',
               overflow: 'hidden',
-              minHeight: '40px'
+              minHeight: '42px',
+              transition: 'color 0.2s ease',
             }}
+            onMouseEnter={(e) => (e.currentTarget.style.color = COLORS.primary)}
+            onMouseLeave={(e) => (e.currentTarget.style.color = COLORS.dark)}
           >
-            {displayName}
-          </h6>
-          
-          {/* Pricing Section */}
-          <div style={{ marginBottom: '8px' }}>
-            <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', flexWrap: 'wrap' }}>
-              <span style={{ color: MEESHO.black, fontSize: '16px', fontWeight: '700' }}>
-                ₹{formatPrice(product.discountedPrice || product.mrp || 0)}
-              </span>
-              {hasDiscount && (
-                <>
-                  <span style={{ color: MEESHO.gray, fontSize: '13px', textDecoration: 'line-through' }}>
-                    ₹{formatPrice(product.mrp!)}
-                  </span>
-                  <span style={{ color: MEESHO.green, fontSize: '12px', fontWeight: '600' }}>
-                    {discountPercent}% off
-                  </span>
-                </>
-              )}
-            </div>
+            {truncateName(product.name)}
+          </h3>
+
+          {/* Price Section */}
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', flexWrap: 'wrap' }}>
+            <span
+              style={{
+                fontSize: '20px',
+                fontWeight: 700,
+                color: COLORS.dark,
+              }}
+            >
+              ₹{formatPrice(displayPrice)}
+            </span>
+            {hasDiscount && (
+              <>
+                <span
+                  style={{
+                    fontSize: '14px',
+                    color: COLORS.grayLight,
+                    textDecoration: 'line-through',
+                  }}
+                >
+                  ₹{formatPrice(product.mrp!)}
+                </span>
+                <span
+                  style={{
+                    fontSize: '12px',
+                    fontWeight: 600,
+                    color: COLORS.secondary,
+                  }}
+                >
+                  Save ₹{formatPrice(product.mrp! - product.discountedPrice!)}
+                </span>
+              </>
+            )}
           </div>
-          
-          {/* Free Delivery */}
-          <div style={{ marginTop: 'auto' }}>
-            <span style={{ 
-              color: MEESHO.green, 
-              fontSize: '12px', 
-              fontWeight: '500',
+
+          {/* Spacer */}
+          <div style={{ flex: 1 }} />
+
+          {/* Get Deal Button */}
+          <a
+            href={product.affiliateUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '4px'
-            }}>
-              🚚 Free Delivery
-            </span>
-          </div>
+              justifyContent: 'center',
+              gap: '8px',
+              padding: '12px 16px',
+              background: `linear-gradient(135deg, ${COLORS.primary} 0%, ${COLORS.primaryDark} 100%)`,
+              color: COLORS.white,
+              fontSize: '14px',
+              fontWeight: 600,
+              borderRadius: '10px',
+              textDecoration: 'none',
+              transition: 'all 0.3s ease',
+              boxShadow: '0 2px 8px rgba(37, 99, 235, 0.3)',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.boxShadow = '0 4px 16px rgba(37, 99, 235, 0.45)';
+              e.currentTarget.style.transform = 'translateY(-1px)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.boxShadow = '0 2px 8px rgba(37, 99, 235, 0.3)';
+              e.currentTarget.style.transform = 'translateY(0)';
+            }}
+          >
+            <span>Get Deal</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M7 17L17 7M17 7H7M17 7v10" />
+            </svg>
+          </a>
         </div>
       </div>
+
+      {/* Quick View Modal */}
       <QuickViewModal product={product} isOpen={showQuickView} onClose={() => setShowQuickView(false)} />
+
+      {/* Keyframes */}
+      <style>{`
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      `}</style>
     </>
   );
 }
 
-/**
- * Featured Product Card - Meesho Style
- */
+// ============================================
+// FEATURED PRODUCT CARD (EXPORTED)
+// ============================================
 export function FeaturedProductCard({ product }: { product: AffiliateProduct }) {
   const [showQuickView, setShowQuickView] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
-  const displayName = truncateName(product.name, 55);
+  const [imageLoaded, setImageLoaded] = useState(false);
+
   const hasDiscount = product.mrp && product.discountedPrice && product.mrp > product.discountedPrice;
   const discountPercent = hasDiscount ? calculateDiscount(product.mrp!, product.discountedPrice!) : 0;
-  
+  const displayPrice = product.discountedPrice || product.mrp || 0;
+
   return (
     <>
-      <div 
-        style={{ 
-          background: MEESHO.white,
-          borderRadius: '12px',
+      <div
+        style={{
+          background: COLORS.white,
+          borderRadius: '16px',
           overflow: 'hidden',
-          border: `1px solid ${MEESHO.grayLight}`,
-          boxShadow: isHovered ? '0 8px 24px rgba(0,0,0,0.12)' : '0 2px 8px rgba(0,0,0,0.04)',
-          transition: 'all 0.2s ease',
+          border: `1px solid ${isHovered ? COLORS.primary : COLORS.border}`,
+          boxShadow: isHovered 
+            ? '0 16px 48px rgba(37, 99, 235, 0.18)' 
+            : '0 2px 8px rgba(0, 0, 0, 0.05)',
+          transition: 'all 0.3s ease',
           height: '100%',
           display: 'flex',
           flexDirection: 'column',
-          cursor: 'pointer'
+          cursor: 'pointer',
+          transform: isHovered ? 'translateY(-6px)' : 'translateY(0)',
         }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         onClick={() => setShowQuickView(true)}
       >
         {/* Image Section */}
-        <div 
-          style={{ 
-            background: MEESHO.grayLight,
+        <div
+          style={{
+            background: COLORS.lightBg,
             position: 'relative',
-            padding: '24px',
-            minHeight: '200px',
+            padding: '28px',
+            minHeight: '220px',
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center'
+            justifyContent: 'center',
           }}
         >
-          {hasDiscount && (
-            <div style={{
-              position: 'absolute',
-              top: '12px',
-              left: '12px',
-              background: MEESHO.pink,
-              color: MEESHO.white,
-              padding: '6px 12px',
-              borderRadius: '4px',
-              fontSize: '13px',
-              fontWeight: '700'
-            }}>
+          {hasDiscount && discountPercent > 0 && (
+            <div
+              style={{
+                position: 'absolute',
+                top: '16px',
+                left: '16px',
+                background: `linear-gradient(135deg, ${COLORS.error} 0%, #DC2626 100%)`,
+                color: COLORS.white,
+                padding: '8px 14px',
+                borderRadius: '10px',
+                fontSize: '14px',
+                fontWeight: 700,
+                boxShadow: '0 3px 10px rgba(239, 68, 68, 0.4)',
+              }}
+            >
               {discountPercent}% OFF
             </div>
           )}
-          <img 
-            src={product.images[0]} 
-            alt={product.name} 
-            style={{ 
-              maxHeight: '160px',
-              maxWidth: '100%', 
+          <img
+            src={product.images[0]}
+            alt={product.name}
+            onLoad={() => setImageLoaded(true)}
+            style={{
+              maxHeight: '180px',
+              maxWidth: '100%',
               objectFit: 'contain',
-              transform: isHovered ? 'scale(1.05)' : 'scale(1)',
-              transition: 'transform 0.3s ease'
+              transform: isHovered ? 'scale(1.08)' : 'scale(1)',
+              transition: 'all 0.4s ease',
+              opacity: imageLoaded ? 1 : 0,
             }}
           />
         </div>
-        
+
         {/* Content Section */}
-        <div style={{ padding: '16px', flex: 1, display: 'flex', flexDirection: 'column' }}>
-          <h5 style={{ 
-            fontWeight: '600', 
-            fontSize: '15px',
-            lineHeight: '1.4',
-            marginBottom: '10px',
-            color: MEESHO.black,
-            minHeight: '42px'
-          }}>
-            {displayName}
+        <div style={{ padding: '20px', flex: 1, display: 'flex', flexDirection: 'column' }}>
+          <h5
+            style={{
+              fontWeight: 600,
+              fontSize: '17px',
+              lineHeight: 1.4,
+              marginBottom: '12px',
+              color: COLORS.dark,
+              minHeight: '48px',
+              display: '-webkit-box',
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: 'vertical',
+              overflow: 'hidden',
+            }}
+          >
+            {truncateName(product.name, 55)}
           </h5>
-          
+
           {/* Pricing */}
-          <div style={{ marginBottom: '10px' }}>
-            <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', flexWrap: 'wrap' }}>
-              <span style={{ color: MEESHO.black, fontSize: '18px', fontWeight: '700' }}>
-                ₹{formatPrice(product.discountedPrice || product.mrp || 0)}
+          <div style={{ marginBottom: '16px' }}>
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: '10px', flexWrap: 'wrap' }}>
+              <span style={{ color: COLORS.dark, fontSize: '22px', fontWeight: 700 }}>
+                ₹{formatPrice(displayPrice)}
               </span>
               {hasDiscount && (
                 <>
-                  <span style={{ color: MEESHO.gray, fontSize: '14px', textDecoration: 'line-through' }}>
+                  <span
+                    style={{
+                      color: COLORS.grayLight,
+                      fontSize: '15px',
+                      textDecoration: 'line-through',
+                    }}
+                  >
                     ₹{formatPrice(product.mrp!)}
                   </span>
-                  <span style={{ color: MEESHO.green, fontSize: '13px', fontWeight: '600' }}>
+                  <span style={{ color: COLORS.secondary, fontSize: '14px', fontWeight: 600 }}>
                     {discountPercent}% off
                   </span>
                 </>
               )}
             </div>
           </div>
-          
-          {/* Free Delivery */}
-          <div style={{ marginTop: 'auto' }}>
-            <span style={{ color: MEESHO.green, fontSize: '12px', fontWeight: '500' }}>
-              🚚 Free Delivery
-            </span>
+
+          {/* Spacer */}
+          <div style={{ flex: 1 }} />
+
+          {/* View Deal Button */}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '8px',
+              padding: '14px 20px',
+              background: `linear-gradient(135deg, ${COLORS.primary} 0%, ${COLORS.primaryDark} 100%)`,
+              color: COLORS.white,
+              fontSize: '15px',
+              fontWeight: 600,
+              borderRadius: '12px',
+              transition: 'all 0.3s ease',
+              boxShadow: isHovered
+                ? '0 6px 20px rgba(37, 99, 235, 0.45)'
+                : '0 3px 12px rgba(37, 99, 235, 0.3)',
+            }}
+          >
+            <span>View Deal</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
           </div>
         </div>
       </div>

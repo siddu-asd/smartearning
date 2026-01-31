@@ -5,8 +5,21 @@ import { BlogPost } from '../../constant/affiliateData';
 import { useBlogs } from '../../hooks/useSupabase';
 import { IMAGES } from '../../constant/theme';
 
+// Color Constants
+const COLORS = {
+  primary: '#2563EB',
+  secondary: '#10B981',
+  accent: '#F59E0B',
+  dark: '#111827',
+  gray: '#6B7280',
+  lightBg: '#F9FAFB',
+  border: '#E5E7EB',
+  white: '#FFFFFF',
+  gradient: 'linear-gradient(135deg, #2563EB 0%, #7C3AED 100%)',
+};
+
 /**
- * Blog List Page - Modern Dark Theme Design
+ * Blog List Page - Clean Modern Light Theme
  * Displays all published blog posts from Supabase
  * Route: /blog
  */
@@ -32,7 +45,11 @@ export default function BlogListPage() {
     metaTitle: b.title,
     metaDescription: '',
     status: 'published' as const,
-    createdAt: new Date(b.created_at).toLocaleDateString(),
+    createdAt: new Date(b.created_at).toLocaleDateString('en-US', { 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+    }),
     updatedAt: b.created_at,
   }));
   
@@ -41,313 +58,270 @@ export default function BlogListPage() {
     ? allBlogs 
     : allBlogs.filter(b => b.categoryId === selectedCategory);
 
+  // Get all categories with blog counts
+  const categoriesWithCount = [
+    { id: 'all', name: 'All Posts', count: allBlogs.length },
+    ...CATEGORIES.map(cat => ({
+      ...cat,
+      count: allBlogs.filter(b => b.categoryId === cat.id).length
+    })).filter(cat => cat.count > 0)
+  ];
+
   return (
-    <div className="page-content" style={{ background: 'linear-gradient(180deg, #0f0c29 0%, #1a1a2e 100%)', minHeight: '100vh' }}>
+    <div className="page-content" style={{ background: COLORS.white, minHeight: '100vh' }}>
       {/* Hero Section */}
       <section style={{ 
-        padding: '120px 0 80px',
+        background: COLORS.gradient,
+        padding: '80px 0 60px',
         position: 'relative',
         overflow: 'hidden'
       }}>
-        {/* Background Elements */}
+        {/* Decorative circles */}
         <div style={{
           position: 'absolute',
-          top: '-20%',
-          left: '-10%',
-          width: '500px',
-          height: '500px',
-          background: 'radial-gradient(circle, rgba(102,126,234,0.15) 0%, transparent 70%)',
-          borderRadius: '50%',
-          filter: 'blur(60px)'
+          top: '-100px',
+          right: '-100px',
+          width: '300px',
+          height: '300px',
+          background: 'rgba(255,255,255,0.1)',
+          borderRadius: '50%'
         }} />
         <div style={{
           position: 'absolute',
-          bottom: '-20%',
-          right: '-10%',
-          width: '400px',
-          height: '400px',
-          background: 'radial-gradient(circle, rgba(118,75,162,0.15) 0%, transparent 70%)',
-          borderRadius: '50%',
-          filter: 'blur(60px)'
+          bottom: '-50px',
+          left: '-50px',
+          width: '200px',
+          height: '200px',
+          background: 'rgba(255,255,255,0.08)',
+          borderRadius: '50%'
         }} />
         
         <div className="container" style={{ position: 'relative', zIndex: 10 }}>
+          {/* Breadcrumb */}
           <nav aria-label="breadcrumb" className="mb-4">
             <ol className="breadcrumb mb-0" style={{ background: 'transparent' }}>
               <li className="breadcrumb-item">
-                <Link to="/" style={{ color: 'rgba(255,255,255,0.6)', textDecoration: 'none' }}>Home</Link>
+                <Link to="/" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none', fontSize: '14px' }}>
+                  Home
+                </Link>
               </li>
-              <li className="breadcrumb-item active" style={{ color: '#FFD700' }}>Blog</li>
+              <li className="breadcrumb-item active" style={{ color: COLORS.white, fontSize: '14px' }}>
+                Blog
+              </li>
             </ol>
           </nav>
           
           <div className="text-center" style={{
             opacity: isVisible ? 1 : 0,
-            transform: isVisible ? 'translateY(0)' : 'translateY(30px)',
-            transition: 'all 0.6s ease'
+            transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
+            transition: 'all 0.5s ease'
           }}>
-            <div style={{ 
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '10px',
-              background: 'linear-gradient(135deg, rgba(102,126,234,0.3) 0%, rgba(118,75,162,0.3) 100%)',
-              padding: '12px 24px',
-              borderRadius: '50px',
-              marginBottom: '20px',
-              border: '1px solid rgba(255,255,255,0.1)'
+            <span style={{
+              display: 'inline-block',
+              background: 'rgba(255,255,255,0.2)',
+              color: COLORS.white,
+              padding: '8px 20px',
+              borderRadius: '20px',
+              fontSize: '13px',
+              fontWeight: '600',
+              letterSpacing: '0.5px',
+              marginBottom: '16px'
             }}>
-              <span style={{ animation: 'heartbeat 2s infinite' }}>📚</span>
-              <span style={{ color: '#fff', fontSize: '13px', fontWeight: '600', letterSpacing: '1px' }}>SAVING TIPS & GUIDES</span>
-            </div>
+              OUR BLOG
+            </span>
             
             <h1 style={{ 
-              color: '#fff', 
-              fontSize: 'clamp(2rem, 5vw, 3.5rem)', 
-              fontWeight: '900',
-              marginBottom: '15px'
+              color: COLORS.white, 
+              fontSize: 'clamp(2rem, 4vw, 3rem)', 
+              fontWeight: '700',
+              marginBottom: '12px',
+              lineHeight: '1.2'
             }}>
-              Deal Tips & <span style={{ 
-                background: 'linear-gradient(135deg, #FFD700 0%, #FF8C00 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text'
-              }}>Saving Guides</span>
+              Latest Articles & Insights
             </h1>
-            <p style={{ color: 'rgba(255,255,255,0.7)', maxWidth: '500px', margin: '0 auto' }}>
-              Expert tips to help you save more on every purchase
+            
+            <p style={{ 
+              color: 'rgba(255,255,255,0.9)', 
+              maxWidth: '500px', 
+              margin: '0 auto',
+              fontSize: '16px',
+              lineHeight: '1.6'
+            }}>
+              Discover tips, guides, and stories to help you make the most of your shopping experience.
             </p>
           </div>
         </div>
       </section>
-      
-      <section style={{ padding: '60px 0 100px' }}>
+
+      {/* Category Filter Pills */}
+      <section style={{ 
+        background: COLORS.white,
+        borderBottom: `1px solid ${COLORS.border}`,
+        padding: '24px 0',
+        position: 'sticky',
+        top: '0',
+        zIndex: 100
+      }}>
         <div className="container">
-          <div className="row">
-            {/* Main Content - Blog Grid */}
-            <div className="col-lg-8">
-              {/* Results Header */}
-              <div className="d-flex justify-content-between align-items-center mb-4" style={{
-                background: 'rgba(255,255,255,0.05)',
-                padding: '20px 25px',
-                borderRadius: '16px',
-                border: '1px solid rgba(255,255,255,0.08)'
-              }}>
-                <h5 className="mb-0" style={{ color: '#fff', fontWeight: '700' }}>
-                  {selectedCategory === 'all' 
-                    ? '✨ All Saving Tips' 
-                    : CATEGORIES.find(c => c.id === selectedCategory)?.name}
-                </h5>
-                <span style={{ 
-                  color: 'rgba(255,255,255,0.6)',
-                  background: 'rgba(102,126,234,0.2)',
-                  padding: '8px 16px',
-                  borderRadius: '50px',
-                  fontSize: '13px',
+          <div style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: '10px',
+            justifyContent: 'center'
+          }}>
+            {categoriesWithCount.map((cat) => (
+              <button
+                key={cat.id}
+                onClick={() => setSelectedCategory(cat.id)}
+                style={{
+                  background: selectedCategory === cat.id ? COLORS.primary : COLORS.white,
+                  color: selectedCategory === cat.id ? COLORS.white : COLORS.dark,
+                  padding: '10px 20px',
+                  borderRadius: '25px',
+                  border: `1px solid ${selectedCategory === cat.id ? COLORS.primary : COLORS.border}`,
+                  cursor: 'pointer',
+                  fontWeight: '500',
+                  fontSize: '14px',
+                  transition: 'all 0.2s ease',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px'
+                }}
+                onMouseEnter={(e) => {
+                  if (selectedCategory !== cat.id) {
+                    e.currentTarget.style.borderColor = COLORS.primary;
+                    e.currentTarget.style.color = COLORS.primary;
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (selectedCategory !== cat.id) {
+                    e.currentTarget.style.borderColor = COLORS.border;
+                    e.currentTarget.style.color = COLORS.dark;
+                  }
+                }}
+              >
+                {cat.name}
+                <span style={{
+                  background: selectedCategory === cat.id ? 'rgba(255,255,255,0.25)' : COLORS.lightBg,
+                  padding: '2px 8px',
+                  borderRadius: '12px',
+                  fontSize: '12px',
                   fontWeight: '600'
                 }}>
-                  {filteredBlogs.length} article{filteredBlogs.length !== 1 ? 's' : ''}
+                  {cat.count}
                 </span>
-              </div>
-
-              {/* Blog Grid */}
-              {filteredBlogs.length > 0 ? (
-                <div className="row g-4">
-                  {filteredBlogs.map((blog, index) => (
-                    <div 
-                      key={blog.id} 
-                      className="col-md-6"
-                      style={{
-                        opacity: isVisible ? 1 : 0,
-                        transform: isVisible ? 'translateY(0)' : 'translateY(30px)',
-                        transition: `all 0.5s ease ${index * 0.1}s`
-                      }}
-                    >
-                      <BlogCard blog={blog} />
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="text-center py-5" style={{ 
-                  background: 'linear-gradient(145deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%)',
-                  borderRadius: '24px',
-                  border: '1px solid rgba(255,255,255,0.1)'
-                }}>
-                  <div style={{ fontSize: '60px', marginBottom: '20px' }}>📭</div>
-                  <h5 style={{ color: '#fff', fontWeight: '700' }}>No tips found</h5>
-                  <p style={{ color: 'rgba(255,255,255,0.6)' }}>Try selecting a different category</p>
-                  <button 
-                    onClick={() => setSelectedCategory('all')}
-                    style={{
-                      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                      color: '#fff',
-                      padding: '14px 30px',
-                      borderRadius: '50px',
-                      border: 'none',
-                      fontWeight: '600',
-                      cursor: 'pointer',
-                      transition: 'all 0.3s ease'
-                    }}
-                  >
-                    View All Tips
-                  </button>
-                </div>
-              )}
-            </div>
-
-            {/* Sidebar */}
-            <div className="col-lg-4">
-              <div className="sticky-top" style={{ top: '100px' }}>
-                {/* Category Filter */}
-                <div style={{
-                  background: 'linear-gradient(145deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%)',
-                  backdropFilter: 'blur(10px)',
-                  borderRadius: '24px',
-                  padding: '30px',
-                  marginBottom: '25px',
-                  border: '1px solid rgba(255,255,255,0.1)'
-                }}>
-                  <h6 style={{ 
-                    color: '#fff', 
-                    fontWeight: '800', 
-                    marginBottom: '20px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '10px'
-                  }}>
-                    <span>📁</span> Categories
-                  </h6>
-                  <div className="d-flex flex-column gap-2">
-                    <button
-                      onClick={() => setSelectedCategory('all')}
-                      style={{
-                        background: selectedCategory === 'all' 
-                          ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' 
-                          : 'rgba(255,255,255,0.05)',
-                        color: '#fff',
-                        padding: '14px 20px',
-                        borderRadius: '12px',
-                        border: selectedCategory === 'all' 
-                          ? 'none' 
-                          : '1px solid rgba(255,255,255,0.1)',
-                        textAlign: 'left',
-                        cursor: 'pointer',
-                        fontWeight: '600',
-                        transition: 'all 0.3s ease'
-                      }}
-                    >
-                      All Tips
-                    </button>
-                    {CATEGORIES.map((cat) => {
-                      const count = allBlogs.filter(b => b.categoryId === cat.id).length;
-                      if (count === 0) return null;
-                      return (
-                        <button
-                          key={cat.id}
-                          onClick={() => setSelectedCategory(cat.id)}
-                          style={{
-                            background: selectedCategory === cat.id 
-                              ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' 
-                              : 'rgba(255,255,255,0.05)',
-                            color: '#fff',
-                            padding: '14px 20px',
-                            borderRadius: '12px',
-                            border: selectedCategory === cat.id 
-                              ? 'none' 
-                              : '1px solid rgba(255,255,255,0.1)',
-                            textAlign: 'left',
-                            cursor: 'pointer',
-                            fontWeight: '600',
-                            transition: 'all 0.3s ease',
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            alignItems: 'center'
-                          }}
-                        >
-                          {cat.name}
-                          <span style={{
-                            background: 'rgba(255,255,255,0.2)',
-                            padding: '4px 12px',
-                            borderRadius: '50px',
-                            fontSize: '12px'
-                          }}>{count}</span>
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                {/* Recent Posts */}
-                <div style={{
-                  background: 'linear-gradient(145deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%)',
-                  backdropFilter: 'blur(10px)',
-                  borderRadius: '24px',
-                  padding: '30px',
-                  border: '1px solid rgba(255,255,255,0.1)'
-                }}>
-                  <h6 style={{ 
-                    color: '#fff', 
-                    fontWeight: '800', 
-                    marginBottom: '20px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '10px'
-                  }}>
-                    <span>🕐</span> Latest Tips
-                  </h6>
-                  <div className="d-flex flex-column gap-3">
-                    {allBlogs.slice(0, 5).map((blog) => (
-                      <Link 
-                        key={blog.id}
-                        to={`/blog/${blog.slug}`}
-                        style={{ textDecoration: 'none' }}
-                      >
-                        <div style={{
-                          display: 'flex',
-                          gap: '15px',
-                          padding: '15px',
-                          borderRadius: '16px',
-                          background: 'rgba(255,255,255,0.03)',
-                          border: '1px solid rgba(255,255,255,0.05)',
-                          transition: 'all 0.3s ease'
-                        }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.background = 'rgba(255,255,255,0.08)';
-                          e.currentTarget.style.transform = 'translateX(5px)';
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.background = 'rgba(255,255,255,0.03)';
-                          e.currentTarget.style.transform = 'translateX(0)';
-                        }}
-                        >
-                          <img 
-                            src={blog.featuredImage} 
-                            alt={blog.title}
-                            style={{ 
-                              width: '65px', 
-                              height: '65px', 
-                              objectFit: 'cover', 
-                              borderRadius: '12px',
-                              background: 'rgba(255,255,255,0.1)'
-                            }}
-                          />
-                          <div>
-                            <h6 style={{ 
-                              color: '#fff', 
-                              fontSize: '14px', 
-                              fontWeight: '600', 
-                              marginBottom: '5px',
-                              lineHeight: '1.4'
-                            }}>{blog.title}</h6>
-                            <small style={{ color: 'rgba(255,255,255,0.5)' }}>{blog.createdAt}</small>
-                          </div>
-                        </div>
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
+              </button>
+            ))}
           </div>
+        </div>
+      </section>
+
+      {/* Blog Grid Section */}
+      <section style={{ padding: '60px 0 80px', background: COLORS.lightBg }}>
+        <div className="container">
+          {/* Results Header */}
+          <div style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginBottom: '32px'
+          }}>
+            <h2 style={{ 
+              color: COLORS.dark, 
+              fontSize: '24px', 
+              fontWeight: '700',
+              margin: 0
+            }}>
+              {selectedCategory === 'all' 
+                ? 'All Articles' 
+                : categoriesWithCount.find(c => c.id === selectedCategory)?.name}
+            </h2>
+            <span style={{ 
+              color: COLORS.gray,
+              fontSize: '14px'
+            }}>
+              {filteredBlogs.length} article{filteredBlogs.length !== 1 ? 's' : ''} found
+            </span>
+          </div>
+
+          {/* Blog Grid */}
+          {filteredBlogs.length > 0 ? (
+            <div className="row g-4">
+              {filteredBlogs.map((blog, index) => (
+                <div 
+                  key={blog.id} 
+                  className="col-lg-4 col-md-6"
+                  style={{
+                    opacity: isVisible ? 1 : 0,
+                    transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
+                    transition: `all 0.4s ease ${index * 0.08}s`
+                  }}
+                >
+                  <BlogCard blog={blog} />
+                </div>
+              ))}
+            </div>
+          ) : (
+            /* Empty State */
+            <div style={{ 
+              textAlign: 'center',
+              padding: '80px 20px',
+              background: COLORS.white,
+              borderRadius: '16px',
+              border: `1px solid ${COLORS.border}`
+            }}>
+              <div style={{ 
+                width: '80px',
+                height: '80px',
+                background: COLORS.lightBg,
+                borderRadius: '50%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                margin: '0 auto 24px',
+                fontSize: '32px'
+              }}>
+                📝
+              </div>
+              <h3 style={{ 
+                color: COLORS.dark, 
+                fontSize: '20px', 
+                fontWeight: '600',
+                marginBottom: '8px'
+              }}>
+                No articles found
+              </h3>
+              <p style={{ 
+                color: COLORS.gray, 
+                marginBottom: '24px',
+                fontSize: '15px'
+              }}>
+                There are no articles in this category yet.
+              </p>
+              <button 
+                onClick={() => setSelectedCategory('all')}
+                style={{
+                  background: COLORS.primary,
+                  color: COLORS.white,
+                  padding: '12px 28px',
+                  borderRadius: '8px',
+                  border: 'none',
+                  fontWeight: '600',
+                  fontSize: '14px',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = '#1D4ED8';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = COLORS.primary;
+                }}
+              >
+                View All Articles
+              </button>
+            </div>
+          )}
         </div>
       </section>
     </div>
@@ -355,127 +329,159 @@ export default function BlogListPage() {
 }
 
 /**
- * Blog Card Component - Modern Dark Theme
+ * Blog Card Component - Clean Light Theme
  */
 function BlogCard({ blog }: { blog: BlogPost }) {
+  // Extract excerpt from content
+  const excerpt = blog.content
+    ? blog.content.replace(/<[^>]*>/g, '').substring(0, 120) + '...'
+    : 'Click to read more about this article...';
+
   return (
     <div style={{
-      background: 'linear-gradient(145deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%)',
-      backdropFilter: 'blur(10px)',
-      borderRadius: '24px',
+      background: COLORS.white,
+      borderRadius: '12px',
       overflow: 'hidden',
-      border: '1px solid rgba(255,255,255,0.1)',
+      border: `1px solid ${COLORS.border}`,
       height: '100%',
-      transition: 'all 0.4s ease',
+      transition: 'all 0.3s ease',
       display: 'flex',
       flexDirection: 'column'
     }}
     onMouseEnter={(e) => {
-      e.currentTarget.style.transform = 'translateY(-10px)';
-      e.currentTarget.style.boxShadow = '0 30px 60px rgba(102,126,234,0.2)';
-      e.currentTarget.style.borderColor = 'rgba(102,126,234,0.3)';
+      e.currentTarget.style.transform = 'translateY(-4px)';
+      e.currentTarget.style.boxShadow = '0 12px 24px rgba(0,0,0,0.08)';
+      e.currentTarget.style.borderColor = COLORS.primary;
     }}
     onMouseLeave={(e) => {
       e.currentTarget.style.transform = 'translateY(0)';
       e.currentTarget.style.boxShadow = 'none';
-      e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)';
+      e.currentTarget.style.borderColor = COLORS.border;
     }}
     >
+      {/* Image */}
       <Link to={`/blog/${blog.slug}`} style={{ textDecoration: 'none' }}>
         <div style={{ 
           overflow: 'hidden', 
-          background: 'linear-gradient(135deg, rgba(102,126,234,0.1) 0%, rgba(118,75,162,0.1) 100%)',
-          display: 'flex', 
-          alignItems: 'center', 
-          justifyContent: 'center', 
-          height: '180px',
+          background: COLORS.lightBg,
+          height: '200px',
           position: 'relative'
         }}>
-          {/* Glow Effect */}
-          <div style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: '100px',
-            height: '100px',
-            background: 'radial-gradient(circle, rgba(102,126,234,0.4) 0%, transparent 70%)',
-            filter: 'blur(30px)'
-          }} />
           <img 
             src={blog.featuredImage} 
             alt={blog.title}
             style={{ 
-              maxWidth: '90%',
-              maxHeight: '160px', 
-              objectFit: 'contain',
-              transition: 'transform 0.4s ease',
-              filter: 'drop-shadow(0 10px 20px rgba(0,0,0,0.3))',
-              position: 'relative',
-              zIndex: 5
+              width: '100%',
+              height: '100%', 
+              objectFit: 'cover',
+              transition: 'transform 0.3s ease'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'scale(1.05)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'scale(1)';
             }}
           />
         </div>
       </Link>
-      <div style={{ padding: '25px', flex: 1, display: 'flex', flexDirection: 'column' }}>
-        <div className="d-flex align-items-center gap-2 mb-3">
-          <span style={{
-            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-            color: '#fff',
-            padding: '6px 14px',
-            borderRadius: '50px',
-            fontSize: '11px',
-            fontWeight: '600'
-          }}>{blog.category?.name || 'Article'}</span>
-          <small style={{ color: 'rgba(255,255,255,0.5)' }}>{blog.createdAt}</small>
+
+      {/* Content */}
+      <div style={{ 
+        padding: '24px', 
+        flex: 1, 
+        display: 'flex', 
+        flexDirection: 'column' 
+      }}>
+        {/* Date */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          marginBottom: '12px'
+        }}>
+          <svg 
+            width="14" 
+            height="14" 
+            viewBox="0 0 24 24" 
+            fill="none" 
+            stroke={COLORS.gray}
+            strokeWidth="2"
+          >
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+          </svg>
+          <span style={{ 
+            color: COLORS.gray, 
+            fontSize: '13px',
+            fontWeight: '500'
+          }}>
+            {blog.createdAt}
+          </span>
         </div>
-        <h5 style={{ marginBottom: '15px', flex: 1 }}>
-          <Link to={`/blog/${blog.slug}`} style={{ 
-            color: '#fff', 
-            textDecoration: 'none',
-            fontWeight: '700',
-            fontSize: '1.1rem',
-            lineHeight: '1.4',
-            transition: 'color 0.3s ease'
-          }}
-          onMouseEnter={(e) => e.currentTarget.style.color = '#FFD700'}
-          onMouseLeave={(e) => e.currentTarget.style.color = '#fff'}
+
+        {/* Title */}
+        <h3 style={{ marginBottom: '12px', flex: 0 }}>
+          <Link 
+            to={`/blog/${blog.slug}`} 
+            style={{ 
+              color: COLORS.dark, 
+              textDecoration: 'none',
+              fontWeight: '600',
+              fontSize: '18px',
+              lineHeight: '1.4',
+              display: '-webkit-box',
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: 'vertical',
+              overflow: 'hidden',
+              transition: 'color 0.2s ease'
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.color = COLORS.primary}
+            onMouseLeave={(e) => e.currentTarget.style.color = COLORS.dark}
           >
             {blog.title}
           </Link>
-        </h5>
+        </h3>
+
+        {/* Excerpt */}
         <p style={{ 
-          color: 'rgba(255,255,255,0.6)', 
+          color: COLORS.gray, 
           fontSize: '14px', 
-          lineHeight: '1.7',
-          marginBottom: '20px' 
-        }} dangerouslySetInnerHTML={{ 
-          __html: blog.content.substring(0, 120).replace(/<[^>]*>/g, '') + '...' 
-        }} />
+          lineHeight: '1.6',
+          marginBottom: '20px',
+          flex: 1,
+          display: '-webkit-box',
+          WebkitLineClamp: 3,
+          WebkitBoxOrient: 'vertical',
+          overflow: 'hidden'
+        }}>
+          {excerpt}
+        </p>
+
+        {/* Read More Link */}
         <Link 
           to={`/blog/${blog.slug}`}
           style={{
-            background: 'rgba(255,255,255,0.1)',
-            color: '#fff',
-            padding: '12px 20px',
-            borderRadius: '50px',
+            color: COLORS.primary,
             textDecoration: 'none',
             fontWeight: '600',
             fontSize: '14px',
             display: 'inline-flex',
             alignItems: 'center',
-            gap: '8px',
-            transition: 'all 0.3s ease',
-            alignSelf: 'flex-start'
+            gap: '6px',
+            transition: 'gap 0.2s ease'
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+            e.currentTarget.style.gap = '10px';
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.background = 'rgba(255,255,255,0.1)';
+            e.currentTarget.style.gap = '6px';
           }}
         >
-          Read More →
+          Read More 
+          <span style={{ fontSize: '16px' }}>→</span>
         </Link>
       </div>
     </div>

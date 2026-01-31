@@ -1,5 +1,5 @@
 /**
- * Admin Dashboard Page - Modern Redesign
+ * Admin Dashboard Page - Clean Professional Design
  * /admin/dashboard
  */
 import { redirect } from 'next/navigation';
@@ -29,10 +29,6 @@ export default async function AdminDashboard() {
     adminClient.from('blogs').select('id, published'),
   ]);
 
-  // Debug logging
-  console.log('Dashboard - Products response:', JSON.stringify(productsRes, null, 2));
-  console.log('Dashboard - Blogs response:', JSON.stringify(blogsRes, null, 2));
-
   if (productsRes.error) {
     console.error('Dashboard - Products fetch error:', productsRes.error);
   }
@@ -44,95 +40,37 @@ export default async function AdminDashboard() {
   const activeProducts = productsRes.data?.filter(p => p.is_active).length ?? 0;
   const totalBlogs = blogsRes.data?.length ?? 0;
   const publishedBlogs = blogsRes.data?.filter(b => b.published).length ?? 0;
-  
-  console.log('Dashboard - Stats:', { totalProducts, activeProducts, totalBlogs, publishedBlogs });
 
   const stats = [
-    { 
-      title: 'Total Products', 
-      value: totalProducts, 
-      icon: '📦', 
-      color: 'from-blue-500 to-purple-600',
-      bgGradient: 'from-blue-500/10 to-purple-600/10'
-    },
-    { 
-      title: 'Active Products', 
-      value: activeProducts, 
-      icon: '✅', 
-      color: 'from-green-500 to-emerald-600',
-      bgGradient: 'from-green-500/10 to-emerald-600/10'
-    },
-    { 
-      title: 'Total Blogs', 
-      value: totalBlogs, 
-      icon: '📝', 
-      color: 'from-orange-500 to-red-600',
-      bgGradient: 'from-orange-500/10 to-red-600/10'
-    },
-    { 
-      title: 'Published Blogs', 
-      value: publishedBlogs, 
-      icon: '🚀', 
-      color: 'from-pink-500 to-rose-600',
-      bgGradient: 'from-pink-500/10 to-rose-600/10'
-    },
+    { title: 'Total Products', value: totalProducts, icon: '📦', color: 'bg-blue-500', bgLight: 'bg-blue-50' },
+    { title: 'Active Products', value: activeProducts, icon: '✅', color: 'bg-green-500', bgLight: 'bg-green-50' },
+    { title: 'Total Blogs', value: totalBlogs, icon: '📝', color: 'bg-amber-500', bgLight: 'bg-amber-50' },
+    { title: 'Published Blogs', value: publishedBlogs, icon: '🚀', color: 'bg-purple-500', bgLight: 'bg-purple-50' },
   ];
 
   const quickActions = [
-    { 
-      title: 'Add Product', 
-      href: '/admin/add-product', 
-      icon: '➕', 
-      desc: 'Create new deal',
-      color: 'from-blue-600 to-indigo-700'
-    },
-    { 
-      title: 'Add Blog', 
-      href: '/admin/add-blog', 
-      icon: '✍️', 
-      desc: 'Write new article',
-      color: 'from-green-600 to-teal-700'
-    },
-    { 
-      title: 'Manage Products', 
-      href: '/admin/products', 
-      icon: '📋', 
-      desc: 'View all products',
-      color: 'from-purple-600 to-violet-700'
-    },
-    { 
-      title: 'Manage Blogs', 
-      href: '/admin/blogs', 
-      icon: '📰', 
-      desc: 'View all posts',
-      color: 'from-orange-600 to-amber-700'
-    },
+    { title: 'Add Product', href: '/admin/add-product', icon: '➕', desc: 'Create new deal', color: 'bg-blue-600 hover:bg-blue-700' },
+    { title: 'Add Blog', href: '/admin/add-blog', icon: '✍️', desc: 'Write new article', color: 'bg-green-600 hover:bg-green-700' },
+    { title: 'Manage Products', href: '/admin/products', icon: '📋', desc: 'View all products', color: 'bg-purple-600 hover:bg-purple-700' },
+    { title: 'Manage Blogs', href: '/admin/blogs', icon: '📰', desc: 'View all posts', color: 'bg-amber-600 hover:bg-amber-700' },
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-950 to-slate-900">
-      {/* Decorative Background */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-radial from-purple-500/5 to-transparent" />
-      </div>
-
+    <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="relative z-10 bg-white/5 backdrop-blur-xl border-b border-white/10">
+      <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div>
-              <h1 className="text-2xl sm:text-3xl font-black text-white flex items-center gap-3">
-                <span className="text-3xl">🎛️</span>
-                Admin Dashboard
-              </h1>
-              <p className="text-white/60 text-sm mt-1">Welcome back! Manage your deals and content</p>
+              <h1 className="text-2xl font-bold text-gray-900">Admin Dashboard</h1>
+              <p className="text-gray-500 text-sm mt-1">Manage your deals and content</p>
             </div>
-            <div className="flex items-center gap-4 w-full sm:w-auto">
-              <div className="hidden sm:flex items-center gap-2 px-4 py-2 bg-white/5 rounded-xl border border-white/10">
-                <span className="text-lg">👤</span>
-                <span className="text-white/80 text-sm truncate max-w-[150px]">{user.email}</span>
+            <div className="flex items-center gap-3">
+              <div className="hidden sm:flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-lg">
+                <span className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm font-medium">
+                  {user.email?.charAt(0).toUpperCase()}
+                </span>
+                <span className="text-gray-700 text-sm truncate max-w-[150px]">{user.email}</span>
               </div>
               <LogoutButton />
             </div>
@@ -141,90 +79,70 @@ export default async function AdminDashboard() {
       </header>
 
       {/* Main Content */}
-      <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
         {/* Stats Grid */}
-        <div className="mb-10">
-          <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
-            <span className="text-2xl">📊</span>
-            Overview Stats
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+        <section className="mb-10">
+          <h2 className="text-lg font-semibold text-gray-900 mb-4">Overview</h2>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             {stats.map((stat, index) => (
-              <div 
-                key={index}
-                className={`relative bg-gradient-to-br ${stat.bgGradient} backdrop-blur-xl rounded-2xl p-6 border border-white/10 overflow-hidden group hover:scale-105 transition-all duration-300`}
-              >
-                {/* Glow Effect */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${stat.color} opacity-0 group-hover:opacity-10 transition-opacity duration-300`} />
-                
-                <div className="relative z-10">
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="text-4xl">{stat.icon}</span>
-                    <div className={`w-12 h-12 bg-gradient-to-br ${stat.color} rounded-xl flex items-center justify-center`}>
-                      <span className="text-white text-lg font-bold">#</span>
-                    </div>
-                  </div>
-                  <p className="text-white/60 text-sm font-medium mb-1">{stat.title}</p>
-                  <p className="text-4xl font-black text-white">{stat.value}</p>
+              <div key={index} className="bg-white rounded-xl p-6 border border-gray-200 hover:shadow-lg transition-shadow">
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-3xl">{stat.icon}</span>
+                  <span className={`w-10 h-10 ${stat.color} rounded-lg flex items-center justify-center text-white text-sm font-bold`}>
+                    {stat.value}
+                  </span>
                 </div>
+                <p className="text-gray-500 text-sm">{stat.title}</p>
+                <p className="text-3xl font-bold text-gray-900 mt-1">{stat.value}</p>
               </div>
             ))}
           </div>
-        </div>
+        </section>
 
         {/* Quick Actions */}
-        <div>
-          <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
-            <span className="text-2xl">⚡</span>
-            Quick Actions
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+        <section className="mb-10">
+          <h2 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h2>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             {quickActions.map((action, index) => (
               <Link 
                 key={index}
                 href={action.href}
-                className={`group relative bg-gradient-to-br ${action.color} rounded-2xl p-6 overflow-hidden hover:shadow-2xl hover:shadow-purple-500/20 transition-all duration-300 hover:-translate-y-2`}
+                className={`${action.color} rounded-xl p-6 text-white transition-all hover:scale-105 hover:shadow-lg`}
               >
-                {/* Shine Effect */}
-                <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
-                
-                <div className="relative z-10">
-                  <span className="text-4xl block mb-4">{action.icon}</span>
-                  <h3 className="text-white font-bold text-lg mb-1">{action.title}</h3>
-                  <p className="text-white/70 text-sm">{action.desc}</p>
-                  <div className="mt-4 flex items-center text-white/80 text-sm font-medium group-hover:text-white transition-colors">
-                    Go →
-                  </div>
-                </div>
+                <span className="text-3xl block mb-3">{action.icon}</span>
+                <h3 className="font-semibold text-lg">{action.title}</h3>
+                <p className="text-white/80 text-sm mt-1">{action.desc}</p>
+                <span className="inline-flex items-center mt-3 text-sm font-medium">
+                  Go → 
+                </span>
               </Link>
             ))}
           </div>
-        </div>
+        </section>
 
-        {/* Recent Activity Placeholder */}
-        <div className="mt-10 bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 p-6">
-          <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-            <span className="text-2xl">💡</span>
-            Quick Tips
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className="bg-white/5 rounded-xl p-4 border border-white/10">
-              <span className="text-2xl">🎯</span>
-              <h4 className="text-white font-semibold mt-2">Add Quality Images</h4>
-              <p className="text-white/60 text-sm mt-1">High-quality product images increase engagement</p>
-            </div>
-            <div className="bg-white/5 rounded-xl p-4 border border-white/10">
-              <span className="text-2xl">📈</span>
-              <h4 className="text-white font-semibold mt-2">Write Detailed Descriptions</h4>
-              <p className="text-white/60 text-sm mt-1">Help users understand the deals better</p>
-            </div>
-            <div className="bg-white/5 rounded-xl p-4 border border-white/10">
-              <span className="text-2xl">🔗</span>
-              <h4 className="text-white font-semibold mt-2">Verify Affiliate Links</h4>
-              <p className="text-white/60 text-sm mt-1">Always test your links before publishing</p>
+        {/* Tips Section */}
+        <section>
+          <h2 className="text-lg font-semibold text-gray-900 mb-4">Quick Tips</h2>
+          <div className="bg-white rounded-xl border border-gray-200 p-6">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div className="bg-blue-50 rounded-lg p-4">
+                <span className="text-2xl">🎯</span>
+                <h4 className="font-semibold text-gray-900 mt-2">Quality Images</h4>
+                <p className="text-gray-600 text-sm mt-1">High-quality images increase engagement</p>
+              </div>
+              <div className="bg-green-50 rounded-lg p-4">
+                <span className="text-2xl">📈</span>
+                <h4 className="font-semibold text-gray-900 mt-2">Detailed Descriptions</h4>
+                <p className="text-gray-600 text-sm mt-1">Help users understand deals better</p>
+              </div>
+              <div className="bg-purple-50 rounded-lg p-4">
+                <span className="text-2xl">🔗</span>
+                <h4 className="font-semibold text-gray-900 mt-2">Verify Links</h4>
+                <p className="text-gray-600 text-sm mt-1">Always test links before publishing</p>
+              </div>
             </div>
           </div>
-        </div>
+        </section>
       </main>
     </div>
   );
