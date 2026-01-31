@@ -4,6 +4,19 @@ import { Link } from "react-router-dom";
 import { useProducts } from "../../hooks/useSupabase";
 import { useState } from "react";
 
+// Meesho Brand Colors
+const MEESHO = {
+    pink: '#F43397',
+    pinkLight: '#FFF0F7',
+    pinkDark: '#D91A7A',
+    green: '#00AA4F',
+    greenLight: '#E8F8EF',
+    gray: '#666666',
+    grayLight: '#F5F5F5',
+    black: '#333333',
+    white: '#FFFFFF',
+};
+
 // Format price with commas
 const formatPrice = (price: number) => {
     return price.toLocaleString('en-IN');
@@ -27,8 +40,8 @@ export default function TrandingSlider() {
             <div style={{ 
                 textAlign: 'center', 
                 padding: '60px 20px',
-                background: '#ffffff',
-                borderRadius: '16px',
+                background: MEESHO.white,
+                borderRadius: '8px',
                 margin: '0 16px'
             }}>
                 <div style={{
@@ -36,19 +49,18 @@ export default function TrandingSlider() {
                     alignItems: 'center',
                     gap: '12px',
                     padding: '16px 32px',
-                    background: '#f8fafc',
-                    borderRadius: '12px',
-                    border: '1px solid #e2e8f0'
+                    background: MEESHO.grayLight,
+                    borderRadius: '8px'
                 }}>
                     <div style={{
                         width: '20px',
                         height: '20px',
-                        border: '3px solid #e2e8f0',
-                        borderTopColor: '#2563eb',
+                        border: `3px solid ${MEESHO.grayLight}`,
+                        borderTopColor: MEESHO.pink,
                         borderRadius: '50%',
                         animation: 'spin 1s linear infinite'
                     }}></div>
-                    <span style={{ color: '#64748b', fontWeight: '500', fontSize: '14px' }}>Loading deals...</span>
+                    <span style={{ color: MEESHO.gray, fontWeight: '500', fontSize: '14px' }}>Loading deals...</span>
                 </div>
                 <style>{`
                     @keyframes spin {
@@ -64,11 +76,11 @@ export default function TrandingSlider() {
             <div style={{ 
                 textAlign: 'center', 
                 padding: '60px 20px',
-                background: '#ffffff',
-                borderRadius: '16px',
+                background: MEESHO.white,
+                borderRadius: '8px',
                 margin: '0 16px'
             }}>
-                <p style={{ color: '#64748b', fontSize: '15px', margin: 0 }}>No deals available at the moment</p>
+                <p style={{ color: MEESHO.gray, fontSize: '15px', margin: 0 }}>No deals available at the moment</p>
             </div>
         );
     }
@@ -79,7 +91,7 @@ export default function TrandingSlider() {
                 slidesPerView={4}
                 speed={800}
                 loop={recentProducts.length > 4}
-                spaceBetween={20}
+                spaceBetween={16}
                 autoplay={{
                     delay: 4000,
                     disableOnInteraction: false,
@@ -93,7 +105,7 @@ export default function TrandingSlider() {
                 breakpoints={{
                     1200: {
                         slidesPerView: 4,
-                        spaceBetween: 20,
+                        spaceBetween: 16,
                     },
                     992: {
                         slidesPerView: 3,
@@ -101,7 +113,7 @@ export default function TrandingSlider() {
                     },
                     768: {
                         slidesPerView: 2,
-                        spaceBetween: 16,
+                        spaceBetween: 12,
                     },
                     0: {
                         slidesPerView: 1,
@@ -126,40 +138,39 @@ export default function TrandingSlider() {
                             >
                                 <div 
                                     style={{ 
-                                        background: '#ffffff',
-                                        borderRadius: '16px',
+                                        background: MEESHO.white,
+                                        borderRadius: '8px',
                                         overflow: 'hidden',
-                                        border: '1px solid #e5e7eb',
+                                        border: `1px solid ${MEESHO.grayLight}`,
                                         boxShadow: isHovered 
-                                            ? '0 20px 40px rgba(0,0,0,0.12)' 
-                                            : '0 4px 12px rgba(0,0,0,0.05)',
-                                        transform: isHovered ? 'translateY(-8px)' : 'translateY(0)',
-                                        transition: 'all 0.3s ease'
+                                            ? '0 4px 16px rgba(0,0,0,0.1)' 
+                                            : '0 1px 4px rgba(0,0,0,0.04)',
+                                        transition: 'all 0.2s ease'
                                     }}
                                 >
                                     {/* Image Container */}
                                     <div 
                                         style={{ 
-                                            background: '#f8fafc',
-                                            padding: '24px',
+                                            background: MEESHO.grayLight,
+                                            padding: '16px',
                                             position: 'relative',
-                                            minHeight: '180px',
+                                            aspectRatio: '1',
                                             display: 'flex',
                                             alignItems: 'center',
                                             justifyContent: 'center'
                                         }}
                                     >
-                                        {/* Discount Badge */}
+                                        {/* Discount Badge - Meesho Pink */}
                                         {hasDiscount && (
                                             <div 
                                                 style={{
                                                     position: 'absolute',
-                                                    top: '12px',
-                                                    left: '12px',
-                                                    background: '#dc2626',
-                                                    color: '#ffffff',
-                                                    padding: '5px 10px',
-                                                    borderRadius: '6px',
+                                                    top: '8px',
+                                                    left: '8px',
+                                                    background: MEESHO.pink,
+                                                    color: MEESHO.white,
+                                                    padding: '4px 8px',
+                                                    borderRadius: '4px',
                                                     fontSize: '12px',
                                                     fontWeight: '700',
                                                     zIndex: 2
@@ -183,32 +194,15 @@ export default function TrandingSlider() {
                                     </div>
                                     
                                     {/* Content */}
-                                    <div style={{ padding: '16px' }}>
-                                        {/* Category Badge */}
-                                        <span 
-                                            style={{
-                                                display: 'inline-block',
-                                                background: '#eff6ff',
-                                                color: '#2563eb',
-                                                padding: '4px 10px',
-                                                borderRadius: '6px',
-                                                fontSize: '11px',
-                                                fontWeight: '600',
-                                                marginBottom: '10px',
-                                                textTransform: 'uppercase'
-                                            }}
-                                        >
-                                            Student Deal
-                                        </span>
-                                        
+                                    <div style={{ padding: '12px' }}>
                                         {/* Title */}
                                         <h6 style={{ 
-                                            color: '#111827', 
-                                            fontWeight: '600',
-                                            margin: '0 0 12px 0',
+                                            color: MEESHO.black, 
+                                            fontWeight: '500',
+                                            margin: '0 0 8px 0',
                                             fontSize: '14px',
-                                            lineHeight: '1.5',
-                                            minHeight: '42px',
+                                            lineHeight: '1.4',
+                                            minHeight: '40px',
                                             overflow: 'hidden',
                                             display: '-webkit-box',
                                             WebkitLineClamp: 2,
@@ -217,63 +211,55 @@ export default function TrandingSlider() {
                                             {product.title.length > 45 ? product.title.substring(0, 45) + '...' : product.title}
                                         </h6>
                                         
-                                        {/* Pricing */}
-                                        <div 
-                                            style={{
-                                                background: '#f0fdf4',
-                                                border: '1px solid #bbf7d0',
-                                                borderRadius: '8px',
-                                                padding: '10px',
-                                                marginBottom: '12px'
-                                            }}
-                                        >
+                                        {/* Pricing - Meesho Style */}
+                                        <div style={{ marginBottom: '8px' }}>
                                             {hasDiscount ? (
-                                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                                                <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', flexWrap: 'wrap' }}>
                                                     <span style={{ 
-                                                        color: '#9ca3af', 
+                                                        color: MEESHO.black, 
+                                                        fontWeight: '700',
+                                                        fontSize: '16px'
+                                                    }}>
+                                                        ₹{formatPrice(product.discounted_price!)}
+                                                    </span>
+                                                    <span style={{ 
+                                                        color: MEESHO.gray, 
                                                         textDecoration: 'line-through',
                                                         fontSize: '13px'
                                                     }}>
                                                         ₹{formatPrice(product.mrp!)}
                                                     </span>
                                                     <span style={{ 
-                                                        color: '#16a34a', 
-                                                        fontWeight: '700',
-                                                        fontSize: '18px'
+                                                        color: MEESHO.green, 
+                                                        fontWeight: '600',
+                                                        fontSize: '12px'
                                                     }}>
-                                                        ₹{formatPrice(product.discounted_price!)}
+                                                        {discountPercent}% off
                                                     </span>
                                                 </div>
                                             ) : product.discounted_price || product.mrp ? (
                                                 <span style={{ 
-                                                    color: '#16a34a', 
+                                                    color: MEESHO.black, 
                                                     fontWeight: '700',
-                                                    fontSize: '18px'
+                                                    fontSize: '16px'
                                                 }}>
                                                     ₹{formatPrice(product.discounted_price || product.mrp || 0)}
                                                 </span>
                                             ) : (
-                                                <span style={{ color: '#16a34a', fontWeight: '600', fontSize: '14px' }}>
+                                                <span style={{ color: MEESHO.pink, fontWeight: '600', fontSize: '14px' }}>
                                                     View Price
                                                 </span>
                                             )}
                                         </div>
                                         
-                                        {/* CTA Button */}
-                                        <div 
-                                            style={{
-                                                background: isHovered ? '#2563eb' : '#f3f4f6',
-                                                borderRadius: '8px',
-                                                padding: '10px',
-                                                textAlign: 'center',
-                                                fontWeight: '600',
-                                                fontSize: '13px',
-                                                color: isHovered ? '#ffffff' : '#374151',
-                                                transition: 'all 0.3s ease'
-                                            }}
-                                        >
-                                            {isHovered ? '🛒 Get This Deal' : 'View Deal'}
-                                        </div>
+                                        {/* Free Delivery Badge */}
+                                        <span style={{ 
+                                            color: MEESHO.green, 
+                                            fontSize: '12px', 
+                                            fontWeight: '500'
+                                        }}>
+                                            🚚 Free Delivery
+                                        </span>
                                     </div>
                                 </div>
                             </Link>
@@ -282,7 +268,7 @@ export default function TrandingSlider() {
                 })}
             </Swiper>
             
-            {/* Navigation Buttons */}
+            {/* Navigation Buttons - Meesho Pink */}
             <div 
                 className="tranding-button-prev" 
                 style={{
@@ -290,31 +276,31 @@ export default function TrandingSlider() {
                     left: '-16px',
                     top: '50%',
                     transform: 'translateY(-50%)',
-                    width: '44px',
-                    height: '44px',
-                    background: '#ffffff',
-                    border: '1px solid #e5e7eb',
+                    width: '40px',
+                    height: '40px',
+                    background: MEESHO.white,
+                    border: `1px solid ${MEESHO.grayLight}`,
                     borderRadius: '50%',
                     cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
                     zIndex: 10,
                     transition: 'all 0.2s ease'
                 }}
                 onMouseEnter={(e) => {
-                    e.currentTarget.style.background = '#2563eb';
-                    e.currentTarget.style.color = '#ffffff';
-                    e.currentTarget.style.borderColor = '#2563eb';
+                    e.currentTarget.style.background = MEESHO.pink;
+                    e.currentTarget.style.color = MEESHO.white;
+                    e.currentTarget.style.borderColor = MEESHO.pink;
                 }}
                 onMouseLeave={(e) => {
-                    e.currentTarget.style.background = '#ffffff';
-                    e.currentTarget.style.color = '#374151';
-                    e.currentTarget.style.borderColor = '#e5e7eb';
+                    e.currentTarget.style.background = MEESHO.white;
+                    e.currentTarget.style.color = MEESHO.gray;
+                    e.currentTarget.style.borderColor = MEESHO.grayLight;
                 }}
             >
-                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                 </svg>
             </div>
@@ -326,31 +312,31 @@ export default function TrandingSlider() {
                     right: '-16px',
                     top: '50%',
                     transform: 'translateY(-50%)',
-                    width: '44px',
-                    height: '44px',
-                    background: '#ffffff',
-                    border: '1px solid #e5e7eb',
+                    width: '40px',
+                    height: '40px',
+                    background: MEESHO.white,
+                    border: `1px solid ${MEESHO.grayLight}`,
                     borderRadius: '50%',
                     cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
                     zIndex: 10,
                     transition: 'all 0.2s ease'
                 }}
                 onMouseEnter={(e) => {
-                    e.currentTarget.style.background = '#2563eb';
-                    e.currentTarget.style.color = '#ffffff';
-                    e.currentTarget.style.borderColor = '#2563eb';
+                    e.currentTarget.style.background = MEESHO.pink;
+                    e.currentTarget.style.color = MEESHO.white;
+                    e.currentTarget.style.borderColor = MEESHO.pink;
                 }}
                 onMouseLeave={(e) => {
-                    e.currentTarget.style.background = '#ffffff';
-                    e.currentTarget.style.color = '#374151';
-                    e.currentTarget.style.borderColor = '#e5e7eb';
+                    e.currentTarget.style.background = MEESHO.white;
+                    e.currentTarget.style.color = MEESHO.gray;
+                    e.currentTarget.style.borderColor = MEESHO.grayLight;
                 }}
             >
-                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
             </div>
