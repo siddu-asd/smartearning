@@ -4,14 +4,36 @@
  */
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { createBrowserClient } from '@supabase/ssr';
+import { useRouter } from 'next/navigation';
 
 export default function AdminLoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [checkingAuth, setCheckingAuth] = useState(true);
+  const router = useRouter();
+
+  const supabase = createBrowserClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  );
+
+  // Check if already logged in
+  useEffect(() => {
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        // Already logged in, redirect to dashboard
+        window.location.href = '/admin/dashboard';
+      } else {
+        setCheckingAuth(false);
+      }
+    };
+    checkSession();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,35 +41,46 @@ export default function AdminLoginPage() {
     setLoading(true);
 
     try {
-      // Use browser client - this properly sets cookies
-      const supabase = createBrowserClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-      );
-
-      const { error } = await supabase.auth.signInWithPassword({
+      const { data, error: authError } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
 
-      if (error) {
-        setError(error.message || 'Login failed');
+      if (authError) {
+        console.error('Auth error:', authError);
+        setError(authError.message || 'Invalid email or password');
         return;
       }
 
-      // Hard redirect to ensure cookies are read properly
+      if (!data.session) {
+        setError('Login failed - no session created');
+        return;
+      }
+
+      // Success! Hard redirect to ensure cookies are read properly
       window.location.href = '/admin/dashboard';
     } catch (err) {
+      console.error('Login exception:', err);
       setError('An error occurred. Please try again.');
     } finally {
       setLoading(false);
     }
   };
 
+  // Show loading while checking auth
+  if (checkingAuth) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-100">
+        <div className="text-gray-600">Checking authentication...</div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="max-w-md w-full bg-white rounded-lg shadow-md p-8">
         <h1 className="text-2xl font-bold text-center mb-6">Admin Login</h1>
+        <p className="text-gray-500 text-center mb-6 text-sm">StudentCrazyDeals Admin Panel</p>
         
         {error && (
           <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">

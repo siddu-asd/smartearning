@@ -12,25 +12,23 @@ const nextConfig = {
   },
   // Serve the Vite-built frontend
   async rewrites() {
-    return {
-      beforeFiles: [
-        // Keep admin and API routes in Next.js
-      ],
-      afterFiles: [
-        // Serve frontend static files for non-admin routes
-        {
-          source: '/:path((?!admin|api|_next|site).*)',
-          destination: '/site/:path*',
-        },
-      ],
-      fallback: [
-        // Fallback to frontend index.html for SPA routing
-        {
-          source: '/:path((?!admin|api|_next|site).*)',
-          destination: '/site/index.html',
-        },
-      ],
-    };
+    return [
+      // Root path serves the frontend
+      {
+        source: '/',
+        destination: '/site/index.html',
+      },
+      // Static assets from site folder
+      {
+        source: '/assets/:path*',
+        destination: '/site/assets/:path*',
+      },
+      // All other non-admin/api routes serve frontend SPA
+      {
+        source: '/:path((?!admin|api|_next|site).*)',
+        destination: '/site/index.html',
+      },
+    ];
   },
 };
 
