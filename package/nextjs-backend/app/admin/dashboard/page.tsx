@@ -8,6 +8,10 @@ import { createServerClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
 import LogoutButton from './LogoutButton';
 
+// Force dynamic to prevent caching
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default async function AdminDashboard() {
   // Check authentication
   const supabase = await createServerClient();
@@ -25,15 +29,15 @@ export default async function AdminDashboard() {
     adminClient.from('blogs').select('id, published'),
   ]);
 
-  // Log for debugging
-  console.log('Products response:', JSON.stringify(productsRes, null, 2));
-  console.log('Blogs response:', JSON.stringify(blogsRes, null, 2));
+  // Debug logging
+  console.log('Dashboard - Products response:', JSON.stringify(productsRes, null, 2));
+  console.log('Dashboard - Blogs response:', JSON.stringify(blogsRes, null, 2));
 
   if (productsRes.error) {
-    console.error('Error fetching products:', productsRes.error);
+    console.error('Dashboard - Products fetch error:', productsRes.error);
   }
   if (blogsRes.error) {
-    console.error('Error fetching blogs:', blogsRes.error);
+    console.error('Dashboard - Blogs fetch error:', blogsRes.error);
   }
 
   const totalProducts = productsRes.data?.length ?? 0;
@@ -41,7 +45,7 @@ export default async function AdminDashboard() {
   const totalBlogs = blogsRes.data?.length ?? 0;
   const publishedBlogs = blogsRes.data?.filter(b => b.published).length ?? 0;
   
-  console.log('Stats:', { totalProducts, activeProducts, totalBlogs, publishedBlogs });
+  console.log('Dashboard - Stats:', { totalProducts, activeProducts, totalBlogs, publishedBlogs });
 
   const stats = [
     { 

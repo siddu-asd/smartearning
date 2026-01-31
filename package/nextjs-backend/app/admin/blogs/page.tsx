@@ -1,12 +1,14 @@
-import { createServerClient } from '@/lib/supabase/server';
+import { createAdminClient } from '@/lib/supabase/admin';
 import { Blog } from '@/lib/types';
 import Link from 'next/link';
 import DeleteBlogButton from './DeleteBlogButton';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export default async function AdminBlogsPage() {
-  const supabase = await createServerClient();
+  // Use admin client to bypass RLS
+  const supabase = createAdminClient();
   
   const { data: blogs, error } = await supabase
     .from('blogs')
@@ -16,6 +18,8 @@ export default async function AdminBlogsPage() {
   if (error) {
     console.error('Error fetching blogs:', error);
   }
+
+  console.log('Admin Blogs page - Fetched blogs:', blogs?.length ?? 0);
 
   return (
     <div className="min-h-screen bg-gray-100">

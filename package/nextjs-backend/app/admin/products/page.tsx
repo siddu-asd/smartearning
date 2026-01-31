@@ -1,12 +1,14 @@
-import { createServerClient } from '@/lib/supabase/server';
+import { createAdminClient } from '@/lib/supabase/admin';
 import { Product } from '@/lib/types';
 import Link from 'next/link';
 import DeleteProductButton from './DeleteProductButton';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export default async function AdminProductsPage() {
-  const supabase = await createServerClient();
+  // Use admin client to bypass RLS
+  const supabase = createAdminClient();
   
   const { data: products, error } = await supabase
     .from('product')
@@ -16,6 +18,8 @@ export default async function AdminProductsPage() {
   if (error) {
     console.error('Error fetching products:', error);
   }
+  
+  console.log('Admin Products page - Fetched products:', products?.length ?? 0);
 
   return (
     <div className="min-h-screen bg-gray-100">
