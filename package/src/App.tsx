@@ -19,7 +19,7 @@ import Index from './router/Index'
 function App() {      
   return (
     <>
-      <BrowserRouter basename='/'>
+      <BrowserRouter basename='/site'>
         <Index />
       </BrowserRouter>
     </>
