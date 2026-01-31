@@ -1,9 +1,16 @@
-import { redirect } from 'next/navigation';
-
 /**
- * Root page - redirects to the static frontend
+ * Root page - redirects to the React frontend
  */
 export default function HomePage() {
-  // Redirect to the frontend site
-  redirect('/site/index.html');
+  return (
+    <html>
+      <head>
+        <meta httpEquiv="refresh" content="0;url=/site/index.html" />
+        <script dangerouslySetInnerHTML={{ __html: "window.location.href='/site/index.html'" }} />
+      </head>
+      <body>
+        <p>Loading StudentCrazyDeals...</p>
+      </body>
+    </html>
+  );
 }
