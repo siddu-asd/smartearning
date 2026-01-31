@@ -11,6 +11,7 @@ import "lightgallery/css/lg-zoom.css";
 import './assets/vendor/swiper/swiper-bundle.min.css'
 import './assets/css/style.css'
 import './assets/css/skin/skin-1.css'
+import './assets/css/custom-animations.css'
 
 
 //router
