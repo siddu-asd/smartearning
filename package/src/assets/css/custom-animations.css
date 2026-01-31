@@ -1,6 +1,6 @@
 /**
  * StudentCrazyDeals - Custom Animations & Enhanced UI
- * Modern, eye-catching animations for a professional look
+ * Modern, eye-catching animations for a professional WOW look
  */
 
 /* ===============================================
@@ -92,6 +92,65 @@
   }
   100% {
     background-position: 200% 0;
+  }
+}
+
+/* Badge bounce for discounts */
+@keyframes badge-bounce {
+  0%, 100% { 
+    transform: scale(1); 
+  }
+  50% { 
+    transform: scale(1.15); 
+  }
+}
+
+/* Spin animation for loading */
+@keyframes spin {
+  to { 
+    transform: rotate(360deg); 
+  }
+}
+
+/* Glow pulse for images */
+@keyframes glow-pulse {
+  0%, 100% { 
+    opacity: 0.5; 
+    transform: translate(-50%, -50%) scale(1); 
+  }
+  50% { 
+    opacity: 1; 
+    transform: translate(-50%, -50%) scale(1.2); 
+  }
+}
+
+/* Card hover lift */
+@keyframes cardLift {
+  from {
+    transform: translateY(0) scale(1);
+  }
+  to {
+    transform: translateY(-12px) scale(1.02);
+  }
+}
+
+/* Price pulse */
+@keyframes pricePulse {
+  0%, 100% {
+    text-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
+  }
+  50% {
+    text-shadow: 0 0 25px rgba(16, 185, 129, 0.8);
+  }
+}
+
+/* Fire animation for hot deals */
+@keyframes fireGlow {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.4), 0 0 20px rgba(255, 140, 0, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 0 0 40px rgba(255, 140, 0, 0.4);
   }
 }
 
