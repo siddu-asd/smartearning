@@ -7,8 +7,8 @@ import { useProducts } from '../../hooks/useSupabase';
 import { IMAGES } from '../../constant/theme';
 
 /**
- * Shop Page - Main product catalog with Ultra Modern Dark Theme
- * Stunning WOW design with animations and effects
+ * Shop Page - Main product catalog
+ * Clean, Professional Design - No Overlapping Elements
  */
 export default function ShopPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
@@ -119,125 +119,68 @@ export default function ShopPage() {
   };
 
   return (
-    <div className="page-content" style={{ 
-      background: 'linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%)',
-      minHeight: '100vh'
-    }}>
-      {/* Hero Banner - Stunning */}
+    <div className="page-content" style={{ background: '#f8fafc', minHeight: '100vh' }}>
+      
+      {/* Hero Banner */}
       <section style={{ 
-        background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%)',
-        padding: '60px 0 80px',
-        position: 'relative',
-        overflow: 'hidden'
+        background: '#ffffff',
+        borderBottom: '1px solid #e5e7eb',
+        padding: '40px 0'
       }}>
-        {/* Animated Background Elements */}
-        <div style={{
-          position: 'absolute',
-          top: '-100px',
-          right: '-100px',
-          width: '400px',
-          height: '400px',
-          background: 'radial-gradient(circle, rgba(102, 126, 234, 0.3) 0%, transparent 70%)',
-          filter: 'blur(60px)',
-          animation: 'float 8s ease-in-out infinite'
-        }}></div>
-        <div style={{
-          position: 'absolute',
-          bottom: '-50px',
-          left: '-50px',
-          width: '300px',
-          height: '300px',
-          background: 'radial-gradient(circle, rgba(244, 63, 94, 0.2) 0%, transparent 70%)',
-          filter: 'blur(50px)',
-          animation: 'float 6s ease-in-out infinite reverse'
-        }}></div>
-        
-        <div className="container" style={{ position: 'relative', zIndex: 10 }}>
-          <nav aria-label="breadcrumb" className="mb-3">
-            <ol className="breadcrumb mb-0" style={{ background: 'transparent' }}>
+        <div className="container">
+          {/* Breadcrumb */}
+          <nav aria-label="breadcrumb" style={{ marginBottom: '20px' }}>
+            <ol className="breadcrumb mb-0" style={{ background: 'transparent', padding: 0 }}>
               <li className="breadcrumb-item">
-                <Link to="/" style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none' }}>Home</Link>
+                <Link to="/" style={{ color: '#6b7280', textDecoration: 'none', fontSize: '14px' }}>Home</Link>
               </li>
-              <li className="breadcrumb-item active" style={{ color: '#FFD700' }}>🔥 Hot Deals</li>
+              <li className="breadcrumb-item active" style={{ color: '#2563eb', fontSize: '14px', fontWeight: '500' }}>
+                All Deals
+              </li>
             </ol>
           </nav>
           
           <div className="row align-items-center">
             <div className="col-lg-8">
               <h1 style={{ 
-                color: '#fff', 
-                fontSize: 'clamp(2rem, 5vw, 3.5rem)', 
+                color: '#111827', 
+                fontSize: 'clamp(1.75rem, 4vw, 2.5rem)', 
                 fontWeight: '800', 
-                marginBottom: '15px',
-                textShadow: '0 0 30px rgba(102, 126, 234, 0.5)'
+                marginBottom: '12px'
               }}>
-                🚀 <span style={{ 
-                  background: 'linear-gradient(135deg, #FFD700 0%, #FF8C00 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text'
-                }}>Student Crazy Deals</span>
+                🔥 Student Crazy Deals
               </h1>
               <p style={{ 
-                color: 'rgba(255,255,255,0.8)', 
-                fontSize: '1.2rem', 
-                marginBottom: '25px',
-                maxWidth: '600px'
+                color: '#6b7280', 
+                fontSize: '16px', 
+                marginBottom: '0',
+                maxWidth: '550px'
               }}>
                 Discover amazing discounts on laptops, mobiles, appliances & more. 
-                <span style={{ color: '#10b981', fontWeight: '600' }}> Save up to 80% </span> 
-                on premium products!
+                Save up to <span style={{ color: '#16a34a', fontWeight: '600' }}>80%</span> on premium products!
               </p>
-              
-              {/* Stats */}
-              <div className="d-flex flex-wrap gap-4">
+            </div>
+            <div className="col-lg-4 d-none d-lg-block">
+              <div className="d-flex justify-content-end gap-3">
                 <div style={{
-                  background: 'rgba(255,255,255,0.1)',
-                  backdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(255,255,255,0.2)',
-                  borderRadius: '16px',
-                  padding: '15px 25px',
+                  background: '#f0fdf4',
+                  border: '1px solid #bbf7d0',
+                  borderRadius: '12px',
+                  padding: '16px 24px',
                   textAlign: 'center'
                 }}>
-                  <div style={{ 
-                    color: '#FFD700', 
-                    fontSize: '1.8rem', 
-                    fontWeight: '800',
-                    textShadow: '0 0 20px rgba(255, 215, 0, 0.5)'
-                  }}>{allProducts.length}+</div>
-                  <div style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.85rem' }}>Active Deals</div>
+                  <div style={{ color: '#16a34a', fontSize: '24px', fontWeight: '800' }}>{allProducts.length}+</div>
+                  <div style={{ color: '#6b7280', fontSize: '13px' }}>Active Deals</div>
                 </div>
                 <div style={{
-                  background: 'rgba(255,255,255,0.1)',
-                  backdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(255,255,255,0.2)',
-                  borderRadius: '16px',
-                  padding: '15px 25px',
+                  background: '#eff6ff',
+                  border: '1px solid #bfdbfe',
+                  borderRadius: '12px',
+                  padding: '16px 24px',
                   textAlign: 'center'
                 }}>
-                  <div style={{ 
-                    color: '#10b981', 
-                    fontSize: '1.8rem', 
-                    fontWeight: '800',
-                    textShadow: '0 0 20px rgba(16, 185, 129, 0.5)'
-                  }}>80%</div>
-                  <div style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.85rem' }}>Max Savings</div>
-                </div>
-                <div style={{
-                  background: 'rgba(255,255,255,0.1)',
-                  backdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(255,255,255,0.2)',
-                  borderRadius: '16px',
-                  padding: '15px 25px',
-                  textAlign: 'center'
-                }}>
-                  <div style={{ 
-                    color: '#f43f5e', 
-                    fontSize: '1.8rem', 
-                    fontWeight: '800',
-                    textShadow: '0 0 20px rgba(244, 63, 94, 0.5)'
-                  }}>24/7</div>
-                  <div style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.85rem' }}>Updated</div>
+                  <div style={{ color: '#2563eb', fontSize: '24px', fontWeight: '800' }}>80%</div>
+                  <div style={{ color: '#6b7280', fontSize: '13px' }}>Max Savings</div>
                 </div>
               </div>
             </div>
@@ -246,37 +189,36 @@ export default function ShopPage() {
       </section>
 
       {/* Main Content */}
-      <section style={{ padding: '40px 0 80px' }}>
+      <section style={{ padding: '30px 0 60px' }}>
         <div className="container">
           <div className="row">
             
             {/* Sidebar Filters - Desktop */}
-            <div className="col-lg-3 col-md-4 d-none d-md-block">
+            <div className="col-lg-3 d-none d-lg-block">
               <div style={{
-                background: 'linear-gradient(145deg, #1a1a2e 0%, #16213e 100%)',
-                borderRadius: '20px',
+                background: '#ffffff',
+                borderRadius: '16px',
                 padding: '24px',
-                boxShadow: '0 10px 40px rgba(0,0,0,0.3)',
-                border: '1px solid rgba(255,255,255,0.1)',
+                border: '1px solid #e5e7eb',
                 position: 'sticky',
                 top: '100px'
               }}>
-                <div className="d-flex justify-content-between align-items-center mb-4 pb-3" style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
-                  <h6 style={{ margin: 0, fontWeight: '700', fontSize: '16px', color: '#fff' }}>
-                    🎯 Filters
+                <div className="d-flex justify-content-between align-items-center" style={{ marginBottom: '20px', paddingBottom: '16px', borderBottom: '1px solid #e5e7eb' }}>
+                  <h6 style={{ margin: 0, fontWeight: '700', fontSize: '16px', color: '#111827' }}>
+                    Filters
                   </h6>
                   {activeFiltersCount > 0 && (
                     <button 
                       onClick={clearAllFilters}
                       style={{
-                        background: 'linear-gradient(135deg, #f43f5e 0%, #e11d48 100%)',
-                        border: 'none',
-                        color: '#fff',
+                        background: '#fef2f2',
+                        border: '1px solid #fecaca',
+                        color: '#dc2626',
                         fontSize: '12px',
                         cursor: 'pointer',
                         fontWeight: '600',
-                        padding: '6px 14px',
-                        borderRadius: '20px'
+                        padding: '6px 12px',
+                        borderRadius: '6px'
                       }}
                     >
                       Clear All
@@ -286,39 +228,38 @@ export default function ShopPage() {
 
                 {/* Category Filter */}
                 <div style={{ marginBottom: '24px' }}>
-                  <h6 style={{ fontWeight: '600', marginBottom: '14px', color: '#FFD700', fontSize: '14px' }}>
-                    📦 Categories
+                  <h6 style={{ fontWeight: '600', marginBottom: '12px', color: '#374151', fontSize: '14px' }}>
+                    Categories
                   </h6>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                     <label style={{ 
                       display: 'flex', 
                       alignItems: 'center', 
-                      gap: '12px', 
-                      padding: '10px 14px',
-                      borderRadius: '12px',
+                      gap: '10px', 
+                      padding: '10px 12px',
+                      borderRadius: '8px',
                       cursor: 'pointer',
-                      background: selectedCategory === 'all' 
-                        ? 'linear-gradient(135deg, rgba(102, 126, 234, 0.3) 0%, rgba(118, 75, 162, 0.3) 100%)' 
-                        : 'rgba(255,255,255,0.05)',
-                      border: selectedCategory === 'all' ? '1px solid rgba(102, 126, 234, 0.5)' : '1px solid transparent',
-                      transition: 'all 0.3s ease'
+                      background: selectedCategory === 'all' ? '#eff6ff' : 'transparent',
+                      border: selectedCategory === 'all' ? '1px solid #bfdbfe' : '1px solid transparent',
+                      transition: 'all 0.2s ease'
                     }}>
                       <input 
                         type="radio" 
                         name="category" 
                         checked={selectedCategory === 'all'}
                         onChange={() => setSelectedCategory('all')}
-                        style={{ accentColor: '#667eea' }}
+                        style={{ accentColor: '#2563eb' }}
                       />
-                      <span style={{ flex: 1, fontSize: '14px', fontWeight: selectedCategory === 'all' ? '600' : '400', color: '#fff' }}>
+                      <span style={{ flex: 1, fontSize: '14px', fontWeight: selectedCategory === 'all' ? '600' : '400', color: '#374151' }}>
                         All Deals
                       </span>
                       <span style={{ 
                         fontSize: '12px', 
-                        color: '#10b981',
-                        background: 'rgba(16, 185, 129, 0.2)',
+                        color: '#16a34a',
+                        background: '#f0fdf4',
                         padding: '2px 8px',
-                        borderRadius: '10px'
+                        borderRadius: '6px',
+                        fontWeight: '600'
                       }}>{allProducts.length}</span>
                     </label>
                     
@@ -328,32 +269,31 @@ export default function ShopPage() {
                         <label key={cat.id} style={{ 
                           display: 'flex', 
                           alignItems: 'center', 
-                          gap: '12px', 
-                          padding: '10px 14px',
-                          borderRadius: '12px',
+                          gap: '10px', 
+                          padding: '10px 12px',
+                          borderRadius: '8px',
                           cursor: 'pointer',
-                          background: selectedCategory === cat.id 
-                            ? 'linear-gradient(135deg, rgba(102, 126, 234, 0.3) 0%, rgba(118, 75, 162, 0.3) 100%)' 
-                            : 'rgba(255,255,255,0.05)',
-                          border: selectedCategory === cat.id ? '1px solid rgba(102, 126, 234, 0.5)' : '1px solid transparent',
-                          transition: 'all 0.3s ease'
+                          background: selectedCategory === cat.id ? '#eff6ff' : 'transparent',
+                          border: selectedCategory === cat.id ? '1px solid #bfdbfe' : '1px solid transparent',
+                          transition: 'all 0.2s ease'
                         }}>
                           <input 
                             type="radio" 
                             name="category" 
                             checked={selectedCategory === cat.id}
                             onChange={() => setSelectedCategory(cat.id)}
-                            style={{ accentColor: '#667eea' }}
+                            style={{ accentColor: '#2563eb' }}
                           />
-                          <span style={{ flex: 1, fontSize: '14px', fontWeight: selectedCategory === cat.id ? '600' : '400', color: '#fff' }}>
+                          <span style={{ flex: 1, fontSize: '14px', fontWeight: selectedCategory === cat.id ? '600' : '400', color: '#374151' }}>
                             {cat.name}
                           </span>
                           <span style={{ 
                             fontSize: '12px', 
-                            color: count > 0 ? '#10b981' : 'rgba(255,255,255,0.4)',
-                            background: count > 0 ? 'rgba(16, 185, 129, 0.2)' : 'rgba(255,255,255,0.1)',
+                            color: count > 0 ? '#16a34a' : '#9ca3af',
+                            background: count > 0 ? '#f0fdf4' : '#f3f4f6',
                             padding: '2px 8px',
-                            borderRadius: '10px'
+                            borderRadius: '6px',
+                            fontWeight: '500'
                           }}>{count}</span>
                         </label>
                       );
@@ -363,32 +303,30 @@ export default function ShopPage() {
 
                 {/* Price Range Filter */}
                 <div style={{ marginBottom: '24px' }}>
-                  <h6 style={{ fontWeight: '600', marginBottom: '14px', color: '#10b981', fontSize: '14px' }}>
-                    💰 Price Range
+                  <h6 style={{ fontWeight: '600', marginBottom: '12px', color: '#374151', fontSize: '14px' }}>
+                    Price Range
                   </h6>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                     {priceRanges.map((range) => (
                       <label key={range.id} style={{ 
                         display: 'flex', 
                         alignItems: 'center', 
-                        gap: '12px', 
-                        padding: '10px 14px',
-                        borderRadius: '12px',
+                        gap: '10px', 
+                        padding: '10px 12px',
+                        borderRadius: '8px',
                         cursor: 'pointer',
-                        background: priceRange === range.id 
-                          ? 'linear-gradient(135deg, rgba(16, 185, 129, 0.3) 0%, rgba(5, 150, 105, 0.3) 100%)' 
-                          : 'rgba(255,255,255,0.05)',
-                        border: priceRange === range.id ? '1px solid rgba(16, 185, 129, 0.5)' : '1px solid transparent',
-                        transition: 'all 0.3s ease'
+                        background: priceRange === range.id ? '#f0fdf4' : 'transparent',
+                        border: priceRange === range.id ? '1px solid #bbf7d0' : '1px solid transparent',
+                        transition: 'all 0.2s ease'
                       }}>
                         <input 
                           type="radio" 
                           name="price" 
                           checked={priceRange === range.id}
                           onChange={() => setPriceRange(range.id)}
-                          style={{ accentColor: '#10b981' }}
+                          style={{ accentColor: '#16a34a' }}
                         />
-                        <span style={{ fontSize: '14px', fontWeight: priceRange === range.id ? '600' : '400', color: '#fff' }}>
+                        <span style={{ fontSize: '14px', fontWeight: priceRange === range.id ? '600' : '400', color: '#374151' }}>
                           {range.label}
                         </span>
                       </label>
@@ -398,53 +336,50 @@ export default function ShopPage() {
 
                 {/* Sort By */}
                 <div>
-                  <h6 style={{ fontWeight: '600', marginBottom: '14px', color: '#f43f5e', fontSize: '14px' }}>
-                    🔄 Sort By
+                  <h6 style={{ fontWeight: '600', marginBottom: '12px', color: '#374151', fontSize: '14px' }}>
+                    Sort By
                   </h6>
                   <select 
                     value={sortBy}
                     onChange={(e) => setSortBy(e.target.value)}
                     style={{
                       width: '100%',
-                      padding: '12px 16px',
-                      borderRadius: '12px',
-                      border: '1px solid rgba(255,255,255,0.2)',
+                      padding: '12px 14px',
+                      borderRadius: '8px',
+                      border: '1px solid #e5e7eb',
                       fontSize: '14px',
                       cursor: 'pointer',
                       outline: 'none',
-                      background: 'rgba(255,255,255,0.1)',
-                      color: '#fff'
+                      background: '#ffffff',
+                      color: '#374151'
                     }}
                   >
-                    <option value="newest" style={{ background: '#1a1a2e' }}>Newest First</option>
-                    <option value="price-low" style={{ background: '#1a1a2e' }}>Price: Low to High</option>
-                    <option value="price-high" style={{ background: '#1a1a2e' }}>Price: High to Low</option>
-                    <option value="discount" style={{ background: '#1a1a2e' }}>Biggest Discount</option>
+                    <option value="newest">Newest First</option>
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="price-high">Price: High to Low</option>
+                    <option value="discount">Biggest Discount</option>
                   </select>
                 </div>
               </div>
             </div>
 
             {/* Mobile Filter Bar */}
-            <div className="col-12 d-md-none mb-4">
+            <div className="col-12 d-lg-none" style={{ marginBottom: '20px' }}>
               <div style={{
-                background: 'linear-gradient(145deg, #1a1a2e 0%, #16213e 100%)',
-                borderRadius: '16px',
-                padding: '14px 18px',
-                boxShadow: '0 8px 30px rgba(0,0,0,0.3)',
-                border: '1px solid rgba(255,255,255,0.1)'
+                background: '#ffffff',
+                borderRadius: '12px',
+                padding: '12px 16px',
+                border: '1px solid #e5e7eb'
               }}>
                 <div className="d-flex gap-2 align-items-center">
                   <button
                     onClick={() => setShowFilters(!showFilters)}
                     style={{
-                      padding: '12px 18px',
-                      borderRadius: '12px',
-                      border: 'none',
-                      background: showFilters 
-                        ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' 
-                        : 'rgba(255,255,255,0.1)',
-                      color: '#fff',
+                      padding: '10px 16px',
+                      borderRadius: '8px',
+                      border: '1px solid #e5e7eb',
+                      background: showFilters ? '#2563eb' : '#ffffff',
+                      color: showFilters ? '#ffffff' : '#374151',
                       fontWeight: '600',
                       fontSize: '14px',
                       cursor: 'pointer',
@@ -453,11 +388,11 @@ export default function ShopPage() {
                       gap: '8px'
                     }}
                   >
-                    🎯 Filters
+                    Filters
                     {activeFiltersCount > 0 && (
                       <span style={{
-                        background: '#FFD700',
-                        color: '#000',
+                        background: showFilters ? '#ffffff' : '#2563eb',
+                        color: showFilters ? '#2563eb' : '#ffffff',
                         width: '20px',
                         height: '20px',
                         borderRadius: '50%',
@@ -474,62 +409,58 @@ export default function ShopPage() {
                     value={sortBy}
                     onChange={(e) => setSortBy(e.target.value)}
                     style={{
-                      padding: '12px 14px',
-                      borderRadius: '12px',
-                      border: '1px solid rgba(255,255,255,0.2)',
+                      padding: '10px 14px',
+                      borderRadius: '8px',
+                      border: '1px solid #e5e7eb',
                       fontSize: '14px',
                       cursor: 'pointer',
                       outline: 'none',
                       flex: 1,
-                      background: 'rgba(255,255,255,0.1)',
-                      color: '#fff'
+                      background: '#ffffff',
+                      color: '#374151'
                     }}
                   >
-                    <option value="newest" style={{ background: '#1a1a2e' }}>Newest</option>
-                    <option value="price-low" style={{ background: '#1a1a2e' }}>Price ↑</option>
-                    <option value="price-high" style={{ background: '#1a1a2e' }}>Price ↓</option>
-                    <option value="discount" style={{ background: '#1a1a2e' }}>Best Deal</option>
+                    <option value="newest">Newest</option>
+                    <option value="price-low">Price ↑</option>
+                    <option value="price-high">Price ↓</option>
+                    <option value="discount">Best Deal</option>
                   </select>
                 </div>
 
                 {/* Mobile Filter Panel */}
                 {showFilters && (
-                  <div style={{ marginTop: '18px', paddingTop: '18px', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
+                  <div style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid #e5e7eb' }}>
                     {/* Category */}
-                    <div style={{ marginBottom: '18px' }}>
-                      <h6 style={{ fontWeight: '600', marginBottom: '12px', fontSize: '13px', color: '#FFD700' }}>📦 Category</h6>
+                    <div style={{ marginBottom: '16px' }}>
+                      <h6 style={{ fontWeight: '600', marginBottom: '10px', fontSize: '13px', color: '#374151' }}>Category</h6>
                       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
                         <button
                           onClick={() => setSelectedCategory('all')}
                           style={{
-                            padding: '10px 16px',
-                            borderRadius: '20px',
-                            border: 'none',
-                            background: selectedCategory === 'all' 
-                              ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' 
-                              : 'rgba(255,255,255,0.1)',
-                            color: '#fff',
+                            padding: '8px 14px',
+                            borderRadius: '6px',
+                            border: selectedCategory === 'all' ? '1px solid #2563eb' : '1px solid #e5e7eb',
+                            background: selectedCategory === 'all' ? '#eff6ff' : '#ffffff',
+                            color: selectedCategory === 'all' ? '#2563eb' : '#6b7280',
                             fontSize: '13px',
-                            fontWeight: '600',
+                            fontWeight: '500',
                             cursor: 'pointer'
                           }}
                         >
                           All ({allProducts.length})
                         </button>
-                        {CATEGORIES.map((cat) => {
+                        {CATEGORIES.map(cat => {
                           const count = allProducts.filter(p => p.categoryId === cat.id).length;
                           return (
                             <button
                               key={cat.id}
                               onClick={() => setSelectedCategory(cat.id)}
                               style={{
-                                padding: '10px 16px',
-                                borderRadius: '20px',
-                                border: 'none',
-                                background: selectedCategory === cat.id 
-                                  ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' 
-                                  : 'rgba(255,255,255,0.1)',
-                                color: '#fff',
+                                padding: '8px 14px',
+                                borderRadius: '6px',
+                                border: selectedCategory === cat.id ? '1px solid #2563eb' : '1px solid #e5e7eb',
+                                background: selectedCategory === cat.id ? '#eff6ff' : '#ffffff',
+                                color: selectedCategory === cat.id ? '#2563eb' : '#6b7280',
                                 fontSize: '13px',
                                 fontWeight: '500',
                                 cursor: 'pointer'
@@ -542,22 +473,20 @@ export default function ShopPage() {
                       </div>
                     </div>
 
-                    {/* Price */}
-                    <div style={{ marginBottom: '18px' }}>
-                      <h6 style={{ fontWeight: '600', marginBottom: '12px', fontSize: '13px', color: '#10b981' }}>💰 Price</h6>
+                    {/* Price Range */}
+                    <div>
+                      <h6 style={{ fontWeight: '600', marginBottom: '10px', fontSize: '13px', color: '#374151' }}>Price</h6>
                       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-                        {priceRanges.map((range) => (
+                        {priceRanges.map(range => (
                           <button
                             key={range.id}
                             onClick={() => setPriceRange(range.id)}
                             style={{
-                              padding: '10px 16px',
-                              borderRadius: '20px',
-                              border: 'none',
-                              background: priceRange === range.id 
-                                ? 'linear-gradient(135deg, #10b981 0%, #059669 100%)' 
-                                : 'rgba(255,255,255,0.1)',
-                              color: '#fff',
+                              padding: '8px 14px',
+                              borderRadius: '6px',
+                              border: priceRange === range.id ? '1px solid #16a34a' : '1px solid #e5e7eb',
+                              background: priceRange === range.id ? '#f0fdf4' : '#ffffff',
+                              color: priceRange === range.id ? '#16a34a' : '#6b7280',
                               fontSize: '13px',
                               fontWeight: '500',
                               cursor: 'pointer'
@@ -569,18 +498,19 @@ export default function ShopPage() {
                       </div>
                     </div>
 
-                    {/* Clear */}
+                    {/* Clear Filters */}
                     {activeFiltersCount > 0 && (
                       <button
                         onClick={clearAllFilters}
                         style={{
+                          marginTop: '16px',
                           width: '100%',
-                          padding: '12px',
-                          borderRadius: '12px',
-                          border: 'none',
-                          background: 'linear-gradient(135deg, #f43f5e 0%, #e11d48 100%)',
-                          color: '#fff',
-                          fontSize: '14px',
+                          padding: '10px',
+                          borderRadius: '8px',
+                          border: '1px solid #fecaca',
+                          background: '#fef2f2',
+                          color: '#dc2626',
+                          fontSize: '13px',
                           fontWeight: '600',
                           cursor: 'pointer'
                         }}
@@ -594,71 +524,51 @@ export default function ShopPage() {
             </div>
 
             {/* Products Grid */}
-            <div className="col-lg-9 col-md-8">
+            <div className="col-lg-9">
               {/* Results Header */}
-              <div className="d-flex flex-wrap justify-content-between align-items-center mb-4" style={{
-                background: 'linear-gradient(145deg, #1a1a2e 0%, #16213e 100%)',
-                padding: '16px 20px',
-                borderRadius: '16px',
-                boxShadow: '0 8px 30px rgba(0,0,0,0.2)',
-                border: '1px solid rgba(255,255,255,0.1)'
+              <div style={{ 
+                display: 'flex', 
+                justifyContent: 'space-between', 
+                alignItems: 'center',
+                marginBottom: '20px'
               }}>
-                <div>
-                  <span style={{ fontWeight: '700', fontSize: '16px', color: '#fff' }}>
-                    {loading ? '⏳ Loading...' : `🔥 ${filteredProducts.length} deals found`}
-                  </span>
-                  {(selectedCategory !== 'all' || priceRange !== 'all') && (
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginTop: '8px' }}>
-                      {selectedCategory !== 'all' && (
-                        <span style={{
-                          padding: '4px 12px',
-                          borderRadius: '20px',
-                          background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.3) 0%, rgba(118, 75, 162, 0.3) 100%)',
-                          color: '#fff',
-                          fontSize: '12px',
-                          fontWeight: '500',
-                          border: '1px solid rgba(102, 126, 234, 0.5)'
-                        }}>
-                          {CATEGORIES.find(c => c.id === selectedCategory)?.name}
-                        </span>
-                      )}
-                      {priceRange !== 'all' && (
-                        <span style={{
-                          padding: '4px 12px',
-                          borderRadius: '20px',
-                          background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.3) 0%, rgba(5, 150, 105, 0.3) 100%)',
-                          color: '#fff',
-                          fontSize: '12px',
-                          fontWeight: '500',
-                          border: '1px solid rgba(16, 185, 129, 0.5)'
-                        }}>
-                          {priceRanges.find(r => r.id === priceRange)?.label}
-                        </span>
-                      )}
-                    </div>
-                  )}
-                </div>
+                <p style={{ color: '#6b7280', fontSize: '14px', margin: 0 }}>
+                  Showing <span style={{ color: '#111827', fontWeight: '600' }}>{filteredProducts.length}</span> deals
+                </p>
               </div>
 
               {/* Loading State */}
               {loading && (
                 <div style={{ 
                   textAlign: 'center', 
-                  padding: '80px 20px',
-                  background: 'linear-gradient(145deg, #1a1a2e 0%, #16213e 100%)',
-                  borderRadius: '20px',
-                  border: '1px solid rgba(255,255,255,0.1)'
+                  padding: '60px 20px',
+                  background: '#ffffff',
+                  borderRadius: '16px',
+                  border: '1px solid #e5e7eb'
                 }}>
                   <div style={{
-                    width: '60px',
-                    height: '60px',
-                    border: '4px solid rgba(102, 126, 234, 0.3)',
-                    borderTopColor: '#667eea',
-                    borderRadius: '50%',
-                    animation: 'spin 1s linear infinite',
-                    margin: '0 auto 20px'
-                  }}></div>
-                  <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '16px' }}>Loading amazing deals...</p>
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '12px',
+                    padding: '16px 32px',
+                    background: '#f8fafc',
+                    borderRadius: '12px'
+                  }}>
+                    <div style={{
+                      width: '20px',
+                      height: '20px',
+                      border: '3px solid #e5e7eb',
+                      borderTopColor: '#2563eb',
+                      borderRadius: '50%',
+                      animation: 'spin 1s linear infinite'
+                    }}></div>
+                    <span style={{ color: '#6b7280', fontWeight: '500' }}>Loading deals...</span>
+                  </div>
+                  <style>{`
+                    @keyframes spin {
+                      to { transform: rotate(360deg); }
+                    }
+                  `}</style>
                 </div>
               )}
 
@@ -667,108 +577,71 @@ export default function ShopPage() {
                 <div style={{ 
                   textAlign: 'center', 
                   padding: '60px 20px',
-                  background: 'linear-gradient(145deg, rgba(244, 63, 94, 0.1) 0%, rgba(225, 29, 72, 0.1) 100%)',
-                  borderRadius: '20px',
-                  border: '1px solid rgba(244, 63, 94, 0.3)'
+                  background: '#ffffff',
+                  borderRadius: '16px',
+                  border: '1px solid #fecaca'
                 }}>
-                  <div style={{ fontSize: '48px', marginBottom: '15px' }}>😢</div>
-                  <h6 style={{ color: '#fff', marginBottom: '10px' }}>Something went wrong</h6>
-                  <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '14px' }}>Could not load deals. Please try again.</p>
-                </div>
-              )}
-
-              {/* Product Grid */}
-              {!loading && filteredProducts.length > 0 && (
-                <div className="row g-4">
-                  {filteredProducts.map((product) => (
-                    <div key={product.id} className="col-xl-4 col-lg-6 col-md-12 col-sm-6 col-6">
-                      <AffiliateProductCard product={product} variant="grid" />
-                    </div>
-                  ))}
+                  <p style={{ color: '#dc2626', fontSize: '16px', marginBottom: '12px' }}>⚠️ Failed to load deals</p>
+                  <button 
+                    onClick={() => window.location.reload()}
+                    style={{
+                      background: '#2563eb',
+                      color: '#fff',
+                      border: 'none',
+                      padding: '12px 24px',
+                      borderRadius: '8px',
+                      fontWeight: '600',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    Try Again
+                  </button>
                 </div>
               )}
 
               {/* Empty State */}
-              {!loading && filteredProducts.length === 0 && !error && (
+              {!loading && !error && filteredProducts.length === 0 && (
                 <div style={{ 
                   textAlign: 'center', 
-                  padding: '80px 20px',
-                  background: 'linear-gradient(145deg, #1a1a2e 0%, #16213e 100%)',
-                  borderRadius: '20px',
-                  border: '1px solid rgba(255,255,255,0.1)'
+                  padding: '60px 20px',
+                  background: '#ffffff',
+                  borderRadius: '16px',
+                  border: '1px solid #e5e7eb'
                 }}>
-                  <div style={{ fontSize: '64px', marginBottom: '20px' }}>🔍</div>
-                  <h5 style={{ color: '#fff', marginBottom: '10px' }}>No deals found</h5>
-                  <p style={{ color: 'rgba(255,255,255,0.6)', marginBottom: '25px', fontSize: '15px' }}>
-                    Try adjusting your filters to see more deals
-                  </p>
+                  <div style={{ fontSize: '48px', marginBottom: '16px' }}>🔍</div>
+                  <h5 style={{ color: '#111827', marginBottom: '8px', fontWeight: '600' }}>No deals found</h5>
+                  <p style={{ color: '#6b7280', marginBottom: '20px' }}>Try adjusting your filters</p>
                   <button 
                     onClick={clearAllFilters}
                     style={{
-                      padding: '14px 35px',
-                      borderRadius: '12px',
-                      border: 'none',
-                      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                      background: '#2563eb',
                       color: '#fff',
+                      border: 'none',
+                      padding: '12px 24px',
+                      borderRadius: '8px',
                       fontWeight: '600',
-                      cursor: 'pointer',
-                      fontSize: '15px',
-                      boxShadow: '0 8px 25px rgba(102, 126, 234, 0.4)'
+                      cursor: 'pointer'
                     }}
                   >
-                    Clear All Filters
+                    Clear Filters
                   </button>
+                </div>
+              )}
+
+              {/* Products Grid */}
+              {!loading && !error && filteredProducts.length > 0 && (
+                <div className="row g-4">
+                  {filteredProducts.map((product) => (
+                    <div key={product.id} className="col-lg-4 col-md-6 col-sm-6">
+                      <AffiliateProductCard product={product} />
+                    </div>
+                  ))}
                 </div>
               )}
             </div>
           </div>
         </div>
       </section>
-
-      {/* CTA Section */}
-      <section style={{ 
-        background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%)',
-        padding: '60px 0',
-        borderTop: '1px solid rgba(255,255,255,0.1)'
-      }}>
-        <div className="container text-center">
-          <h4 style={{ 
-            color: '#fff', 
-            marginBottom: '15px', 
-            fontWeight: '700',
-            fontSize: 'clamp(1.3rem, 3vw, 1.8rem)'
-          }}>
-            🤔 Can't find what you're looking for?
-          </h4>
-          <p style={{ color: 'rgba(255,255,255,0.7)', marginBottom: '25px', fontSize: '16px' }}>
-            Contact us and we'll help you find the best deal!
-          </p>
-          <Link to="/contact" style={{
-            padding: '16px 40px',
-            borderRadius: '14px',
-            background: 'linear-gradient(135deg, #f43f5e 0%, #e11d48 100%)',
-            color: '#fff',
-            fontWeight: '700',
-            textDecoration: 'none',
-            display: 'inline-block',
-            fontSize: '16px',
-            boxShadow: '0 10px 30px rgba(244, 63, 94, 0.4)',
-            transition: 'all 0.3s ease'
-          }}>
-            📧 Contact Us
-          </Link>
-        </div>
-      </section>
-      
-      <style>{`
-        @keyframes spin {
-          to { transform: rotate(360deg); }
-        }
-        @keyframes float {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-20px); }
-        }
-      `}</style>
     </div>
   );
 }
