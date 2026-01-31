@@ -25,10 +25,23 @@ export default async function AdminDashboard() {
     adminClient.from('blogs').select('id, published'),
   ]);
 
+  // Log for debugging
+  console.log('Products response:', JSON.stringify(productsRes, null, 2));
+  console.log('Blogs response:', JSON.stringify(blogsRes, null, 2));
+
+  if (productsRes.error) {
+    console.error('Error fetching products:', productsRes.error);
+  }
+  if (blogsRes.error) {
+    console.error('Error fetching blogs:', blogsRes.error);
+  }
+
   const totalProducts = productsRes.data?.length ?? 0;
   const activeProducts = productsRes.data?.filter(p => p.is_active).length ?? 0;
   const totalBlogs = blogsRes.data?.length ?? 0;
   const publishedBlogs = blogsRes.data?.filter(b => b.published).length ?? 0;
+  
+  console.log('Stats:', { totalProducts, activeProducts, totalBlogs, publishedBlogs });
 
   const stats = [
     { 
