@@ -37,3 +37,10 @@ coverage/
 # Misc
 *.log
 .vercel
+
+# Large files
+*.mp4
+*.mp3
+*.zip
+*.rar
+banner-1.jpg
