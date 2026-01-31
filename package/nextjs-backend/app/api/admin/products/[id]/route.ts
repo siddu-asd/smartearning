@@ -25,32 +25,46 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
     const { id } = await params;
     const body: Partial<ProductInput> = await request.json();
 
+    console.log('Updating product:', id, body);
+
     const supabase = createAdminClient();
+
+    // Build update object - only include fields that are provided
+    const updateData: Record<string, unknown> = {};
+    if (body.title !== undefined) updateData.title = body.title;
+    if (body.slug !== undefined) updateData.slug = body.slug;
+    if (body.category !== undefined) updateData.category = body.category;
+    if (body.image_url !== undefined) updateData.image_url = body.image_url;
+    if (body.affiliate_link !== undefined) updateData.affiliate_link = body.affiliate_link;
+    if (body.is_active !== undefined) updateData.is_active = body.is_active;
+    if (body.mrp !== undefined) updateData.mrp = body.mrp ? Number(body.mrp) : null;
+    if (body.discounted_price !== undefined) updateData.discounted_price = body.discounted_price ? Number(body.discounted_price) : null;
+
+    console.log('Update data:', updateData);
 
     const { data, error } = await supabase
       .from('product')
-      .update({
-        ...(body.title && { title: body.title }),
-        ...(body.slug && { slug: body.slug }),
-        ...(body.category && { category: body.category }),
-        ...(body.image_url && { image_url: body.image_url }),
-        ...(body.affiliate_link && { affiliate_link: body.affiliate_link }),
-        ...(body.is_active !== undefined && { is_active: body.is_active }),
-        ...(body.mrp !== undefined && { mrp: body.mrp ? Number(body.mrp) : null }),
-        ...(body.discounted_price !== undefined && { discounted_price: body.discounted_price ? Number(body.discounted_price) : null }),
-      })
+      .update(updateData)
       .eq('id', id)
       .select()
       .single();
 
     if (error) {
-      console.error('Error updating product:', error);
+      console.error('Error updating product:', error.message, error.code, error.details);
       return NextResponse.json(
-        { success: false, error: 'Failed to update product' },
+        { success: false, error: `Failed to update product: ${error.message}` },
         { status: 500 }
       );
     }
 
+    if (!data) {
+      return NextResponse.json(
+        { success: false, error: 'Product not found' },
+        { status: 404 }
+      );
+    }
+
+    console.log('Product updated successfully:', data);
     return NextResponse.json({ success: true, data });
   } catch (error) {
     console.error('Admin product update error:', error);

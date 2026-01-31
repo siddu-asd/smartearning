@@ -105,17 +105,19 @@ export default function EditProductPage() {
       const response = await fetch(`/api/admin/products/${productId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify(formData),
       });
 
       const result = await response.json();
 
-      if (response.ok) {
+      if (response.ok && result.success) {
         router.push('/admin/products');
       } else {
         setError(result.error || 'Failed to update product');
       }
-    } catch {
+    } catch (err) {
+      console.error('Update error:', err);
       setError('Failed to update product');
     } finally {
       setSaving(false);
