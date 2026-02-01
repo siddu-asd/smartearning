@@ -228,23 +228,14 @@ export default function ShopPage() {
                     <button 
                       onClick={clearAllFilters} 
                       style={{ 
-                        background: 'transparent',
-                        border: `1px solid ${COLORS.primary}`,
-                        color: COLORS.primary, 
+                        background: COLORS.primary,
+                        border: 'none',
+                        color: COLORS.white, 
                         fontSize: '12px', 
                         cursor: 'pointer', 
                         fontWeight: '600', 
                         padding: '6px 14px', 
                         borderRadius: '8px',
-                        transition: 'all 0.2s ease'
-                      }}
-                      onMouseOver={(e) => {
-                        e.currentTarget.style.background = COLORS.primary;
-                        e.currentTarget.style.color = COLORS.white;
-                      }}
-                      onMouseOut={(e) => {
-                        e.currentTarget.style.background = 'transparent';
-                        e.currentTarget.style.color = COLORS.primary;
                       }}
                     >
                       Clear All

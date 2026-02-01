@@ -182,22 +182,9 @@ export default function BlogListPage() {
                   cursor: 'pointer',
                   fontWeight: '500',
                   fontSize: '14px',
-                  transition: 'all 0.2s ease',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '8px'
-                }}
-                onMouseEnter={(e) => {
-                  if (selectedCategory !== cat.id) {
-                    e.currentTarget.style.borderColor = COLORS.primary;
-                    e.currentTarget.style.color = COLORS.primary;
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (selectedCategory !== cat.id) {
-                    e.currentTarget.style.borderColor = COLORS.border;
-                    e.currentTarget.style.color = COLORS.dark;
-                  }
                 }}
               >
                 {cat.name}
@@ -309,13 +296,6 @@ export default function BlogListPage() {
                   fontWeight: '600',
                   fontSize: '14px',
                   cursor: 'pointer',
-                  transition: 'all 0.2s ease'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = '#1D4ED8';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = COLORS.primary;
                 }}
               >
                 View All Articles
@@ -344,19 +324,9 @@ function BlogCard({ blog }: { blog: BlogPost }) {
       overflow: 'hidden',
       border: `1px solid ${COLORS.border}`,
       height: '100%',
-      transition: 'all 0.3s ease',
+      boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
       display: 'flex',
       flexDirection: 'column'
-    }}
-    onMouseEnter={(e) => {
-      e.currentTarget.style.transform = 'translateY(-4px)';
-      e.currentTarget.style.boxShadow = '0 12px 24px rgba(0,0,0,0.08)';
-      e.currentTarget.style.borderColor = COLORS.primary;
-    }}
-    onMouseLeave={(e) => {
-      e.currentTarget.style.transform = 'translateY(0)';
-      e.currentTarget.style.boxShadow = 'none';
-      e.currentTarget.style.borderColor = COLORS.border;
     }}
     >
       {/* Image */}
@@ -365,7 +335,10 @@ function BlogCard({ blog }: { blog: BlogPost }) {
           overflow: 'hidden', 
           background: COLORS.lightBg,
           height: '200px',
-          position: 'relative'
+          position: 'relative',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
         }}>
           <img 
             src={blog.featuredImage} 
@@ -373,14 +346,8 @@ function BlogCard({ blog }: { blog: BlogPost }) {
             style={{ 
               width: '100%',
               height: '100%', 
-              objectFit: 'cover',
-              transition: 'transform 0.3s ease'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'scale(1.05)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'scale(1)';
+              objectFit: 'contain',
+              padding: '16px'
             }}
           />
         </div>
@@ -436,10 +403,7 @@ function BlogCard({ blog }: { blog: BlogPost }) {
               WebkitLineClamp: 2,
               WebkitBoxOrient: 'vertical',
               overflow: 'hidden',
-              transition: 'color 0.2s ease'
             }}
-            onMouseEnter={(e) => e.currentTarget.style.color = COLORS.primary}
-            onMouseLeave={(e) => e.currentTarget.style.color = COLORS.dark}
           >
             {blog.title}
           </Link>
@@ -471,13 +435,6 @@ function BlogCard({ blog }: { blog: BlogPost }) {
             display: 'inline-flex',
             alignItems: 'center',
             gap: '6px',
-            transition: 'gap 0.2s ease'
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.gap = '10px';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.gap = '6px';
           }}
         >
           Read More 

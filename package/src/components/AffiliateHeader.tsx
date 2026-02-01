@@ -145,24 +145,8 @@ export default function AffiliateHeader() {
                         textDecoration: 'none',
                         borderRadius: '8px',
                         position: 'relative',
-                        transition: 'all 0.2s ease',
                         background: isActive ? `${colors.primary}10` : 'transparent',
                       })}
-                      onMouseEnter={(e) => {
-                        const target = e.currentTarget;
-                        if (!target.classList.contains('active')) {
-                          target.style.color = colors.primary;
-                          target.style.background = `${colors.primary}08`;
-                        }
-                      }}
-                      onMouseLeave={(e) => {
-                        const target = e.currentTarget;
-                        const isActive = location.pathname === link.path;
-                        if (!isActive) {
-                          target.style.color = colors.dark;
-                          target.style.background = 'transparent';
-                        }
-                      }}
                     >
                       {link.name}
                     </NavLink>
@@ -195,15 +179,6 @@ export default function AffiliateHeader() {
                   textDecoration: 'none',
                   borderRadius: '8px',
                   boxShadow: '0 4px 14px rgba(37, 99, 235, 0.25)',
-                  transition: 'all 0.2s ease',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-2px)';
-                  e.currentTarget.style.boxShadow = '0 6px 20px rgba(37, 99, 235, 0.35)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 4px 14px rgba(37, 99, 235, 0.25)';
                 }}
               >
                 Get Started

@@ -430,16 +430,7 @@ function QuickViewModal({ product, isOpen, onClose }: QuickViewModalProps) {
                 fontWeight: 600,
                 borderRadius: '12px',
                 textDecoration: 'none',
-                transition: 'all 0.3s ease',
                 boxShadow: '0 4px 14px rgba(37, 99, 235, 0.4)',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-2px)';
-                e.currentTarget.style.boxShadow = '0 6px 20px rgba(37, 99, 235, 0.5)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = '0 4px 14px rgba(37, 99, 235, 0.4)';
               }}
             >
               <span>{product.buttonText || 'Buy Now'}</span>
@@ -458,7 +449,6 @@ function QuickViewModal({ product, isOpen, onClose }: QuickViewModalProps) {
 // MAIN PRODUCT CARD COMPONENT
 // ============================================
 export default function AffiliateProductCard({ product, variant = 'grid', index }: AffiliateProductCardProps) {
-  const [isHovered, setIsHovered] = useState(false);
   const [showQuickView, setShowQuickView] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
 
@@ -477,20 +467,14 @@ export default function AffiliateProductCard({ product, variant = 'grid', index 
     return (
       <>
         <div
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
           style={{
             display: 'flex',
             gap: '20px',
             background: COLORS.white,
             borderRadius: '12px',
-            border: `1px solid ${isHovered ? COLORS.primary : COLORS.border}`,
+            border: `1px solid ${COLORS.border}`,
             padding: '16px',
-            transition: 'all 0.3s ease',
-            boxShadow: isHovered 
-              ? '0 10px 30px rgba(37, 99, 235, 0.15)' 
-              : '0 1px 3px rgba(0, 0, 0, 0.05)',
-            transform: isHovered ? 'translateY(-2px)' : 'translateY(0)',
+            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.05)',
             animation: 'fadeInUp 0.5s ease forwards',
             animationDelay,
             opacity: 0,
@@ -541,8 +525,7 @@ export default function AffiliateProductCard({ product, variant = 'grid', index 
                 maxHeight: '90%',
                 objectFit: 'contain',
                 opacity: imageLoaded ? 1 : 0,
-                transition: 'opacity 0.3s ease, transform 0.3s ease',
-                transform: isHovered ? 'scale(1.05)' : 'scale(1)',
+                transition: 'opacity 0.3s ease',
               }}
             />
           </div>
@@ -559,10 +542,7 @@ export default function AffiliateProductCard({ product, variant = 'grid', index 
                 color: COLORS.dark,
                 lineHeight: 1.4,
                 cursor: 'pointer',
-                transition: 'color 0.2s ease',
               }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = COLORS.primary)}
-              onMouseLeave={(e) => (e.currentTarget.style.color = COLORS.dark)}
             >
               {product.name}
             </h3>
@@ -629,17 +609,8 @@ export default function AffiliateProductCard({ product, variant = 'grid', index 
                   fontWeight: 600,
                   borderRadius: '8px',
                   textDecoration: 'none',
-                  transition: 'all 0.3s ease',
                   boxShadow: '0 2px 8px rgba(37, 99, 235, 0.3)',
                   whiteSpace: 'nowrap',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(37, 99, 235, 0.4)';
-                  e.currentTarget.style.transform = 'translateY(-1px)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.boxShadow = '0 2px 8px rgba(37, 99, 235, 0.3)';
-                  e.currentTarget.style.transform = 'translateY(0)';
                 }}
               >
                 Get Deal
@@ -677,20 +648,14 @@ export default function AffiliateProductCard({ product, variant = 'grid', index 
   return (
     <>
       <div
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
         style={{
           display: 'flex',
           flexDirection: 'column',
           background: COLORS.white,
           borderRadius: '12px',
-          border: `1px solid ${isHovered ? COLORS.primary : COLORS.border}`,
+          border: `1px solid ${COLORS.border}`,
           overflow: 'hidden',
-          transition: 'all 0.3s ease',
-          boxShadow: isHovered 
-            ? '0 12px 40px rgba(37, 99, 235, 0.15)' 
-            : '0 1px 3px rgba(0, 0, 0, 0.05)',
-          transform: isHovered ? 'translateY(-4px)' : 'translateY(0)',
+          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.05)',
           height: '100%',
           animation: 'fadeInUp 0.5s ease forwards',
           animationDelay,
@@ -732,67 +697,20 @@ export default function AffiliateProductCard({ product, variant = 'grid', index 
             </div>
           )}
 
-          {/* Quick View Button on Hover */}
-          <div
-            style={{
-              position: 'absolute',
-              bottom: '12px',
-              left: '50%',
-              transform: `translateX(-50%) translateY(${isHovered ? '0' : '20px'})`,
-              opacity: isHovered ? 1 : 0,
-              transition: 'all 0.3s ease',
-              zIndex: 2,
-            }}
-          >
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                setShowQuickView(true);
-              }}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px',
-                padding: '8px 16px',
-                background: 'rgba(255, 255, 255, 0.95)',
-                border: 'none',
-                borderRadius: '20px',
-                fontSize: '13px',
-                fontWeight: 600,
-                color: COLORS.dark,
-                cursor: 'pointer',
-                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
-                transition: 'all 0.2s ease',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = COLORS.primary;
-                e.currentTarget.style.color = COLORS.white;
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.95)';
-                e.currentTarget.style.color = COLORS.dark;
-              }}
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <circle cx="11" cy="11" r="8" />
-                <path d="M21 21l-4.35-4.35" />
-              </svg>
-              Quick View
-            </button>
-          </div>
-
           {/* Product Image */}
           <img
             src={productImage}
             alt={product.name}
+            onClick={() => setShowQuickView(true)}
             onLoad={() => setImageLoaded(true)}
             style={{
-              maxWidth: '80%',
-              maxHeight: '80%',
+              width: '100%',
+              height: '100%',
               objectFit: 'contain',
+              padding: '16px',
               opacity: imageLoaded ? 1 : 0,
-              transition: 'all 0.4s ease',
-              transform: isHovered ? 'scale(1.08)' : 'scale(1)',
+              transition: 'opacity 0.3s ease',
+              cursor: 'pointer',
             }}
           />
         </div>
@@ -822,10 +740,7 @@ export default function AffiliateProductCard({ product, variant = 'grid', index 
               WebkitBoxOrient: 'vertical',
               overflow: 'hidden',
               minHeight: '42px',
-              transition: 'color 0.2s ease',
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = COLORS.primary)}
-            onMouseLeave={(e) => (e.currentTarget.style.color = COLORS.dark)}
           >
             {truncateName(product.name)}
           </h3>
@@ -885,16 +800,7 @@ export default function AffiliateProductCard({ product, variant = 'grid', index 
               fontWeight: 600,
               borderRadius: '10px',
               textDecoration: 'none',
-              transition: 'all 0.3s ease',
               boxShadow: '0 2px 8px rgba(37, 99, 235, 0.3)',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.boxShadow = '0 4px 16px rgba(37, 99, 235, 0.45)';
-              e.currentTarget.style.transform = 'translateY(-1px)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.boxShadow = '0 2px 8px rgba(37, 99, 235, 0.3)';
-              e.currentTarget.style.transform = 'translateY(0)';
             }}
           >
             <span>Get Deal</span>
@@ -930,7 +836,6 @@ export default function AffiliateProductCard({ product, variant = 'grid', index 
 // ============================================
 export function FeaturedProductCard({ product }: { product: AffiliateProduct }) {
   const [showQuickView, setShowQuickView] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
 
   const hasDiscount = product.mrp && product.discountedPrice && product.mrp > product.discountedPrice;
@@ -944,19 +849,13 @@ export function FeaturedProductCard({ product }: { product: AffiliateProduct }) 
           background: COLORS.white,
           borderRadius: '16px',
           overflow: 'hidden',
-          border: `1px solid ${isHovered ? COLORS.primary : COLORS.border}`,
-          boxShadow: isHovered 
-            ? '0 16px 48px rgba(37, 99, 235, 0.18)' 
-            : '0 2px 8px rgba(0, 0, 0, 0.05)',
-          transition: 'all 0.3s ease',
+          border: `1px solid ${COLORS.border}`,
+          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.05)',
           height: '100%',
           display: 'flex',
           flexDirection: 'column',
           cursor: 'pointer',
-          transform: isHovered ? 'translateY(-6px)' : 'translateY(0)',
         }}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
         onClick={() => setShowQuickView(true)}
       >
         {/* Image Section */}
@@ -997,9 +896,8 @@ export function FeaturedProductCard({ product }: { product: AffiliateProduct }) 
               maxHeight: '180px',
               maxWidth: '100%',
               objectFit: 'contain',
-              transform: isHovered ? 'scale(1.08)' : 'scale(1)',
-              transition: 'all 0.4s ease',
               opacity: imageLoaded ? 1 : 0,
+              transition: 'opacity 0.3s ease',
             }}
           />
         </div>
@@ -1064,10 +962,7 @@ export function FeaturedProductCard({ product }: { product: AffiliateProduct }) 
               fontSize: '15px',
               fontWeight: 600,
               borderRadius: '12px',
-              transition: 'all 0.3s ease',
-              boxShadow: isHovered
-                ? '0 6px 20px rgba(37, 99, 235, 0.45)'
-                : '0 3px 12px rgba(37, 99, 235, 0.3)',
+              boxShadow: '0 3px 12px rgba(37, 99, 235, 0.3)',
             }}
           >
             <span>View Deal</span>

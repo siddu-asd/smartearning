@@ -99,31 +99,57 @@ const Home2 = () => {
 
   return (
     <div style={{ background: COLORS.white, minHeight: '100vh' }}>
-      {/* Hero Section */}
+      {/* Hero Section - Enhanced */}
       <section style={{
-        background: COLORS.gradient,
-        padding: '100px 0 120px',
+        background: 'linear-gradient(135deg, #1E3A8A 0%, #3B82F6 50%, #8B5CF6 100%)',
+        padding: '80px 0 100px',
         position: 'relative',
         overflow: 'hidden',
       }}>
-        {/* Background decoration */}
+        {/* Animated background elements */}
         <div style={{
           position: 'absolute',
-          top: '-50%',
-          right: '-10%',
-          width: '600px',
-          height: '600px',
+          top: '0',
+          left: '0',
+          right: '0',
+          bottom: '0',
+          backgroundImage: `
+            radial-gradient(circle at 20% 80%, rgba(255,255,255,0.1) 0%, transparent 50%),
+            radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 40%),
+            radial-gradient(circle at 40% 40%, rgba(255,255,255,0.05) 0%, transparent 30%)
+          `,
+          pointerEvents: 'none',
+        }} />
+        
+        {/* Floating shapes */}
+        <div style={{
+          position: 'absolute',
+          top: '10%',
+          right: '5%',
+          width: '120px',
+          height: '120px',
           background: 'rgba(255,255,255,0.1)',
+          borderRadius: '24px',
+          transform: 'rotate(15deg)',
+        }} />
+        <div style={{
+          position: 'absolute',
+          bottom: '15%',
+          left: '3%',
+          width: '80px',
+          height: '80px',
+          background: 'rgba(255,255,255,0.08)',
           borderRadius: '50%',
         }} />
         <div style={{
           position: 'absolute',
-          bottom: '-30%',
-          left: '-5%',
-          width: '400px',
-          height: '400px',
-          background: 'rgba(255,255,255,0.05)',
-          borderRadius: '50%',
+          top: '50%',
+          right: '15%',
+          width: '60px',
+          height: '60px',
+          border: '3px solid rgba(255,255,255,0.15)',
+          borderRadius: '12px',
+          transform: 'rotate(-10deg)',
         }} />
         
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
@@ -134,31 +160,44 @@ const Home2 = () => {
                 transform: isVisible ? 'translateY(0)' : 'translateY(30px)',
                 transition: 'all 0.8s ease',
               }}>
-                <span style={{
-                  display: 'inline-block',
-                  background: 'rgba(255,255,255,0.2)',
+                {/* Badge */}
+                <div style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  background: 'rgba(255,255,255,0.15)',
+                  backdropFilter: 'blur(10px)',
                   color: COLORS.white,
-                  padding: '8px 20px',
+                  padding: '10px 20px',
                   borderRadius: '50px',
                   fontSize: '14px',
                   fontWeight: '600',
-                  marginBottom: '24px',
-                  backdropFilter: 'blur(10px)',
+                  marginBottom: '28px',
+                  border: '1px solid rgba(255,255,255,0.2)',
                 }}>
+                  <span style={{ 
+                    background: '#FBBF24', 
+                    color: '#1E3A8A', 
+                    padding: '2px 8px', 
+                    borderRadius: '4px',
+                    fontSize: '11px',
+                    fontWeight: '700',
+                  }}>NEW</span>
                   🔥 Exclusive Student Deals
-                </span>
+                </div>
                 
                 <h1 style={{
-                  fontSize: 'clamp(2.5rem, 5vw, 4rem)',
+                  fontSize: 'clamp(2.5rem, 5vw, 3.5rem)',
                   fontWeight: '800',
                   color: COLORS.white,
-                  lineHeight: '1.1',
+                  lineHeight: '1.15',
                   marginBottom: '24px',
+                  letterSpacing: '-0.02em',
                 }}>
                   Smart Savings for
                   <br />
                   <span style={{
-                    background: 'linear-gradient(90deg, #FEF3C7 0%, #FDE68A 100%)',
+                    background: 'linear-gradient(90deg, #FDE68A 0%, #FBBF24 50%, #F59E0B 100%)',
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
                     backgroundClip: 'text',
@@ -172,11 +211,40 @@ const Home2 = () => {
                   color: 'rgba(255,255,255,0.9)',
                   lineHeight: '1.7',
                   marginBottom: '32px',
-                  maxWidth: '500px',
+                  maxWidth: '480px',
                 }}>
                   Discover handpicked deals on laptops, gadgets, and essentials. 
-                  Save up to 70% on top brands with our verified affiliate offers.
+                  Save up to <strong style={{ color: '#FDE68A' }}>70% OFF</strong> on top brands with our verified affiliate offers.
                 </p>
+                
+                {/* Stats row */}
+                <div style={{
+                  display: 'flex',
+                  gap: '32px',
+                  marginBottom: '36px',
+                  flexWrap: 'wrap',
+                }}>
+                  {[
+                    { number: '10K+', label: 'Happy Users' },
+                    { number: '5K+', label: 'Products' },
+                    { number: '70%', label: 'Max Savings' },
+                  ].map((stat, i) => (
+                    <div key={i}>
+                      <div style={{
+                        fontSize: '28px',
+                        fontWeight: '800',
+                        color: '#FDE68A',
+                        lineHeight: '1',
+                        marginBottom: '4px',
+                      }}>{stat.number}</div>
+                      <div style={{
+                        fontSize: '13px',
+                        color: 'rgba(255,255,255,0.7)',
+                        fontWeight: '500',
+                      }}>{stat.label}</div>
+                    </div>
+                  ))}
+                </div>
                 
                 <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
                   <Link 
@@ -193,15 +261,6 @@ const Home2 = () => {
                       fontSize: '16px',
                       textDecoration: 'none',
                       boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
-                      transition: 'all 0.3s ease',
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = 'translateY(-2px)';
-                      e.currentTarget.style.boxShadow = '0 8px 30px rgba(0,0,0,0.2)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = 'translateY(0)';
-                      e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.15)';
                     }}
                   >
                     Shop Now
@@ -216,7 +275,7 @@ const Home2 = () => {
                       display: 'inline-flex',
                       alignItems: 'center',
                       gap: '8px',
-                      background: 'transparent',
+                      background: 'rgba(255,255,255,0.1)',
                       color: COLORS.white,
                       padding: '16px 32px',
                       borderRadius: '12px',
@@ -224,15 +283,6 @@ const Home2 = () => {
                       fontSize: '16px',
                       textDecoration: 'none',
                       border: '2px solid rgba(255,255,255,0.4)',
-                      transition: 'all 0.3s ease',
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.background = 'rgba(255,255,255,0.1)';
-                      e.currentTarget.style.borderColor = 'rgba(255,255,255,0.6)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.background = 'transparent';
-                      e.currentTarget.style.borderColor = 'rgba(255,255,255,0.4)';
                     }}
                   >
                     View All Deals
@@ -247,15 +297,29 @@ const Home2 = () => {
                 transform: isVisible ? 'translateX(0)' : 'translateX(50px)',
                 transition: 'all 0.8s ease 0.2s',
                 textAlign: 'center',
+                position: 'relative',
               }}>
+                {/* Decorative ring behind image */}
+                <div style={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  width: '90%',
+                  height: '90%',
+                  border: '3px dashed rgba(255,255,255,0.2)',
+                  borderRadius: '50%',
+                }} />
                 <img 
                   src={IMAGES.HeroSectionImage}
                   alt="Hero"
                   style={{
                     maxWidth: '100%',
                     height: 'auto',
-                    filter: 'drop-shadow(0 30px 60px rgba(0,0,0,0.3))',
+                    filter: 'drop-shadow(0 40px 80px rgba(0,0,0,0.35))',
                     borderRadius: '24px',
+                    position: 'relative',
+                    zIndex: 1,
                   }}
                 />
               </div>
@@ -383,18 +447,11 @@ const Home2 = () => {
                     borderRadius: '20px',
                     overflow: 'hidden',
                     position: 'relative',
-                    transition: 'all 0.4s ease',
+                    boxShadow: '0 4px 15px rgba(0,0,0,0.06)',
                     opacity: isVisible ? 1 : 0,
                     transform: isVisible ? 'translateY(0)' : 'translateY(30px)',
+                    transition: 'opacity 0.4s ease, transform 0.4s ease',
                     transitionDelay: `${index * 0.1}s`,
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = 'translateY(-8px)';
-                    e.currentTarget.style.boxShadow = '0 20px 40px rgba(0,0,0,0.12)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.boxShadow = 'none';
                   }}
                 >
                   <div style={{
@@ -454,7 +511,6 @@ const Home2 = () => {
                           maxWidth: '100%',
                           maxHeight: '100%',
                           objectFit: 'contain',
-                          transition: 'transform 0.4s ease',
                         }}
                       />
                     </div>
@@ -510,23 +566,14 @@ const Home2 = () => {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '8px',
-                background: COLORS.white,
-                color: COLORS.primary,
+                background: COLORS.primary,
+                color: COLORS.white,
                 padding: '14px 28px',
                 borderRadius: '12px',
                 fontWeight: '600',
                 fontSize: '15px',
                 textDecoration: 'none',
-                boxShadow: '0 4px 15px rgba(0,0,0,0.08)',
-                transition: 'all 0.3s ease',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = COLORS.primary;
-                e.currentTarget.style.color = COLORS.white;
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = COLORS.white;
-                e.currentTarget.style.color = COLORS.primary;
+                boxShadow: '0 4px 15px rgba(37,99,235,0.25)',
               }}
             >
               View All
@@ -643,20 +690,11 @@ const Home2 = () => {
                     padding: '32px 24px',
                     height: '100%',
                     border: `1px solid ${COLORS.grayMedium}`,
-                    transition: 'all 0.4s ease',
+                    boxShadow: '0 4px 15px rgba(0,0,0,0.05)',
                     opacity: isVisible ? 1 : 0,
                     transform: isVisible ? 'translateY(0)' : 'translateY(30px)',
+                    transition: 'opacity 0.4s ease, transform 0.4s ease',
                     transitionDelay: `${index * 0.1}s`,
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = 'translateY(-8px)';
-                    e.currentTarget.style.boxShadow = '0 20px 40px rgba(0,0,0,0.08)';
-                    e.currentTarget.style.borderColor = COLORS.primary;
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.boxShadow = 'none';
-                    e.currentTarget.style.borderColor = COLORS.grayMedium;
                   }}
                 >
                   <div style={{
@@ -766,15 +804,6 @@ const Home2 = () => {
                   fontSize: '16px',
                   textDecoration: 'none',
                   boxShadow: '0 8px 30px rgba(0,0,0,0.2)',
-                  transition: 'all 0.3s ease',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-3px)';
-                  e.currentTarget.style.boxShadow = '0 12px 40px rgba(0,0,0,0.25)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 8px 30px rgba(0,0,0,0.2)';
                 }}
               >
                 Browse All Deals
@@ -789,7 +818,7 @@ const Home2 = () => {
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '10px',
-                  background: 'transparent',
+                  background: 'rgba(255,255,255,0.15)',
                   color: COLORS.white,
                   padding: '18px 36px',
                   borderRadius: '14px',
@@ -797,15 +826,6 @@ const Home2 = () => {
                   fontSize: '16px',
                   textDecoration: 'none',
                   border: '2px solid rgba(255,255,255,0.4)',
-                  transition: 'all 0.3s ease',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = 'rgba(255,255,255,0.15)';
-                  e.currentTarget.style.borderColor = 'rgba(255,255,255,0.6)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = 'transparent';
-                  e.currentTarget.style.borderColor = 'rgba(255,255,255,0.4)';
                 }}
               >
                 Learn More
