@@ -8,6 +8,7 @@
     "build:frontend": "cd .. && npm install --include=dev --legacy-peer-deps && npm run build",
     "copy:frontend": "node scripts/copy-frontend.js",
     "build": "npm run build:frontend && npm run copy:frontend && next build",
+    "prebuild": "cd .. && npm run build && cd nextjs-backend && npm run copy:frontend"
     "start": "next start",
     "lint": "next lint"
   },
