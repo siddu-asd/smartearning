@@ -1,21 +1,15 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
-// Create a single supabase client for the frontend
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+// Hardcoded Supabase credentials (same as in lib/supabase/client.ts)
+const SUPABASE_URL = 'https://isseiuhezyxyuawtbajk.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imlzc2VpdWhlenl4eXVhd3RiYWprIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk3MDA3MDIsImV4cCI6MjA4NTI3NjcwMn0.HLwNG4v0VQjJVaNHAIV0AhuTj3ZNjRnYPHBzJqHuICE';
 
-// Only create client if env vars are available
+// Create a single supabase client
 let supabase: SupabaseClient | null = null;
 
-function getSupabaseClient(): SupabaseClient | null {
+function getSupabaseClient(): SupabaseClient {
   if (supabase) return supabase;
-  
-  if (!supabaseUrl || !supabaseAnonKey) {
-    console.warn('Supabase environment variables not set');
-    return null;
-  }
-  
-  supabase = createClient(supabaseUrl, supabaseAnonKey);
+  supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
   return supabase;
 }
 
@@ -50,7 +44,6 @@ export interface Blog {
 // Fetch all products
 export async function getProducts(): Promise<Product[]> {
   const client = getSupabaseClient();
-  if (!client) return [];
   
   const { data, error } = await client
     .from('product')
@@ -68,7 +61,6 @@ export async function getProducts(): Promise<Product[]> {
 // Fetch single product by slug
 export async function getProductBySlug(slug: string): Promise<Product | null> {
   const client = getSupabaseClient();
-  if (!client) return null;
   
   const { data, error } = await client
     .from('product')
@@ -87,7 +79,6 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
 // Fetch all blogs
 export async function getBlogs(): Promise<Blog[]> {
   const client = getSupabaseClient();
-  if (!client) return [];
   
   const { data, error } = await client
     .from('blogs')
@@ -105,7 +96,6 @@ export async function getBlogs(): Promise<Blog[]> {
 // Fetch single blog by slug
 export async function getBlogBySlug(slug: string): Promise<Blog | null> {
   const client = getSupabaseClient();
-  if (!client) return null;
   
   const { data, error } = await client
     .from('blogs')
