@@ -1,4 +1,12 @@
 {
+  "/(main)/about/page": "app/(main)/about/page.js",
+  "/(main)/blog/[slug]/page": "app/(main)/blog/[slug]/page.js",
+  "/(main)/blog/page": "app/(main)/blog/page.js",
+  "/(main)/contact/page": "app/(main)/contact/page.js",
+  "/(main)/deals/[categorySlug]/page": "app/(main)/deals/[categorySlug]/page.js",
+  "/(main)/deals/page": "app/(main)/deals/page.js",
+  "/(main)/page": "app/(main)/page.js",
+  "/(main)/product/[slug]/page": "app/(main)/product/[slug]/page.js",
   "/_global-error/page": "app/_global-error/page.js",
   "/_not-found/page": "app/_not-found/page.js",
   "/admin/add-blog/page": "app/admin/add-blog/page.js",
