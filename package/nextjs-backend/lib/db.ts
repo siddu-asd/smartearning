@@ -1,10 +1,25 @@
-import { createClient } from '@supabase/supabase-js';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
 // Create a single supabase client for the frontend
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+// Only create client if env vars are available
+let supabase: SupabaseClient | null = null;
+
+function getSupabaseClient(): SupabaseClient | null {
+  if (supabase) return supabase;
+  
+  if (!supabaseUrl || !supabaseAnonKey) {
+    console.warn('Supabase environment variables not set');
+    return null;
+  }
+  
+  supabase = createClient(supabaseUrl, supabaseAnonKey);
+  return supabase;
+}
+
+export { supabase, getSupabaseClient };
 
 // Product types
 export interface Product {
@@ -34,7 +49,10 @@ export interface Blog {
 
 // Fetch all products
 export async function getProducts(): Promise<Product[]> {
-  const { data, error } = await supabase
+  const client = getSupabaseClient();
+  if (!client) return [];
+  
+  const { data, error } = await client
     .from('product')
     .select('*')
     .order('created_at', { ascending: false });
@@ -49,7 +67,10 @@ export async function getProducts(): Promise<Product[]> {
 
 // Fetch single product by slug
 export async function getProductBySlug(slug: string): Promise<Product | null> {
-  const { data, error } = await supabase
+  const client = getSupabaseClient();
+  if (!client) return null;
+  
+  const { data, error } = await client
     .from('product')
     .select('*')
     .eq('slug', slug)
@@ -65,7 +86,10 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
 
 // Fetch all blogs
 export async function getBlogs(): Promise<Blog[]> {
-  const { data, error } = await supabase
+  const client = getSupabaseClient();
+  if (!client) return [];
+  
+  const { data, error } = await client
     .from('blogs')
     .select('*')
     .order('created_at', { ascending: false });
@@ -80,7 +104,10 @@ export async function getBlogs(): Promise<Blog[]> {
 
 // Fetch single blog by slug
 export async function getBlogBySlug(slug: string): Promise<Blog | null> {
-  const { data, error } = await supabase
+  const client = getSupabaseClient();
+  if (!client) return null;
+  
+  const { data, error } = await client
     .from('blogs')
     .select('*')
     .eq('slug', slug)
