@@ -3,7 +3,6 @@
   "/(main)/blog/[slug]/page": "app/(main)/blog/[slug]/page.js",
   "/(main)/blog/page": "app/(main)/blog/page.js",
   "/(main)/contact/page": "app/(main)/contact/page.js",
-  "/(main)/deals/[categorySlug]/page": "app/(main)/deals/[categorySlug]/page.js",
   "/(main)/deals/page": "app/(main)/deals/page.js",
   "/(main)/page": "app/(main)/page.js",
   "/(main)/product/[slug]/page": "app/(main)/product/[slug]/page.js",
@@ -26,6 +25,5 @@
   "/api/auth/logout/route": "app/api/auth/logout/route.js",
   "/api/auth/me/route": "app/api/auth/me/route.js",
   "/api/blogs/route": "app/api/blogs/route.js",
-  "/api/products/route": "app/api/products/route.js",
-  "/page": "app/page.js"
+  "/api/products/route": "app/api/products/route.js"
 }

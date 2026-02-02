@@ -1,13 +1,14 @@
 import { getProducts } from '../../../lib/db';
 import DealsClient from './DealsClient';
 
-/**
- * Deals Page - Server Component
- * Route: /deals
- */
-export default async function DealsPage() {
+interface Props {
+  searchParams: Promise<{ cat?: string }>;
+}
+
+export default async function DealsPage({ searchParams }: Props) {
   const products = await getProducts();
-  return <DealsClient initialProducts={products} />;
+  const params = await searchParams;
+  return <DealsClient products={products} initialCategory={params.cat} />;
 }
 
 export const metadata = {

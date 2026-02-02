@@ -3,152 +3,144 @@
 import Link from 'next/link';
 import { useState } from 'react';
 
-/**
- * Footer Component - Next.js Version
- * Uses next/link instead of react-router-dom
- */
 export default function Footer() {
-  const year = new Date().getFullYear();
   const [email, setEmail] = useState('');
+  const [subscribed, setSubscribed] = useState(false);
 
-  const quickLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'Deals', path: '/deals' },
-    { name: 'Blog', path: '/blog' },
-    { name: 'About', path: '/about' },
-    { name: 'Contact', path: '/contact' },
-  ];
-
-  const categories = [
-    { name: 'Laptops', path: '/deals/laptop-deals' },
-    { name: 'Mobiles', path: '/deals/mobile-deals' },
-    { name: 'Headphones', path: '/deals/audio-headphones' },
-    { name: 'Appliances', path: '/deals/home-appliances' },
-    { name: 'Furniture', path: '/deals/study-furniture' },
-    { name: 'TVs', path: '/deals/entertainment' },
-  ];
-
-  const handleSubscribe = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (email) {
-      alert('Thanks for subscribing!');
+      setSubscribed(true);
       setEmail('');
     }
   };
 
+  const quickLinks = [
+    { name: 'Home', href: '/' },
+    { name: 'All Deals', href: '/deals' },
+    { name: 'Blog', href: '/blog' },
+    { name: 'About Us', href: '/about' },
+    { name: 'Contact', href: '/contact' },
+  ];
+
+  const categories = [
+    { name: 'Mobile Deals', href: '/deals?cat=mobiles' },
+    { name: 'Laptop Deals', href: '/deals?cat=laptops' },
+    { name: 'Audio Deals', href: '/deals?cat=audio' },
+    { name: 'Electronics', href: '/deals?cat=electronics' },
+    { name: 'Fashion', href: '/deals?cat=fashion' },
+  ];
+
   return (
-    <footer
-      style={{
-        backgroundColor: '#111827',
-        color: '#E5E7EB',
-      }}
-    >
-      {/* Main Footer Content */}
+    <footer style={{ background: '#111827', color: 'white', marginTop: 'auto' }}>
+      {/* Newsletter */}
       <div
         style={{
-          maxWidth: '1200px',
-          margin: '0 auto',
-          padding: '64px 24px 48px',
+          background: 'linear-gradient(135deg, #6366F1, #8B5CF6, #A855F7)',
+          padding: '48px 20px',
+          textAlign: 'center',
         }}
       >
+        <div style={{ maxWidth: 600, margin: '0 auto' }}>
+          <span style={{ fontSize: 36, display: 'block', marginBottom: 12 }}>💌</span>
+          <h3 style={{ fontSize: 28, fontWeight: 800, marginBottom: 8 }}>Never Miss a Deal!</h3>
+          <p style={{ color: 'rgba(255,255,255,0.9)', marginBottom: 24 }}>
+            Subscribe for exclusive deals & discount codes delivered to your inbox.
+          </p>
+          {subscribed ? (
+            <div
+              style={{
+                background: 'rgba(255,255,255,0.2)',
+                padding: '16px 24px',
+                borderRadius: 12,
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 10,
+              }}
+            >
+              <span style={{ fontSize: 24 }}>✅</span>
+              <span style={{ fontWeight: 600 }}>You&apos;re subscribed!</span>
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} style={{ display: 'flex', gap: 12, flexWrap: 'wrap', justifyContent: 'center' }}>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter your email"
+                required
+                style={{
+                  flex: '1 1 280px',
+                  maxWidth: 360,
+                  padding: '14px 20px',
+                  borderRadius: 50,
+                  border: 'none',
+                  fontSize: 15,
+                  outline: 'none',
+                }}
+              />
+              <button
+                type="submit"
+                style={{
+                  padding: '14px 28px',
+                  borderRadius: 50,
+                  border: 'none',
+                  background: '#111827',
+                  color: 'white',
+                  fontSize: 15,
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                }}
+              >
+                Subscribe →
+              </button>
+            </form>
+          )}
+        </div>
+      </div>
+
+      {/* Main Footer */}
+      <div style={{ padding: '64px 20px 32px', maxWidth: 1280, margin: '0 auto' }}>
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-            gap: '48px',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+            gap: 40,
           }}
         >
-          {/* Column 1: Logo & Description */}
+          {/* Brand */}
           <div>
-            <Link
-              href="/"
-              style={{
-                display: 'inline-block',
-                marginBottom: '20px',
-              }}
-            >
-              <span
+            <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', marginBottom: 16 }}>
+              <div
                 style={{
-                  fontSize: '1.5rem',
-                  fontWeight: '800',
-                  background: 'linear-gradient(135deg, #60A5FA 0%, #A78BFA 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
+                  width: 42,
+                  height: 42,
+                  background: 'linear-gradient(135deg, #6366F1, #A855F7)',
+                  borderRadius: 12,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: 22,
                 }}
               >
-                StudentCrazyDeals
-              </span>
+                🔥
+              </div>
+              <span style={{ fontSize: 18, fontWeight: 800, color: 'white' }}>StudentCrazyDeals</span>
             </Link>
-            <p
-              style={{
-                color: '#9CA3AF',
-                fontSize: '14px',
-                lineHeight: '1.7',
-                marginBottom: '24px',
-                maxWidth: '280px',
-              }}
-            >
-              Your trusted destination for the best deals. Save big on tech,
-              furniture, and everyday essentials.
+            <p style={{ color: '#9ca3af', fontSize: 14, lineHeight: 1.7, maxWidth: 280 }}>
+              India&apos;s most trusted platform for student deals. Save money on everything you need.
             </p>
-
-            {/* Social Icons */}
-            <div style={{ display: 'flex', gap: '12px' }}>
-              {[
-                { name: 'Facebook', icon: 'f', url: '#' },
-                { name: 'Twitter', icon: '𝕏', url: '#' },
-                { name: 'Instagram', icon: '◎', url: '#' },
-                { name: 'YouTube', icon: '▶', url: '#' },
-              ].map((social) => (
-                <a
-                  key={social.name}
-                  href={social.url}
-                  style={{
-                    width: '40px',
-                    height: '40px',
-                    borderRadius: '10px',
-                    background: 'rgba(255, 255, 255, 0.1)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: '#E5E7EB',
-                    fontSize: '16px',
-                    textDecoration: 'none',
-                    transition: 'all 0.3s ease',
-                  }}
-                  aria-label={social.name}
-                >
-                  {social.icon}
-                </a>
-              ))}
-            </div>
           </div>
 
-          {/* Column 2: Quick Links */}
+          {/* Quick Links */}
           <div>
-            <h3
-              style={{
-                color: '#FFFFFF',
-                fontSize: '16px',
-                fontWeight: '600',
-                marginBottom: '20px',
-              }}
-            >
+            <h4 style={{ fontSize: 13, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', marginBottom: 16 }}>
               Quick Links
-            </h3>
+            </h4>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
               {quickLinks.map((link) => (
-                <li key={link.name} style={{ marginBottom: '12px' }}>
-                  <Link
-                    href={link.path}
-                    style={{
-                      color: '#9CA3AF',
-                      fontSize: '14px',
-                      textDecoration: 'none',
-                      transition: 'color 0.2s ease',
-                    }}
-                  >
+                <li key={link.name} style={{ marginBottom: 10 }}>
+                  <Link href={link.href} style={{ color: '#d1d5db', fontSize: 15, textDecoration: 'none' }}>
                     {link.name}
                   </Link>
                 </li>
@@ -156,30 +148,15 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Column 3: Categories */}
+          {/* Categories */}
           <div>
-            <h3
-              style={{
-                color: '#FFFFFF',
-                fontSize: '16px',
-                fontWeight: '600',
-                marginBottom: '20px',
-              }}
-            >
+            <h4 style={{ fontSize: 13, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', marginBottom: 16 }}>
               Categories
-            </h3>
+            </h4>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
               {categories.map((cat) => (
-                <li key={cat.name} style={{ marginBottom: '12px' }}>
-                  <Link
-                    href={cat.path}
-                    style={{
-                      color: '#9CA3AF',
-                      fontSize: '14px',
-                      textDecoration: 'none',
-                      transition: 'color 0.2s ease',
-                    }}
-                  >
+                <li key={cat.name} style={{ marginBottom: 10 }}>
+                  <Link href={cat.href} style={{ color: '#d1d5db', fontSize: 15, textDecoration: 'none' }}>
                     {cat.name}
                   </Link>
                 </li>
@@ -187,114 +164,43 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Column 4: Newsletter */}
+          {/* Contact */}
           <div>
-            <h3
-              style={{
-                color: '#FFFFFF',
-                fontSize: '16px',
-                fontWeight: '600',
-                marginBottom: '20px',
-              }}
-            >
-              Stay Updated
-            </h3>
-            <p
-              style={{
-                color: '#9CA3AF',
-                fontSize: '14px',
-                lineHeight: '1.6',
-                marginBottom: '16px',
-              }}
-            >
-              Subscribe to get the latest deals directly to your inbox.
-            </p>
-            <form onSubmit={handleSubscribe}>
-              <div style={{ display: 'flex', gap: '8px' }}>
-                <input
-                  type="email"
-                  placeholder="Enter email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  style={{
-                    flex: 1,
-                    padding: '12px 16px',
-                    borderRadius: '10px',
-                    border: 'none',
-                    background: 'rgba(255, 255, 255, 0.1)',
-                    color: '#FFFFFF',
-                    fontSize: '14px',
-                    outline: 'none',
-                  }}
-                />
-                <button
-                  type="submit"
-                  style={{
-                    padding: '12px 20px',
-                    borderRadius: '10px',
-                    border: 'none',
-                    background: 'linear-gradient(135deg, #2563EB 0%, #7C3AED 100%)',
-                    color: '#FFFFFF',
-                    fontSize: '14px',
-                    fontWeight: '600',
-                    cursor: 'pointer',
-                    transition: 'all 0.3s ease',
-                  }}
-                >
-                  Subscribe
-                </button>
+            <h4 style={{ fontSize: 13, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', marginBottom: 16 }}>
+              Contact Us
+            </h4>
+            <div style={{ color: '#d1d5db', fontSize: 14, lineHeight: 2 }}>
+              <div>📧 support@studentcrazydeals.com</div>
+              <div>📍 Hyderabad, India</div>
+              <div style={{ display: 'flex', gap: 12, marginTop: 16 }}>
+                <a href="#" style={{ fontSize: 20, textDecoration: 'none' }}>📷</a>
+                <a href="#" style={{ fontSize: 20, textDecoration: 'none' }}>✈️</a>
+                <a href="#" style={{ fontSize: 20, textDecoration: 'none' }}>💬</a>
               </div>
-            </form>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Bottom Bar */}
-      <div
-        style={{
-          borderTop: '1px solid rgba(255, 255, 255, 0.1)',
-          padding: '24px',
-        }}
-      >
+        {/* Bottom */}
         <div
           style={{
-            maxWidth: '1200px',
-            margin: '0 auto',
+            marginTop: 48,
+            paddingTop: 24,
+            borderTop: '1px solid #374151',
             display: 'flex',
             flexWrap: 'wrap',
             justifyContent: 'space-between',
-            alignItems: 'center',
-            gap: '16px',
+            gap: 16,
           }}
         >
-          <p
-            style={{
-              color: '#6B7280',
-              fontSize: '13px',
-              margin: 0,
-            }}
-          >
-            © {year} StudentCrazyDeals. All rights reserved.
+          <p style={{ color: '#6b7280', fontSize: 14 }}>
+            © {new Date().getFullYear()} StudentCrazyDeals. All rights reserved.
           </p>
-          <div style={{ display: 'flex', gap: '24px' }}>
-            <Link
-              href="/privacy"
-              style={{
-                color: '#6B7280',
-                fontSize: '13px',
-                textDecoration: 'none',
-              }}
-            >
+          <div style={{ display: 'flex', gap: 24 }}>
+            <Link href="/privacy" style={{ color: '#6b7280', fontSize: 14, textDecoration: 'none' }}>
               Privacy Policy
             </Link>
-            <Link
-              href="/terms"
-              style={{
-                color: '#6B7280',
-                fontSize: '13px',
-                textDecoration: 'none',
-              }}
-            >
+            <Link href="/terms" style={{ color: '#6b7280', fontSize: 14, textDecoration: 'none' }}>
               Terms of Service
             </Link>
           </div>

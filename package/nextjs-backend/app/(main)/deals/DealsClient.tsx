@@ -1,234 +1,199 @@
 'use client';
 
-import { useState } from 'react';
 import Link from 'next/link';
-import ProductCard from '../../components/ProductCard';
+import { useState, useMemo } from 'react';
 import { Product } from '../../../lib/db';
+import ProductCard from '../../components/ProductCard';
 
-const COLORS = {
-  primary: '#2563EB',
-  primaryLight: '#EFF6FF',
-  secondary: '#10B981',
-  accent: '#F59E0B',
-  dark: '#111827',
-  gray: '#6B7280',
-  lightBg: '#F9FAFB',
-  white: '#FFFFFF',
-  border: '#E5E7EB',
-  gradient: 'linear-gradient(135deg, #2563EB 0%, #7C3AED 100%)',
-};
-
-const CATEGORIES = [
-  { id: 'all', name: 'All', slug: 'all' },
-  { id: '1', name: 'Laptops', slug: 'laptop-deals' },
-  { id: '2', name: 'Mobiles', slug: 'mobile-deals' },
-  { id: '3', name: 'Appliances', slug: 'home-appliances' },
-  { id: '5', name: 'Headphones', slug: 'audio-headphones' },
-  { id: '6', name: 'Furniture', slug: 'study-furniture' },
-  { id: '7', name: 'Entertainment', slug: 'entertainment' },
-];
-
-const categoryNameToId: Record<string, string> = {
-  laptops: '1', laptop: '1', 'laptop-deals': '1',
-  mobiles: '2', mobile: '2', phones: '2', 'mobile-deals': '2',
-  appliances: '3', 'home-appliances': '3',
-  laundry: '4',
-  headphones: '5', audio: '5', 'audio-headphones': '5',
-  furniture: '6', 'study-furniture': '6',
-  entertainment: '7', electronics: '7', tvs: '7', other: '7',
-};
-
-interface DealsClientProps {
-  initialProducts: Product[];
-  categorySlug?: string;
+interface Props {
+  products: Product[];
+  initialCategory?: string;
 }
 
-export default function DealsClient({ initialProducts, categorySlug }: DealsClientProps) {
-  // Determine initial category from slug
-  const initialCategory = categorySlug ? (categoryNameToId[categorySlug] || 'all') : 'all';
-  const [selectedCategory, setSelectedCategory] = useState<string>(initialCategory);
-  const [sortBy, setSortBy] = useState<string>('newest');
+export default function DealsClient({ products, initialCategory = 'all' }: Props) {
+  const [category, setCategory] = useState(initialCategory);
+  const [sortBy, setSortBy] = useState('newest');
+  const [search, setSearch] = useState('');
 
-  // Convert products
-  const allProducts = initialProducts.map((p) => {
-    let categoryId = p.category || 'misc';
-    if (categoryId && isNaN(Number(categoryId))) {
-      categoryId = categoryNameToId[categoryId.toLowerCase()] || '7';
+  const categories = [
+    { id: 'all', name: 'All Deals', icon: '🔥' },
+    { id: 'mobiles', name: 'Mobiles', icon: '📱' },
+    { id: 'laptops', name: 'Laptops', icon: '💻' },
+    { id: 'audio', name: 'Audio', icon: '🎧' },
+    { id: 'electronics', name: 'Electronics', icon: '📺' },
+    { id: 'fashion', name: 'Fashion', icon: '👕' },
+    { id: 'home', name: 'Home', icon: '🏠' },
+  ];
+
+  const filtered = useMemo(() => {
+    let result = [...products];
+
+    if (category !== 'all') {
+      result = result.filter((p) => p.category?.toLowerCase().includes(category.toLowerCase()));
     }
-    return {
-      id: p.id,
-      name: p.title,
-      slug: p.slug,
-      categoryId: categoryId,
-      images: [p.image_url || '/placeholder.jpg'],
-      affiliateUrl: p.affiliate_link,
-      mrp: p.mrp || p.original_price || p.price,
-      discountedPrice: p.discounted_price || p.sale_price || p.price,
-      buttonText: 'Get Deal',
-    };
-  });
 
-  // Filter products
-  let filteredProducts =
-    selectedCategory === 'all'
-      ? allProducts
-      : allProducts.filter((p) => p.categoryId === selectedCategory);
+    if (search) {
+      result = result.filter((p) => p.title.toLowerCase().includes(search.toLowerCase()));
+    }
 
-  // Sort products
-  if (sortBy === 'price-low') {
-    filteredProducts = [...filteredProducts].sort((a, b) => (a.discountedPrice || 0) - (b.discountedPrice || 0));
-  } else if (sortBy === 'price-high') {
-    filteredProducts = [...filteredProducts].sort((a, b) => (b.discountedPrice || 0) - (a.discountedPrice || 0));
-  }
+    switch (sortBy) {
+      case 'price-low':
+        result.sort((a, b) => (a.discounted_price || a.mrp || 0) - (b.discounted_price || b.mrp || 0));
+        break;
+      case 'price-high':
+        result.sort((a, b) => (b.discounted_price || b.mrp || 0) - (a.discounted_price || a.mrp || 0));
+        break;
+      case 'discount':
+        result.sort((a, b) => {
+          const da = a.mrp && a.discounted_price ? (a.mrp - a.discounted_price) / a.mrp : 0;
+          const db = b.mrp && b.discounted_price ? (b.mrp - b.discounted_price) / b.mrp : 0;
+          return db - da;
+        });
+        break;
+    }
+
+    return result;
+  }, [products, category, sortBy, search]);
 
   return (
-    <div className="page-content" style={{ background: COLORS.white, minHeight: '100vh' }}>
-      {/* Hero Banner */}
+    <div style={{ background: '#fafafa', minHeight: '100vh' }}>
+      {/* Hero */}
       <section
         style={{
-          background: COLORS.gradient,
-          padding: '60px 0',
-          position: 'relative',
-          overflow: 'hidden',
+          background: 'linear-gradient(135deg, #6366F1, #8B5CF6, #A855F7)',
+          padding: '60px 20px 100px',
+          textAlign: 'center',
         }}
       >
-        <div
-          style={{
-            position: 'absolute',
-            top: '-50%',
-            right: '-10%',
-            width: '500px',
-            height: '500px',
-            background: 'rgba(255,255,255,0.1)',
-            borderRadius: '50%',
-            pointerEvents: 'none',
-          }}
-        />
-
-        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-          <nav aria-label="breadcrumb" style={{ marginBottom: '20px' }}>
-            <ol className="breadcrumb mb-0" style={{ background: 'transparent', padding: 0 }}>
-              <li className="breadcrumb-item">
-                <Link href="/" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none', fontSize: '14px' }}>
-                  Home
-                </Link>
-              </li>
-              <li className="breadcrumb-item active" style={{ color: COLORS.white, fontSize: '14px' }}>
-                Deals
-              </li>
-            </ol>
-          </nav>
-
-          <h1
-            style={{
-              fontSize: '2.5rem',
-              fontWeight: '800',
-              color: COLORS.white,
-              marginBottom: '12px',
-            }}
-          >
-            🛒 All Deals
-          </h1>
-          <p style={{ color: 'rgba(255,255,255,0.9)', fontSize: '18px', margin: 0 }}>
-            {filteredProducts.length} amazing deals waiting for you
-          </p>
-        </div>
+        <nav style={{ marginBottom: 20 }}>
+          <ol style={{ display: 'flex', gap: 8, justifyContent: 'center', listStyle: 'none', padding: 0, margin: 0 }}>
+            <li><Link href="/" style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none', fontSize: 14 }}>Home</Link></li>
+            <li style={{ color: 'rgba(255,255,255,0.5)' }}>/</li>
+            <li style={{ color: 'white', fontSize: 14, fontWeight: 600 }}>Deals</li>
+          </ol>
+        </nav>
+        <h1 style={{ fontSize: 'clamp(28px, 5vw, 48px)', fontWeight: 900, color: 'white', marginBottom: 12 }}>
+          🔥 All Deals
+        </h1>
+        <p style={{ color: 'rgba(255,255,255,0.9)', fontSize: 16 }}>
+          Browse {filtered.length} amazing deals curated just for you
+        </p>
       </section>
 
-      {/* Filters & Products */}
-      <section style={{ padding: '40px 0 80px' }}>
-        <div className="container">
-          {/* Category Tabs */}
-          <div
-            style={{
-              display: 'flex',
-              gap: '8px',
-              flexWrap: 'wrap',
-              marginBottom: '32px',
-              padding: '16px',
-              background: COLORS.lightBg,
-              borderRadius: '12px',
-            }}
-          >
-            {CATEGORIES.map((cat) => (
+      {/* Filters */}
+      <section style={{ padding: '0 20px', marginTop: -50, position: 'relative', zIndex: 10 }}>
+        <div
+          style={{
+            maxWidth: 1200,
+            margin: '0 auto',
+            background: 'white',
+            borderRadius: 16,
+            padding: 24,
+            boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+          }}
+        >
+          {/* Search */}
+          <div style={{ marginBottom: 20 }}>
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search deals..."
+              style={{
+                width: '100%',
+                padding: '14px 20px',
+                borderRadius: 10,
+                border: '1px solid #e5e7eb',
+                fontSize: 15,
+                outline: 'none',
+              }}
+            />
+          </div>
+
+          {/* Category Pills */}
+          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 16 }}>
+            {categories.map((cat) => (
               <button
                 key={cat.id}
-                onClick={() => setSelectedCategory(cat.id)}
+                onClick={() => setCategory(cat.id)}
                 style={{
-                  padding: '10px 20px',
-                  background: selectedCategory === cat.id ? COLORS.gradient : COLORS.white,
-                  color: selectedCategory === cat.id ? COLORS.white : COLORS.dark,
-                  border: `1px solid ${selectedCategory === cat.id ? 'transparent' : COLORS.border}`,
-                  borderRadius: '8px',
-                  fontSize: '14px',
-                  fontWeight: '600',
+                  padding: '10px 18px',
+                  borderRadius: 50,
+                  border: category === cat.id ? 'none' : '1px solid #e5e7eb',
+                  background: category === cat.id ? 'linear-gradient(135deg, #6366F1, #8B5CF6)' : 'white',
+                  color: category === cat.id ? 'white' : '#374151',
+                  fontSize: 14,
+                  fontWeight: 600,
                   cursor: 'pointer',
-                  transition: 'all 0.2s ease',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 6,
                 }}
               >
-                {cat.name}
+                <span>{cat.icon}</span> {cat.name}
               </button>
             ))}
           </div>
 
-          {/* Sort Dropdown */}
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginBottom: '24px',
-              flexWrap: 'wrap',
-              gap: '16px',
-            }}
-          >
-            <p style={{ color: COLORS.gray, margin: 0 }}>
-              Showing {filteredProducts.length} products
-            </p>
+          {/* Sort */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <span style={{ fontSize: 14, color: '#6b7280' }}>Sort by:</span>
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
               style={{
                 padding: '10px 16px',
-                borderRadius: '8px',
-                border: `1px solid ${COLORS.border}`,
-                fontSize: '14px',
-                color: COLORS.dark,
-                background: COLORS.white,
+                borderRadius: 8,
+                border: '1px solid #e5e7eb',
+                fontSize: 14,
                 cursor: 'pointer',
+                outline: 'none',
               }}
             >
-              <option value="newest">Newest First</option>
+              <option value="newest">Newest</option>
               <option value="price-low">Price: Low to High</option>
               <option value="price-high">Price: High to Low</option>
+              <option value="discount">Biggest Discount</option>
             </select>
           </div>
+        </div>
+      </section>
 
-          {/* Products Grid */}
-          {filteredProducts.length > 0 ? (
+      {/* Products Grid */}
+      <section style={{ padding: '40px 20px 80px' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+          {filtered.length > 0 ? (
             <div
               style={{
                 display: 'grid',
                 gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
-                gap: '24px',
+                gap: 24,
               }}
             >
-              {filteredProducts.map((product) => (
+              {filtered.map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}
             </div>
           ) : (
-            <div
-              style={{
-                textAlign: 'center',
-                padding: '80px 20px',
-                background: COLORS.lightBg,
-                borderRadius: '16px',
-              }}
-            >
-              <span style={{ fontSize: '64px', display: 'block', marginBottom: '16px' }}>🔍</span>
-              <h3 style={{ color: COLORS.dark, marginBottom: '8px' }}>No products found</h3>
-              <p style={{ color: COLORS.gray }}>Try selecting a different category</p>
+            <div style={{ textAlign: 'center', padding: '80px 20px' }}>
+              <span style={{ fontSize: 60, display: 'block', marginBottom: 16 }}>😔</span>
+              <h3 style={{ fontSize: 20, fontWeight: 700, color: '#111827', marginBottom: 8 }}>No deals found</h3>
+              <p style={{ color: '#6b7280', marginBottom: 24 }}>Try adjusting your filters</p>
+              <button
+                onClick={() => { setCategory('all'); setSearch(''); }}
+                style={{
+                  padding: '12px 28px',
+                  borderRadius: 50,
+                  background: 'linear-gradient(135deg, #6366F1, #8B5CF6)',
+                  color: 'white',
+                  border: 'none',
+                  fontSize: 15,
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                }}
+              >
+                Clear Filters
+              </button>
             </div>
           )}
         </div>

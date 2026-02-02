@@ -1,54 +1,28 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
-
-/**
- * Header Component - Next.js Version
- * Uses next/link instead of react-router-dom
- */
-
-const colors = {
-  primary: '#2563EB',
-  primaryDark: '#1D4ED8',
-  dark: '#111827',
-  gray: '#6B7280',
-  lightBg: '#F9FAFB',
-  border: '#E5E7EB',
-  white: '#FFFFFF',
-  gradient: 'linear-gradient(135deg, #2563EB 0%, #7C3AED 100%)',
-};
+import { useState, useEffect } from 'react';
 
 export default function Header() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const onScroll = () => setIsScrolled(window.scrollY > 10);
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
   useEffect(() => {
-    if (mobileMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [mobileMenuOpen]);
+    document.body.style.overflow = mobileOpen ? 'hidden' : '';
+  }, [mobileOpen]);
 
-  const navLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'Deals', path: '/deals' },
-    { name: 'Blog', path: '/blog' },
-    { name: 'About', path: '/about' },
-    { name: 'Contact', path: '/contact' },
+  const links = [
+    { name: 'Home', href: '/' },
+    { name: 'Deals', href: '/deals' },
+    { name: 'Blog', href: '/blog' },
+    { name: 'About', href: '/about' },
+    { name: 'Contact', href: '/contact' },
   ];
 
   return (
@@ -60,243 +34,218 @@ export default function Header() {
           left: 0,
           right: 0,
           zIndex: 1000,
-          background: isScrolled ? colors.white : 'transparent',
-          boxShadow: isScrolled ? '0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06)' : 'none',
-          borderBottom: isScrolled ? `1px solid ${colors.border}` : 'none',
+          background: isScrolled ? 'rgba(255,255,255,0.98)' : 'white',
+          boxShadow: isScrolled ? '0 2px 20px rgba(0,0,0,0.08)' : '0 1px 0 #e5e7eb',
           transition: 'all 0.3s ease',
         }}
       >
-        <div
-          style={{
-            maxWidth: '1280px',
-            margin: '0 auto',
-            padding: '0 24px',
-          }}
-        >
+        {/* Top Banner */}
+        {!isScrolled && (
           <div
             style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              height: isScrolled ? '64px' : '72px',
-              transition: 'height 0.3s ease',
+              background: 'linear-gradient(90deg, #6366F1, #8B5CF6, #A855F7)',
+              padding: '8px 16px',
+              textAlign: 'center',
             }}
           >
+            <span style={{ color: 'white', fontSize: '14px', fontWeight: 500 }}>
+              🎉 Welcome to StudentCrazyDeals — Save up to 80% Daily!
+            </span>
+          </div>
+        )}
+
+        {/* Main Nav */}
+        <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 20px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 64 }}>
             {/* Logo */}
-            <Link
-              href="/"
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                textDecoration: 'none',
-                flexShrink: 0,
-              }}
-            >
-              <span
+            <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
+              <div
                 style={{
-                  fontSize: '1.5rem',
-                  fontWeight: '800',
-                  background: colors.gradient,
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
+                  width: 42,
+                  height: 42,
+                  background: 'linear-gradient(135deg, #6366F1, #A855F7)',
+                  borderRadius: 12,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: 22,
                 }}
               >
-                StudentCrazyDeals
-              </span>
+                🔥
+              </div>
+              <div>
+                <div style={{ fontSize: 18, fontWeight: 800, color: '#111827' }}>
+                  Student<span style={{ color: '#6366F1' }}>Crazy</span>Deals
+                </div>
+                <div style={{ fontSize: 10, color: '#6b7280', letterSpacing: 0.5 }}>SAVE MORE • LIVE BETTER</div>
+              </div>
             </Link>
 
-            {/* Desktop Navigation */}
-            <nav
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-              }}
-              className="d-none d-lg-flex"
-            >
-              {navLinks.map((link) => (
+            {/* Desktop Nav */}
+            <nav style={{ display: 'flex', gap: 32, alignItems: 'center' }} className="desktop-nav">
+              {links.map((link) => (
                 <Link
                   key={link.name}
-                  href={link.path}
+                  href={link.href}
                   style={{
-                    padding: '8px 16px',
-                    fontSize: '15px',
-                    fontWeight: '500',
-                    color: colors.dark,
+                    color: '#374151',
+                    fontSize: 15,
+                    fontWeight: 600,
                     textDecoration: 'none',
-                    borderRadius: '8px',
-                    transition: 'all 0.2s ease',
+                    transition: 'color 0.2s',
                   }}
+                  onMouseEnter={(e) => (e.currentTarget.style.color = '#6366F1')}
+                  onMouseLeave={(e) => (e.currentTarget.style.color = '#374151')}
                 >
                   {link.name}
                 </Link>
               ))}
-            </nav>
-
-            {/* CTA Button */}
-            <div className="d-none d-lg-flex" style={{ alignItems: 'center', gap: '12px' }}>
               <Link
                 href="/deals"
                 style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  padding: '10px 20px',
-                  background: colors.gradient,
-                  color: colors.white,
-                  fontSize: '14px',
-                  fontWeight: '600',
-                  borderRadius: '10px',
+                  background: 'linear-gradient(135deg, #6366F1, #8B5CF6)',
+                  color: 'white',
+                  padding: '10px 24px',
+                  borderRadius: 50,
+                  fontSize: 14,
+                  fontWeight: 600,
                   textDecoration: 'none',
-                  transition: 'all 0.3s ease',
+                  boxShadow: '0 4px 12px rgba(99,102,241,0.3)',
                 }}
               >
                 🔥 Hot Deals
               </Link>
-            </div>
+            </nav>
 
             {/* Mobile Menu Button */}
             <button
-              className="d-lg-none"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              onClick={() => setMobileOpen(!mobileOpen)}
               style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: '44px',
-                height: '44px',
-                background: 'transparent',
+                display: 'none',
+                background: 'none',
                 border: 'none',
-                borderRadius: '10px',
+                padding: 8,
                 cursor: 'pointer',
               }}
-              aria-label="Toggle menu"
+              className="mobile-menu-btn"
+              aria-label="Menu"
             >
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke={colors.dark}
-                strokeWidth="2"
-              >
-                {mobileMenuOpen ? (
-                  <path d="M6 18L18 6M6 6l12 12" />
-                ) : (
-                  <path d="M3 12h18M3 6h18M3 18h18" />
-                )}
-              </svg>
+              <div style={{ width: 24, height: 18, position: 'relative' }}>
+                <span
+                  style={{
+                    position: 'absolute',
+                    width: 24,
+                    height: 2,
+                    background: '#111827',
+                    borderRadius: 1,
+                    transition: 'all 0.3s',
+                    top: mobileOpen ? 8 : 0,
+                    transform: mobileOpen ? 'rotate(45deg)' : 'none',
+                  }}
+                />
+                <span
+                  style={{
+                    position: 'absolute',
+                    width: 24,
+                    height: 2,
+                    background: '#111827',
+                    borderRadius: 1,
+                    top: 8,
+                    opacity: mobileOpen ? 0 : 1,
+                    transition: 'all 0.3s',
+                  }}
+                />
+                <span
+                  style={{
+                    position: 'absolute',
+                    width: 24,
+                    height: 2,
+                    background: '#111827',
+                    borderRadius: 1,
+                    transition: 'all 0.3s',
+                    top: mobileOpen ? 8 : 16,
+                    transform: mobileOpen ? 'rotate(-45deg)' : 'none',
+                  }}
+                />
+              </div>
             </button>
           </div>
         </div>
-      </header>
 
-      {/* Mobile Menu Overlay */}
-      {mobileMenuOpen && (
-        <div
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            background: 'rgba(0, 0, 0, 0.5)',
-            zIndex: 999,
-          }}
-          onClick={() => setMobileMenuOpen(false)}
-        />
-      )}
-
-      {/* Mobile Menu */}
-      <div
-        style={{
-          position: 'fixed',
-          top: 0,
-          right: 0,
-          width: '280px',
-          height: '100vh',
-          background: colors.white,
-          zIndex: 1001,
-          transform: mobileMenuOpen ? 'translateX(0)' : 'translateX(100%)',
-          transition: 'transform 0.3s ease',
-          boxShadow: '-4px 0 20px rgba(0, 0, 0, 0.1)',
-          display: 'flex',
-          flexDirection: 'column',
-        }}
-      >
-        <div
-          style={{
-            padding: '20px',
-            borderBottom: `1px solid ${colors.border}`,
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}
-        >
-          <span style={{ fontWeight: '700', fontSize: '18px', color: colors.dark }}>Menu</span>
-          <button
-            onClick={() => setMobileMenuOpen(false)}
+        {/* Mobile Menu */}
+        {mobileOpen && (
+          <div
             style={{
-              background: 'transparent',
-              border: 'none',
-              cursor: 'pointer',
-              padding: '8px',
+              position: 'fixed',
+              top: isScrolled ? 64 : 104,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              background: 'white',
+              padding: 20,
+              overflowY: 'auto',
+              zIndex: 999,
             }}
           >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={colors.dark} strokeWidth="2">
-              <path d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
-
-        <nav style={{ padding: '16px', flex: 1 }}>
-          {navLinks.map((link) => (
+            <nav style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              {links.map((link) => (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  onClick={() => setMobileOpen(false)}
+                  style={{
+                    color: '#111827',
+                    fontSize: 18,
+                    fontWeight: 600,
+                    textDecoration: 'none',
+                    padding: '16px 20px',
+                    background: '#f9fafb',
+                    borderRadius: 12,
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                  }}
+                >
+                  {link.name}
+                  <span style={{ color: '#9ca3af' }}>→</span>
+                </Link>
+              ))}
+            </nav>
             <Link
-              key={link.name}
-              href={link.path}
-              onClick={() => setMobileMenuOpen(false)}
+              href="/deals"
+              onClick={() => setMobileOpen(false)}
               style={{
                 display: 'block',
-                padding: '14px 16px',
-                fontSize: '16px',
-                fontWeight: '500',
-                color: colors.dark,
+                marginTop: 24,
+                background: 'linear-gradient(135deg, #6366F1, #A855F7)',
+                color: 'white',
+                padding: '16px 24px',
+                borderRadius: 12,
+                fontSize: 16,
+                fontWeight: 700,
                 textDecoration: 'none',
-                borderRadius: '10px',
-                marginBottom: '4px',
+                textAlign: 'center',
               }}
             >
-              {link.name}
+              🔥 Explore All Deals
             </Link>
-          ))}
-        </nav>
+          </div>
+        )}
+      </header>
 
-        <div style={{ padding: '16px', borderTop: `1px solid ${colors.border}` }}>
-          <Link
-            href="/deals"
-            onClick={() => setMobileMenuOpen(false)}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '8px',
-              padding: '14px 20px',
-              background: colors.gradient,
-              color: colors.white,
-              fontSize: '15px',
-              fontWeight: '600',
-              borderRadius: '12px',
-              textDecoration: 'none',
-            }}
-          >
-            🔥 View All Deals
-          </Link>
-        </div>
-      </div>
+      {/* Spacer */}
+      <div style={{ height: isScrolled ? 64 : 104, transition: 'height 0.3s' }} />
 
-      {/* Spacer for fixed header */}
-      <div style={{ height: '72px' }} />
+      <style jsx global>{`
+        @media (min-width: 768px) {
+          .desktop-nav { display: flex !important; }
+          .mobile-menu-btn { display: none !important; }
+        }
+        @media (max-width: 767px) {
+          .desktop-nav { display: none !important; }
+          .mobile-menu-btn { display: block !important; }
+        }
+      `}</style>
     </>
   );
 }

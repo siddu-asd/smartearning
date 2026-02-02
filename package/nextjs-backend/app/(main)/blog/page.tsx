@@ -1,16 +1,12 @@
 import { getBlogs } from '../../../lib/db';
-import BlogListClient from './BlogListClient';
+import BlogClient from './BlogClient';
 
-/**
- * Blog List Page - Server Component
- * Route: /blog
- */
 export default async function BlogPage() {
   const blogs = await getBlogs();
-  return <BlogListClient initialBlogs={blogs} />;
+  return <BlogClient blogs={blogs} />;
 }
 
 export const metadata = {
   title: 'Blog - StudentCrazyDeals',
-  description: 'Read our latest articles on deals, savings tips, and product reviews.',
+  description: 'Tips, guides, and insights to help you save money.',
 };
