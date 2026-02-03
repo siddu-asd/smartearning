@@ -34,7 +34,7 @@ export default function HomeClient({ products }: Props) {
             {/* Left Content */}
             <div>
               <span style={{ display: 'inline-block', background: 'rgba(255,255,255,0.2)', padding: '8px 16px', borderRadius: '50px', fontSize: '14px', fontWeight: 600, color: 'white', marginBottom: '20px' }}>
-                🔥 500+ Active Deals
+                500+ Active Deals
               </span>
 
               <h1 style={{ fontSize: 'clamp(32px, 5vw, 48px)', fontWeight: 800, color: 'white', lineHeight: 1.2, marginBottom: '20px' }}>
@@ -47,10 +47,10 @@ export default function HomeClient({ products }: Props) {
 
               <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
                 <Link href="/deals" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'white', color: '#2563eb', padding: '16px 28px', borderRadius: '8px', fontSize: '15px', fontWeight: 700, textDecoration: 'none' }}>
-                  🔥 Explore Deals
+                  Explore Deals
                 </Link>
-                <Link href="/blog" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'transparent', color: 'white', padding: '16px 28px', borderRadius: '8px', fontSize: '15px', fontWeight: 600, textDecoration: 'none', border: '2px solid rgba(255,255,255,0.4)' }}>
-                  Read Our Blog
+                <Link href="/about" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'transparent', color: 'white', padding: '16px 28px', borderRadius: '8px', fontSize: '15px', fontWeight: 600, textDecoration: 'none', border: '2px solid rgba(255,255,255,0.4)' }}>
+                  About Us
                 </Link>
               </div>
             </div>
@@ -72,7 +72,7 @@ export default function HomeClient({ products }: Props) {
       <section style={{ padding: '60px 24px', background: '#f9fafb' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-            <span style={{ display: 'inline-block', background: '#dbeafe', color: '#2563eb', padding: '8px 16px', borderRadius: '50px', fontSize: '13px', fontWeight: 700, marginBottom: '12px' }}>🏷️ CATEGORIES</span>
+            <span style={{ display: 'inline-block', background: '#dbeafe', color: '#2563eb', padding: '8px 16px', borderRadius: '50px', fontSize: '13px', fontWeight: 700, marginBottom: '12px' }}>CATEGORIES</span>
             <h2 style={{ fontSize: '28px', fontWeight: 800, color: '#111827' }}>Shop by Category</h2>
           </div>
 
@@ -92,7 +92,7 @@ export default function HomeClient({ products }: Props) {
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px', flexWrap: 'wrap', gap: '16px' }}>
             <div>
-              <span style={{ display: 'inline-block', background: '#dbeafe', color: '#2563eb', padding: '8px 16px', borderRadius: '50px', fontSize: '13px', fontWeight: 700, marginBottom: '12px' }}>🔥 HOT DEALS</span>
+              <span style={{ display: 'inline-block', background: '#dbeafe', color: '#2563eb', padding: '8px 16px', borderRadius: '50px', fontSize: '13px', fontWeight: 700, marginBottom: '12px' }}>HOT DEALS</span>
               <h2 style={{ fontSize: '28px', fontWeight: 800, color: '#111827' }}>Today&apos;s Best Deals</h2>
             </div>
             <Link href="/deals" style={{ color: '#2563eb', fontSize: '15px', fontWeight: 600, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '4px' }}>
@@ -120,7 +120,7 @@ export default function HomeClient({ products }: Props) {
       <section style={{ padding: '60px 24px', background: '#f9fafb' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-            <span style={{ display: 'inline-block', background: '#dbeafe', color: '#2563eb', padding: '8px 16px', borderRadius: '50px', fontSize: '13px', fontWeight: 700, marginBottom: '12px' }}>✨ WHY US</span>
+            <span style={{ display: 'inline-block', background: '#dbeafe', color: '#2563eb', padding: '8px 16px', borderRadius: '50px', fontSize: '13px', fontWeight: 700, marginBottom: '12px' }}>WHY US</span>
             <h2 style={{ fontSize: '28px', fontWeight: 800, color: '#111827' }}>Why Choose SmartEarning</h2>
           </div>
 

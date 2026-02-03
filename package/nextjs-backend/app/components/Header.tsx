@@ -20,7 +20,6 @@ export default function Header() {
   const links = [
     { name: 'Home', href: '/' },
     { name: 'Deals', href: '/deals' },
-    { name: 'Blog', href: '/blog' },
     { name: 'About', href: '/about' },
     { name: 'Contact', href: '/contact' },
   ];
@@ -30,7 +29,7 @@ export default function Header() {
       {/* Top Announcement Bar */}
       <div style={{ background: 'linear-gradient(135deg, #2563eb 0%, #3b82f6 100%)', padding: '10px 20px', textAlign: 'center' }}>
         <p style={{ color: 'white', fontSize: '14px', fontWeight: 600, margin: 0 }}>
-          🎉 Get Extra 10% OFF on your first order! Use code: <span style={{ background: 'rgba(255,255,255,0.2)', padding: '2px 8px', borderRadius: '4px', fontWeight: 700 }}>FIRST10</span>
+          Welcome to SmartEarning — Your Trusted Destination for the Best Deals!
         </p>
       </div>
 
@@ -47,18 +46,8 @@ export default function Header() {
       >
         <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '72px' }}>
           {/* Logo */}
-          <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none' }}>
-            <div style={{ width: '44px', height: '44px', background: 'linear-gradient(135deg, #2563eb 0%, #3b82f6 100%)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M12 2L2 7l10 5 10-5-10-5z" fill="white"/>
-                <path d="M2 17l10 5 10-5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M2 12l10 5 10-5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </div>
-            <div>
-              <div style={{ fontSize: '18px', fontWeight: 800, color: '#111827' }}>Smart<span style={{ color: '#2563eb' }}>Earning</span></div>
-              <div style={{ fontSize: '11px', color: '#6b7280', letterSpacing: '0.5px' }}>Best Deals Daily</div>
-            </div>
+          <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
+            <div style={{ fontSize: '22px', fontWeight: 800, color: '#111827' }}>Smart<span style={{ color: '#2563eb' }}>Earning</span></div>
           </Link>
 
           {/* Desktop Navigation */}
@@ -71,7 +60,7 @@ export default function Header() {
           {/* CTA Button */}
           <div className="desktop-nav" style={{ display: 'flex', alignItems: 'center' }}>
             <Link href="/deals" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'linear-gradient(135deg, #2563eb 0%, #3b82f6 100%)', color: 'white', padding: '12px 24px', borderRadius: '8px', fontSize: '14px', fontWeight: 600, textDecoration: 'none' }}>
-              🔥 Today&apos;s Hot Deals
+              Today&apos;s Hot Deals
             </Link>
           </div>
 
@@ -101,7 +90,7 @@ export default function Header() {
           ))}
         </nav>
         <div style={{ padding: '20px', borderTop: '1px solid #e5e7eb' }}>
-          <Link href="/deals" onClick={() => setMobileOpen(false)} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', width: '100%', padding: '16px', background: 'linear-gradient(135deg, #2563eb 0%, #3b82f6 100%)', color: 'white', borderRadius: '8px', fontSize: '16px', fontWeight: 600, textDecoration: 'none' }}>🔥 Explore Hot Deals</Link>
+          <Link href="/deals" onClick={() => setMobileOpen(false)} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', width: '100%', padding: '16px', background: 'linear-gradient(135deg, #2563eb 0%, #3b82f6 100%)', color: 'white', borderRadius: '8px', fontSize: '16px', fontWeight: 600, textDecoration: 'none' }}>Explore Hot Deals</Link>
         </div>
       </div>
 

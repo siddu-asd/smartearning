@@ -72,7 +72,7 @@ export default function ProductCard({ product }: ProductCardProps) {
         </div>
 
         {/* CTA Button */}
-        <button style={{ width: '100%', padding: '12px 16px', background: '#111827', color: 'white', border: 'none', borderRadius: '8px', fontSize: '14px', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
+        <button style={{ width: '100%', padding: '12px 16px', background: '#1e40af', color: 'white', border: 'none', borderRadius: '8px', fontSize: '14px', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
           View Deal <span>→</span>
         </button>
       </div>

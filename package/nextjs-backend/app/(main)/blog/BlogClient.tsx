@@ -11,99 +11,145 @@ export default function BlogClient({ blogs }: Props) {
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
-      month: 'long',
+      month: 'short',
       day: 'numeric',
     });
   };
 
-  const featuredBlog = blogs[0];
-  const otherBlogs = blogs.slice(1);
-
   return (
-    <div style={{ background: '#f9fafb', minHeight: '100vh' }}>
-      {/* Hero Section */}
-      <section style={{ background: 'linear-gradient(135deg, #2563eb 0%, #3b82f6 100%)', padding: '48px 24px 100px' }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <nav style={{ marginBottom: '20px' }}>
+    <div style={{ background: '#f8fafc', minHeight: '100vh' }}>
+      {/* Simple Header */}
+      <section style={{ background: 'white', padding: '40px 24px', borderBottom: '1px solid #e2e8f0' }}>
+        <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+          <nav style={{ marginBottom: '16px' }}>
             <ol style={{ display: 'flex', gap: '8px', listStyle: 'none', padding: 0, margin: 0, alignItems: 'center' }}>
-              <li><Link href="/" style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none', fontSize: '14px' }}>Home</Link></li>
-              <li style={{ color: 'rgba(255,255,255,0.5)' }}>/</li>
-              <li style={{ color: 'white', fontSize: '14px', fontWeight: 600 }}>Blog</li>
+              <li><Link href="/" style={{ color: '#64748b', textDecoration: 'none', fontSize: '14px' }}>Home</Link></li>
+              <li style={{ color: '#cbd5e1' }}>/</li>
+              <li style={{ color: '#1e293b', fontSize: '14px', fontWeight: 500 }}>Blog</li>
             </ol>
           </nav>
-
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}>
-            <span style={{ fontSize: '36px' }}>📖</span>
-            <h1 style={{ fontSize: 'clamp(28px, 4vw, 40px)', fontWeight: 800, color: 'white' }}>Our Blog</h1>
-          </div>
-          <p style={{ color: 'rgba(255,255,255,0.9)', fontSize: '16px' }}>Tips and insights to help you save money</p>
+          <h1 style={{ fontSize: '32px', fontWeight: 700, color: '#0f172a', margin: 0 }}>Blog</h1>
+          <p style={{ color: '#64748b', fontSize: '16px', marginTop: '8px' }}>Tips, guides and insights to help you save money</p>
         </div>
       </section>
 
-      {/* Content */}
-      <section style={{ padding: '0 24px', marginTop: '-60px', position: 'relative', zIndex: 10 }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto', paddingBottom: '60px' }}>
+      {/* Blog Grid */}
+      <section style={{ padding: '48px 24px' }}>
+        <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
           {blogs.length > 0 ? (
-            <>
-              {/* Featured Blog */}
-              {featuredBlog && (
-                <Link href={'/blog/' + featuredBlog.slug} style={{ display: 'block', background: 'white', borderRadius: '12px', overflow: 'hidden', textDecoration: 'none', boxShadow: '0 4px 20px rgba(0,0,0,0.08)', marginBottom: '40px' }}>
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
-                    <div style={{ position: 'relative', minHeight: '280px', background: '#f3f4f6' }}>
-                      {(featuredBlog.image_url || featuredBlog.featured_image) ? (
-                        <img src={featuredBlog.image_url || featuredBlog.featured_image} alt={featuredBlog.title} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
-                      ) : (
-                        <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '64px', opacity: 0.3 }}>📄</div>
-                      )}
-                      <div style={{ position: 'absolute', top: '16px', left: '16px', background: 'linear-gradient(135deg, #2563eb 0%, #3b82f6 100%)', color: 'white', padding: '6px 12px', borderRadius: '6px', fontSize: '12px', fontWeight: 700 }}>Featured</div>
-                    </div>
-                    <div style={{ padding: '32px' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
-                        {featuredBlog.category && <span style={{ background: '#f3f4f6', color: '#374151', padding: '4px 10px', borderRadius: '4px', fontSize: '12px', fontWeight: 600 }}>{featuredBlog.category}</span>}
-                        <span style={{ color: '#6b7280', fontSize: '13px' }}>{formatDate(featuredBlog.created_at)}</span>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: '32px' }}>
+              {blogs.map((blog) => (
+                <Link 
+                  key={blog.id} 
+                  href={'/blog/' + blog.slug} 
+                  style={{ 
+                    display: 'block', 
+                    background: 'white', 
+                    borderRadius: '16px', 
+                    overflow: 'hidden', 
+                    textDecoration: 'none',
+                    boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
+                    border: '1px solid #e2e8f0',
+                  }}
+                >
+                  {/* Image */}
+                  <div style={{ position: 'relative', width: '100%', height: '220px', background: '#f1f5f9' }}>
+                    {(blog.image_url || blog.featured_image) ? (
+                      <img 
+                        src={blog.image_url || blog.featured_image} 
+                        alt={blog.title} 
+                        style={{ 
+                          width: '100%', 
+                          height: '100%', 
+                          objectFit: 'cover',
+                          display: 'block'
+                        }} 
+                      />
+                    ) : (
+                      <div style={{ 
+                        width: '100%', 
+                        height: '100%', 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        justifyContent: 'center',
+                        background: 'linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%)',
+                        color: '#6366f1',
+                        fontSize: '14px',
+                        fontWeight: 600
+                      }}>
+                        SmartEarning Blog
                       </div>
-                      <h2 style={{ fontSize: '24px', fontWeight: 700, color: '#111827', margin: '0 0 12px', lineHeight: 1.3 }}>{featuredBlog.title}</h2>
-                      <p style={{ color: '#6b7280', fontSize: '15px', lineHeight: 1.6, margin: '0 0 20px' }}>{featuredBlog.excerpt || featuredBlog.content?.slice(0, 180)}...</p>
-                      <span style={{ color: '#2563eb', fontWeight: 600, fontSize: '14px' }}>Read Article →</span>
+                    )}
+                  </div>
+
+                  {/* Content */}
+                  <div style={{ padding: '24px' }}>
+                    {/* Meta */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
+                      {blog.category && (
+                        <span style={{ 
+                          background: '#dbeafe', 
+                          color: '#1d4ed8', 
+                          padding: '4px 10px', 
+                          borderRadius: '6px', 
+                          fontSize: '12px', 
+                          fontWeight: 600 
+                        }}>
+                          {blog.category}
+                        </span>
+                      )}
+                      <span style={{ color: '#94a3b8', fontSize: '13px' }}>{formatDate(blog.created_at)}</span>
                     </div>
+
+                    {/* Title */}
+                    <h2 style={{ 
+                      fontSize: '18px', 
+                      fontWeight: 600, 
+                      color: '#0f172a', 
+                      margin: '0 0 12px', 
+                      lineHeight: 1.4,
+                      display: '-webkit-box',
+                      WebkitLineClamp: 2,
+                      WebkitBoxOrient: 'vertical',
+                      overflow: 'hidden'
+                    }}>
+                      {blog.title}
+                    </h2>
+
+                    {/* Excerpt */}
+                    <p style={{ 
+                      color: '#64748b', 
+                      fontSize: '14px', 
+                      lineHeight: 1.6, 
+                      margin: '0 0 16px',
+                      display: '-webkit-box',
+                      WebkitLineClamp: 3,
+                      WebkitBoxOrient: 'vertical',
+                      overflow: 'hidden'
+                    }}>
+                      {blog.excerpt || blog.content?.slice(0, 150)}...
+                    </p>
+
+                    {/* Read More */}
+                    <span style={{ 
+                      color: '#2563eb', 
+                      fontWeight: 600, 
+                      fontSize: '14px',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '4px'
+                    }}>
+                      Read Article <span style={{ fontSize: '16px' }}>→</span>
+                    </span>
                   </div>
                 </Link>
-              )}
-
-              {/* Other Blogs */}
-              {otherBlogs.length > 0 && (
-                <>
-                  <h2 style={{ fontSize: '20px', fontWeight: 700, color: '#111827', marginBottom: '24px' }}>📝 More Articles</h2>
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '24px' }}>
-                    {otherBlogs.map((blog) => (
-                      <Link key={blog.id} href={'/blog/' + blog.slug} style={{ display: 'block', background: 'white', borderRadius: '12px', overflow: 'hidden', textDecoration: 'none', boxShadow: '0 1px 3px rgba(0,0,0,0.08)', border: '1px solid #e5e7eb' }}>
-                        <div style={{ position: 'relative', paddingTop: '56%', background: '#f3f4f6' }}>
-                          {(blog.image_url || blog.featured_image) ? (
-                            <img src={blog.image_url || blog.featured_image} alt={blog.title} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
-                          ) : (
-                            <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '40px', opacity: 0.3 }}>📄</div>
-                          )}
-                        </div>
-                        <div style={{ padding: '20px' }}>
-                          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
-                            {blog.category && <span style={{ background: '#f3f4f6', color: '#374151', padding: '3px 8px', borderRadius: '4px', fontSize: '11px', fontWeight: 600 }}>{blog.category}</span>}
-                            <span style={{ color: '#9ca3af', fontSize: '12px' }}>{formatDate(blog.created_at)}</span>
-                          </div>
-                          <h3 style={{ fontSize: '16px', fontWeight: 600, color: '#111827', margin: '0 0 8px', lineHeight: 1.4 }}>{blog.title}</h3>
-                          <p style={{ color: '#6b7280', fontSize: '14px', lineHeight: 1.5, margin: '0 0 12px' }}>{blog.excerpt || blog.content?.slice(0, 100)}...</p>
-                          <span style={{ color: '#2563eb', fontWeight: 600, fontSize: '13px' }}>Read More →</span>
-                        </div>
-                      </Link>
-                    ))}
-                  </div>
-                </>
-              )}
-            </>
+              ))}
+            </div>
           ) : (
-            <div style={{ textAlign: 'center', padding: '60px 20px', background: 'white', borderRadius: '12px' }}>
-              <div style={{ fontSize: '48px', marginBottom: '16px' }}>📭</div>
-              <h3 style={{ fontSize: '20px', fontWeight: 700, color: '#111827', marginBottom: '8px' }}>No articles yet</h3>
-              <p style={{ color: '#6b7280' }}>Check back soon for new content!</p>
+            <div style={{ textAlign: 'center', padding: '80px 20px', background: 'white', borderRadius: '16px', border: '1px solid #e2e8f0' }}>
+              <div style={{ fontSize: '48px', marginBottom: '16px', opacity: 0.5 }}>📝</div>
+              <h3 style={{ fontSize: '20px', fontWeight: 600, color: '#0f172a', marginBottom: '8px' }}>No articles yet</h3>
+              <p style={{ color: '#64748b' }}>Check back soon for new content!</p>
             </div>
           )}
         </div>
