@@ -81,8 +81,6 @@ export default function BlogClient({ blogs }: Props) {
                         StudentsCrazyDeals Blog
                       </div>
                     )}
-                      </div>
-                    )}
                   </div>
 
                   {/* Content */}
