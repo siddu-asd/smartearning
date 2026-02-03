@@ -2,146 +2,100 @@ import Link from 'next/link';
 
 export default function AboutPage() {
   const stats = [
-    { value: '50K+', label: 'Happy Students' },
+    { value: '50K+', label: 'Happy Users' },
     { value: '10K+', label: 'Deals Shared' },
     { value: '₹5Cr+', label: 'Money Saved' },
     { value: '100+', label: 'Partner Brands' },
   ];
 
-  const team = [
-    { name: 'Finding Deals', icon: '🔍', desc: 'We scour the internet for the best deals' },
-    { name: 'Verification', icon: '✅', desc: 'Every deal is manually verified' },
-    { name: 'Publishing', icon: '📢', desc: 'We share deals instantly with you' },
-    { name: 'Support', icon: '💬', desc: '24/7 help for any questions' },
+  const values = [
+    { title: 'User First', icon: '🎯', desc: 'Every decision we make prioritizes your savings' },
+    { title: 'Transparency', icon: '🔓', desc: 'We only share genuine deals and disclose partnerships' },
+    { title: 'Quality', icon: '⭐', desc: 'We verify every deal before sharing' },
+    { title: 'Community', icon: '❤️', desc: 'Building a community of smart shoppers' },
   ];
 
   return (
-    <div style={{ background: '#fafafa', minHeight: '100vh' }}>
-      {/* Hero */}
-      <section
-        style={{
-          background: 'linear-gradient(135deg, #6366F1, #8B5CF6, #A855F7)',
-          padding: '60px 20px 100px',
-          textAlign: 'center',
-        }}
-      >
-        <nav style={{ marginBottom: 20 }}>
-          <ol style={{ display: 'flex', gap: 8, justifyContent: 'center', listStyle: 'none', padding: 0, margin: 0 }}>
-            <li><Link href="/" style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none', fontSize: 14 }}>Home</Link></li>
+    <div style={{ background: '#f9fafb', minHeight: '100vh' }}>
+      {/* Hero Section */}
+      <section style={{ background: '#059669', padding: '60px 24px 120px', textAlign: 'center' }}>
+        <nav style={{ marginBottom: '24px' }}>
+          <ol style={{ display: 'flex', gap: '8px', justifyContent: 'center', listStyle: 'none', padding: 0, margin: 0, alignItems: 'center' }}>
+            <li><Link href="/" style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none', fontSize: '14px' }}>Home</Link></li>
             <li style={{ color: 'rgba(255,255,255,0.5)' }}>/</li>
-            <li style={{ color: 'white', fontSize: 14, fontWeight: 600 }}>About</li>
+            <li style={{ color: 'white', fontSize: '14px', fontWeight: 600 }}>About Us</li>
           </ol>
         </nav>
-        <h1 style={{ fontSize: 'clamp(28px, 5vw, 48px)', fontWeight: 900, color: 'white', marginBottom: 12 }}>
-          👋 About Us
+
+        <h1 style={{ fontSize: 'clamp(32px, 5vw, 48px)', fontWeight: 800, color: 'white', marginBottom: '16px' }}>
+          About SmartEarning
         </h1>
-        <p style={{ color: 'rgba(255,255,255,0.9)', fontSize: 16, maxWidth: 500, margin: '0 auto' }}>
-          We&apos;re on a mission to help students save money every single day.
+        <p style={{ color: 'rgba(255,255,255,0.9)', fontSize: '17px', maxWidth: '560px', margin: '0 auto', lineHeight: 1.6 }}>
+          On a mission to help everyone save money and shop smarter
         </p>
       </section>
 
-      {/* Stats */}
-      <section style={{ padding: '0 20px', marginTop: -50, position: 'relative', zIndex: 10 }}>
-        <div
-          style={{
-            maxWidth: 1000,
-            margin: '0 auto',
-            background: 'white',
-            borderRadius: 20,
-            padding: '40px 32px',
-            boxShadow: '0 10px 40px rgba(0,0,0,0.08)',
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
-            gap: 24,
-          }}
-        >
+      {/* Stats Section */}
+      <section style={{ padding: '0 24px', marginTop: '-60px', position: 'relative', zIndex: 10 }}>
+        <div style={{ maxWidth: '900px', margin: '0 auto', background: 'white', borderRadius: '12px', padding: '40px', boxShadow: '0 4px 20px rgba(0,0,0,0.08)', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '32px' }}>
           {stats.map((stat, i) => (
             <div key={i} style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: 32, fontWeight: 800, color: '#6366F1' }}>{stat.value}</div>
-              <div style={{ fontSize: 14, color: '#6b7280', marginTop: 4 }}>{stat.label}</div>
+              <div style={{ fontSize: '32px', fontWeight: 800, color: '#059669', marginBottom: '4px' }}>{stat.value}</div>
+              <div style={{ fontSize: '14px', color: '#6b7280' }}>{stat.label}</div>
             </div>
           ))}
         </div>
       </section>
 
-      {/* Story */}
-      <section style={{ padding: '80px 20px' }}>
-        <div style={{ maxWidth: 800, margin: '0 auto', textAlign: 'center' }}>
-          <h2 style={{ fontSize: 'clamp(24px, 4vw, 36px)', fontWeight: 800, color: '#111827', marginBottom: 20 }}>Our Story</h2>
-          <p style={{ color: '#4b5563', fontSize: 16, lineHeight: 1.8, marginBottom: 16 }}>
-            StudentCrazyDeals started with a simple idea: college students shouldn&apos;t have to pay full price for anything. 
-            As students ourselves, we knew the struggle of balancing academics with a tight budget.
-          </p>
-          <p style={{ color: '#4b5563', fontSize: 16, lineHeight: 1.8 }}>
-            Today, we&apos;re India&apos;s largest student deals platform, helping over 50,000 students save money on everything 
-            from laptops and phones to fashion and food. Our team works 24/7 to find, verify, and share the best deals 
-            so you can focus on what matters most — your education.
-          </p>
+      {/* Story Section */}
+      <section style={{ padding: '60px 24px' }}>
+        <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+            <span style={{ display: 'inline-block', background: '#ecfdf5', color: '#059669', padding: '8px 16px', borderRadius: '50px', fontSize: '13px', fontWeight: 700, marginBottom: '12px' }}>📖 OUR STORY</span>
+            <h2 style={{ fontSize: '28px', fontWeight: 800, color: '#111827' }}>How It All Started</h2>
+          </div>
+
+          <div style={{ background: 'white', padding: '32px', borderRadius: '12px', border: '1px solid #e5e7eb' }}>
+            <p style={{ fontSize: '16px', color: '#374151', lineHeight: 1.8, marginBottom: '16px' }}>
+              SmartEarning was born from a simple idea: everyone deserves access to the best deals. We started as a small team passionate about helping people save money on their everyday purchases.
+            </p>
+            <p style={{ fontSize: '16px', color: '#374151', lineHeight: 1.8, marginBottom: '16px' }}>
+              Today, we&apos;ve grown into India&apos;s trusted deals platform, helping thousands of users save money every day. Our team works around the clock to find, verify, and share the best deals from across the web.
+            </p>
+            <p style={{ fontSize: '16px', color: '#374151', lineHeight: 1.8, margin: 0 }}>
+              We believe that smart shopping isn&apos;t just about finding low prices – it&apos;s about getting real value for your money. That&apos;s why we verify every deal before sharing it with our community.
+            </p>
+          </div>
         </div>
       </section>
 
-      {/* How We Work */}
-      <section style={{ padding: '0 20px 80px' }}>
-        <div style={{ maxWidth: 1000, margin: '0 auto' }}>
-          <h2 style={{ fontSize: 'clamp(24px, 4vw, 36px)', fontWeight: 800, color: '#111827', textAlign: 'center', marginBottom: 48 }}>
-            How We Work
-          </h2>
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-              gap: 24,
-            }}
-          >
-            {team.map((item, i) => (
-              <div
-                key={i}
-                style={{
-                  background: 'white',
-                  borderRadius: 16,
-                  padding: 28,
-                  textAlign: 'center',
-                  boxShadow: '0 2px 12px rgba(0,0,0,0.05)',
-                }}
-              >
-                <span style={{ fontSize: 40, display: 'block', marginBottom: 16 }}>{item.icon}</span>
-                <h3 style={{ fontSize: 18, fontWeight: 700, color: '#111827', marginBottom: 8 }}>{item.name}</h3>
-                <p style={{ fontSize: 14, color: '#6b7280' }}>{item.desc}</p>
+      {/* Values Section */}
+      <section style={{ padding: '40px 24px 60px' }}>
+        <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+            <span style={{ display: 'inline-block', background: '#ecfdf5', color: '#059669', padding: '8px 16px', borderRadius: '50px', fontSize: '13px', fontWeight: 700, marginBottom: '12px' }}>💎 OUR VALUES</span>
+            <h2 style={{ fontSize: '28px', fontWeight: 800, color: '#111827' }}>What We Stand For</h2>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px' }}>
+            {values.map((value, i) => (
+              <div key={i} style={{ background: 'white', padding: '28px', borderRadius: '12px', border: '1px solid #e5e7eb', textAlign: 'center' }}>
+                <div style={{ fontSize: '32px', marginBottom: '12px' }}>{value.icon}</div>
+                <h3 style={{ fontSize: '17px', fontWeight: 700, color: '#111827', marginBottom: '8px' }}>{value.title}</h3>
+                <p style={{ fontSize: '14px', color: '#6b7280', lineHeight: 1.5, margin: 0 }}>{value.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section
-        style={{
-          padding: '80px 20px',
-          background: 'linear-gradient(135deg, #6366F1, #8B5CF6, #A855F7)',
-          textAlign: 'center',
-        }}
-      >
-        <div style={{ maxWidth: 600, margin: '0 auto' }}>
-          <h2 style={{ fontSize: 'clamp(24px, 4vw, 36px)', fontWeight: 800, color: 'white', marginBottom: 16 }}>
-            Ready to Start Saving?
-          </h2>
-          <p style={{ color: 'rgba(255,255,255,0.9)', marginBottom: 32 }}>
-            Join thousands of students saving money every day
-          </p>
-          <Link
-            href="/deals"
-            style={{
-              display: 'inline-block',
-              background: 'white',
-              color: '#6366F1',
-              padding: '16px 40px',
-              borderRadius: 50,
-              fontSize: 16,
-              fontWeight: 700,
-              textDecoration: 'none',
-            }}
-          >
-            Browse Deals →
+      {/* CTA Section */}
+      <section style={{ padding: '40px 24px 80px' }}>
+        <div style={{ maxWidth: '600px', margin: '0 auto', background: '#059669', borderRadius: '12px', padding: '40px', textAlign: 'center' }}>
+          <h2 style={{ fontSize: '24px', fontWeight: 800, color: 'white', marginBottom: '12px' }}>Ready to Start Saving?</h2>
+          <p style={{ color: 'rgba(255,255,255,0.9)', fontSize: '16px', marginBottom: '24px' }}>Join thousands of smart shoppers today</p>
+          <Link href="/deals" style={{ display: 'inline-block', background: 'white', color: '#059669', padding: '14px 32px', borderRadius: '8px', fontSize: '15px', fontWeight: 700, textDecoration: 'none' }}>
+            Explore Deals →
           </Link>
         </div>
       </section>
@@ -150,6 +104,6 @@ export default function AboutPage() {
 }
 
 export const metadata = {
-  title: 'About Us - StudentCrazyDeals',
-  description: 'Learn about StudentCrazyDeals — India\'s #1 student deals platform.',
+  title: 'About Us - SmartEarning',
+  description: 'Learn about SmartEarning - India\'s trusted deals platform helping users save money every day.',
 };

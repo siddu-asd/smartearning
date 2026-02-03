@@ -10,190 +10,77 @@ interface Props {
 
 export default function HomeClient({ products }: Props) {
   const categories = [
-    { name: 'Mobiles', icon: '📱', color: '#6366F1', count: '200+', href: '/deals?cat=mobiles' },
-    { name: 'Laptops', icon: '💻', color: '#8B5CF6', count: '150+', href: '/deals?cat=laptops' },
-    { name: 'Audio', icon: '🎧', color: '#A855F7', count: '100+', href: '/deals?cat=audio' },
-    { name: 'Electronics', icon: '📺', color: '#EC4899', count: '180+', href: '/deals?cat=electronics' },
-    { name: 'Fashion', icon: '👕', color: '#F43F5E', count: '300+', href: '/deals?cat=fashion' },
-    { name: 'Home', icon: '🏠', color: '#10B981', count: '120+', href: '/deals?cat=home' },
+    { name: 'Mobiles', icon: '📱', href: '/deals?cat=mobiles' },
+    { name: 'Laptops', icon: '💻', href: '/deals?cat=laptops' },
+    { name: 'Audio', icon: '🎧', href: '/deals?cat=audio' },
+    { name: 'Electronics', icon: '📺', href: '/deals?cat=electronics' },
+    { name: 'Fashion', icon: '👕', href: '/deals?cat=fashion' },
+    { name: 'Home & Living', icon: '🏠', href: '/deals?cat=home' },
   ];
 
   const stats = [
-    { value: '50K+', label: 'Happy Students', icon: '🎓' },
-    { value: '10K+', label: 'Deals Shared', icon: '🏷️' },
-    { value: '₹5Cr+', label: 'Money Saved', icon: '💰' },
-    { value: '100+', label: 'Top Brands', icon: '⭐' },
+    { value: '50K+', label: 'Happy Users' },
+    { value: '10K+', label: 'Deals Shared' },
+    { value: '₹5Cr+', label: 'Money Saved' },
+    { value: '100+', label: 'Brands' },
   ];
 
   return (
-    <div style={{ background: '#fafafa' }}>
+    <div>
       {/* Hero Section */}
-      <section
-        style={{
-          background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 50%, #A855F7 100%)',
-          padding: '80px 20px 120px',
-          textAlign: 'center',
-          position: 'relative',
-          overflow: 'hidden',
-        }}
-      >
-        {/* Background decorations */}
-        <div style={{ position: 'absolute', top: '10%', left: '5%', fontSize: 60, opacity: 0.1 }}>🛍️</div>
-        <div style={{ position: 'absolute', top: '30%', right: '10%', fontSize: 50, opacity: 0.1 }}>💰</div>
-        <div style={{ position: 'absolute', bottom: '20%', left: '15%', fontSize: 55, opacity: 0.1 }}>🎉</div>
+      <section style={{ background: '#059669', padding: '80px 24px 120px', position: 'relative' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '48px', alignItems: 'center' }}>
+            {/* Left Content */}
+            <div>
+              <span style={{ display: 'inline-block', background: 'rgba(255,255,255,0.2)', padding: '8px 16px', borderRadius: '50px', fontSize: '14px', fontWeight: 600, color: 'white', marginBottom: '20px' }}>
+                🔥 500+ Active Deals
+              </span>
 
-        <div style={{ maxWidth: 800, margin: '0 auto', position: 'relative', zIndex: 1 }}>
-          <div
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 8,
-              background: 'rgba(255,255,255,0.2)',
-              padding: '8px 20px',
-              borderRadius: 50,
-              marginBottom: 24,
-            }}
-          >
-            <span style={{ width: 8, height: 8, background: '#22c55e', borderRadius: '50%' }} />
-            <span style={{ color: 'white', fontSize: 14, fontWeight: 600 }}>🔥 500+ Active Deals Right Now</span>
-          </div>
+              <h1 style={{ fontSize: 'clamp(32px, 5vw, 48px)', fontWeight: 800, color: 'white', lineHeight: 1.2, marginBottom: '20px' }}>
+                Save Money on Everything You Love
+              </h1>
 
-          <h1 style={{ fontSize: 'clamp(32px, 6vw, 56px)', fontWeight: 900, color: 'white', marginBottom: 20, lineHeight: 1.1 }}>
-            Save Big on Everything<br />You Love to Buy
-          </h1>
+              <p style={{ fontSize: '17px', color: 'rgba(255,255,255,0.9)', lineHeight: 1.7, marginBottom: '32px', maxWidth: '480px' }}>
+                India&apos;s most trusted deals platform. Get exclusive discounts on mobiles, laptops, fashion & more.
+              </p>
 
-          <p style={{ fontSize: 'clamp(16px, 2vw, 20px)', color: 'rgba(255,255,255,0.9)', maxWidth: 600, margin: '0 auto 32px', lineHeight: 1.6 }}>
-            India&apos;s #1 student deals platform. Get exclusive discounts on mobiles, laptops, fashion & more.
-          </p>
-
-          <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link
-              href="/deals"
-              style={{
-                background: 'white',
-                color: '#6366F1',
-                padding: '14px 32px',
-                borderRadius: 50,
-                fontSize: 16,
-                fontWeight: 700,
-                textDecoration: 'none',
-                boxShadow: '0 4px 16px rgba(0,0,0,0.1)',
-              }}
-            >
-              🔥 Explore Deals
-            </Link>
-            <Link
-              href="/blog"
-              style={{
-                background: 'rgba(255,255,255,0.15)',
-                color: 'white',
-                padding: '14px 32px',
-                borderRadius: 50,
-                fontSize: 16,
-                fontWeight: 600,
-                textDecoration: 'none',
-                border: '2px solid rgba(255,255,255,0.3)',
-              }}
-            >
-              📖 Read Blog
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Stats Section */}
-      <section style={{ padding: '0 20px', marginTop: -60, position: 'relative', zIndex: 10 }}>
-        <div
-          style={{
-            maxWidth: 1000,
-            margin: '0 auto',
-            background: 'white',
-            borderRadius: 20,
-            padding: '40px 32px',
-            boxShadow: '0 10px 40px rgba(0,0,0,0.08)',
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
-            gap: 24,
-          }}
-        >
-          {stats.map((stat, i) => (
-            <div key={i} style={{ textAlign: 'center' }}>
-              <span style={{ fontSize: 32, display: 'block', marginBottom: 8 }}>{stat.icon}</span>
-              <div style={{ fontSize: 28, fontWeight: 800, color: '#111827' }}>{stat.value}</div>
-              <div style={{ fontSize: 14, color: '#6b7280' }}>{stat.label}</div>
+              <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+                <Link href="/deals" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'white', color: '#059669', padding: '16px 28px', borderRadius: '8px', fontSize: '15px', fontWeight: 700, textDecoration: 'none' }}>
+                  🔥 Explore Deals
+                </Link>
+                <Link href="/blog" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'transparent', color: 'white', padding: '16px 28px', borderRadius: '8px', fontSize: '15px', fontWeight: 600, textDecoration: 'none', border: '2px solid rgba(255,255,255,0.4)' }}>
+                  Read Our Blog
+                </Link>
+              </div>
             </div>
-          ))}
+
+            {/* Stats Grid */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px' }}>
+              {stats.map((stat, index) => (
+                <div key={index} style={{ background: 'rgba(255,255,255,0.15)', borderRadius: '12px', padding: '24px', textAlign: 'center' }}>
+                  <div style={{ fontSize: '28px', fontWeight: 800, color: 'white', marginBottom: '4px' }}>{stat.value}</div>
+                  <div style={{ fontSize: '14px', color: 'rgba(255,255,255,0.8)' }}>{stat.label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
       {/* Categories Section */}
-      <section style={{ padding: '80px 20px' }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: 48 }}>
-            <span
-              style={{
-                display: 'inline-block',
-                background: '#eef2ff',
-                color: '#6366F1',
-                padding: '6px 16px',
-                borderRadius: 50,
-                fontSize: 13,
-                fontWeight: 700,
-                marginBottom: 12,
-              }}
-            >
-              🏷️ CATEGORIES
-            </span>
-            <h2 style={{ fontSize: 'clamp(24px, 4vw, 36px)', fontWeight: 800, color: '#111827' }}>Shop by Category</h2>
+      <section style={{ padding: '60px 24px', background: '#f9fafb' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+            <span style={{ display: 'inline-block', background: '#ecfdf5', color: '#059669', padding: '8px 16px', borderRadius: '50px', fontSize: '13px', fontWeight: 700, marginBottom: '12px' }}>🏷️ CATEGORIES</span>
+            <h2 style={{ fontSize: '28px', fontWeight: 800, color: '#111827' }}>Shop by Category</h2>
           </div>
 
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
-              gap: 16,
-            }}
-          >
-            {categories.map((cat, i) => (
-              <Link
-                key={i}
-                href={cat.href}
-                style={{
-                  background: 'white',
-                  borderRadius: 16,
-                  padding: '28px 16px',
-                  textAlign: 'center',
-                  textDecoration: 'none',
-                  boxShadow: '0 2px 12px rgba(0,0,0,0.05)',
-                  border: '1px solid #f3f4f6',
-                  transition: 'all 0.3s',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-4px)';
-                  e.currentTarget.style.boxShadow = '0 8px 24px rgba(0,0,0,0.1)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 2px 12px rgba(0,0,0,0.05)';
-                }}
-              >
-                <div
-                  style={{
-                    width: 56,
-                    height: 56,
-                    background: `${cat.color}15`,
-                    borderRadius: 14,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: 26,
-                    margin: '0 auto 12px',
-                  }}
-                >
-                  {cat.icon}
-                </div>
-                <h3 style={{ fontSize: 15, fontWeight: 700, color: '#111827', marginBottom: 4 }}>{cat.name}</h3>
-                <span style={{ fontSize: 13, color: cat.color, fontWeight: 600 }}>{cat.count} Deals</span>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '16px' }}>
+            {categories.map((cat) => (
+              <Link key={cat.name} href={cat.href} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px', background: 'white', padding: '24px 16px', borderRadius: '12px', textDecoration: 'none', border: '1px solid #e5e7eb' }}>
+                <span style={{ fontSize: '32px' }}>{cat.icon}</span>
+                <span style={{ fontSize: '14px', fontWeight: 600, color: '#111827' }}>{cat.name}</span>
               </Link>
             ))}
           </div>
@@ -201,122 +88,56 @@ export default function HomeClient({ products }: Props) {
       </section>
 
       {/* Featured Products */}
-      {products.length > 0 && (
-        <section style={{ padding: '0 20px 80px' }}>
-          <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32, flexWrap: 'wrap', gap: 16 }}>
-              <div>
-                <span
-                  style={{
-                    display: 'inline-block',
-                    background: '#fef3c7',
-                    color: '#d97706',
-                    padding: '6px 16px',
-                    borderRadius: 50,
-                    fontSize: 13,
-                    fontWeight: 700,
-                    marginBottom: 8,
-                  }}
-                >
-                  🔥 HOT DEALS
-                </span>
-                <h2 style={{ fontSize: 'clamp(24px, 4vw, 36px)', fontWeight: 800, color: '#111827' }}>Featured Deals</h2>
-              </div>
-              <Link
-                href="/deals"
-                style={{
-                  color: '#6366F1',
-                  fontWeight: 600,
-                  fontSize: 15,
-                  textDecoration: 'none',
-                }}
-              >
-                View All →
-              </Link>
+      <section style={{ padding: '60px 24px', background: 'white' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px', flexWrap: 'wrap', gap: '16px' }}>
+            <div>
+              <span style={{ display: 'inline-block', background: '#ecfdf5', color: '#059669', padding: '8px 16px', borderRadius: '50px', fontSize: '13px', fontWeight: 700, marginBottom: '12px' }}>🔥 HOT DEALS</span>
+              <h2 style={{ fontSize: '28px', fontWeight: 800, color: '#111827' }}>Today&apos;s Best Deals</h2>
             </div>
+            <Link href="/deals" style={{ color: '#059669', fontSize: '15px', fontWeight: 600, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '4px' }}>
+              View All Deals →
+            </Link>
+          </div>
 
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
-                gap: 24,
-              }}
-            >
+          {products.length > 0 ? (
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '20px' }}>
               {products.slice(0, 8).map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}
             </div>
-          </div>
-        </section>
-      )}
-
-      {/* Features Section */}
-      <section style={{ padding: '80px 20px', background: 'white' }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <h2 style={{ fontSize: 'clamp(24px, 4vw, 36px)', fontWeight: 800, color: '#111827', textAlign: 'center', marginBottom: 48 }}>
-            Why Choose Us?
-          </h2>
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-              gap: 24,
-            }}
-          >
-            {[
-              { icon: '✅', title: 'Verified Deals', desc: 'Every deal is manually verified' },
-              { icon: '⚡', title: 'Real-time Updates', desc: 'Get notified when prices drop' },
-              { icon: '🔒', title: '100% Secure', desc: 'Shop through trusted platforms' },
-              { icon: '💯', title: 'Best Prices', desc: 'Guaranteed lowest prices' },
-            ].map((f, i) => (
-              <div
-                key={i}
-                style={{
-                  background: '#fafafa',
-                  borderRadius: 16,
-                  padding: 28,
-                  textAlign: 'center',
-                }}
-              >
-                <span style={{ fontSize: 40, display: 'block', marginBottom: 16 }}>{f.icon}</span>
-                <h3 style={{ fontSize: 18, fontWeight: 700, color: '#111827', marginBottom: 8 }}>{f.title}</h3>
-                <p style={{ fontSize: 14, color: '#6b7280' }}>{f.desc}</p>
-              </div>
-            ))}
-          </div>
+          ) : (
+            <div style={{ textAlign: 'center', padding: '60px 20px', background: '#f9fafb', borderRadius: '12px' }}>
+              <div style={{ fontSize: '48px', marginBottom: '16px' }}>📦</div>
+              <h3 style={{ fontSize: '20px', fontWeight: 700, color: '#111827', marginBottom: '8px' }}>No deals available</h3>
+              <p style={{ color: '#6b7280' }}>Check back soon for new deals!</p>
+            </div>
+          )}
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section
-        style={{
-          padding: '80px 20px',
-          background: 'linear-gradient(135deg, #6366F1, #8B5CF6, #A855F7)',
-          textAlign: 'center',
-        }}
-      >
-        <div style={{ maxWidth: 600, margin: '0 auto' }}>
-          <h2 style={{ fontSize: 'clamp(24px, 4vw, 36px)', fontWeight: 800, color: 'white', marginBottom: 16 }}>
-            Ready to Start Saving?
-          </h2>
-          <p style={{ color: 'rgba(255,255,255,0.9)', marginBottom: 32 }}>
-            Join 50,000+ students saving money every day
-          </p>
-          <Link
-            href="/deals"
-            style={{
-              display: 'inline-block',
-              background: 'white',
-              color: '#6366F1',
-              padding: '16px 40px',
-              borderRadius: 50,
-              fontSize: 16,
-              fontWeight: 700,
-              textDecoration: 'none',
-            }}
-          >
-            Browse All Deals →
-          </Link>
+      {/* Why Choose Us */}
+      <section style={{ padding: '60px 24px', background: '#f9fafb' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+            <span style={{ display: 'inline-block', background: '#ecfdf5', color: '#059669', padding: '8px 16px', borderRadius: '50px', fontSize: '13px', fontWeight: 700, marginBottom: '12px' }}>✨ WHY US</span>
+            <h2 style={{ fontSize: '28px', fontWeight: 800, color: '#111827' }}>Why Choose SmartEarning</h2>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '20px' }}>
+            {[
+              { icon: '🎯', title: 'Handpicked Deals', desc: 'Every deal is manually verified by our team' },
+              { icon: '⚡', title: 'Lightning Fast', desc: 'Real-time updates on the latest deals' },
+              { icon: '🛡️', title: '100% Genuine', desc: 'Only authentic deals from trusted platforms' },
+              { icon: '💰', title: 'Maximum Savings', desc: 'Get the best prices guaranteed' },
+            ].map((feature, i) => (
+              <div key={i} style={{ background: 'white', padding: '28px', borderRadius: '12px', border: '1px solid #e5e7eb' }}>
+                <div style={{ fontSize: '32px', marginBottom: '16px' }}>{feature.icon}</div>
+                <h3 style={{ fontSize: '17px', fontWeight: 700, color: '#111827', marginBottom: '8px' }}>{feature.title}</h3>
+                <p style={{ fontSize: '14px', color: '#6b7280', lineHeight: 1.6 }}>{feature.desc}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
     </div>
