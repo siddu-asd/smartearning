@@ -53,15 +53,15 @@ export default function BlogClient({ blogs }: Props) {
                   }}
                 >
                   {/* Image */}
-                  <div style={{ position: 'relative', width: '100%', height: '220px', background: '#f1f5f9' }}>
+                  <div style={{ position: 'relative', width: '100%', height: '200px', background: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px' }}>
                     {(blog.image_url || blog.featured_image) ? (
                       <img 
                         src={blog.image_url || blog.featured_image} 
                         alt={blog.title} 
                         style={{ 
-                          width: '100%', 
-                          height: '100%', 
-                          objectFit: 'cover',
+                          maxWidth: '100%', 
+                          maxHeight: '100%', 
+                          objectFit: 'contain',
                           display: 'block'
                         }} 
                       />
@@ -72,12 +72,15 @@ export default function BlogClient({ blogs }: Props) {
                         display: 'flex', 
                         alignItems: 'center', 
                         justifyContent: 'center',
-                        background: 'linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%)',
-                        color: '#6366f1',
+                        background: 'linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%)',
+                        color: '#2563eb',
                         fontSize: '14px',
-                        fontWeight: 600
+                        fontWeight: 600,
+                        borderRadius: '8px'
                       }}>
                         SmartEarning Blog
+                      </div>
+                    )}
                       </div>
                     )}
                   </div>
