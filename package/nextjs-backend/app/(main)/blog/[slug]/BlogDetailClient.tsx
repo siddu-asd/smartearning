@@ -20,7 +20,7 @@ export default function BlogDetailClient({ blog, relatedBlogs }: Props) {
   return (
     <div style={{ background: '#f9fafb', minHeight: '100vh' }}>
       {/* Hero Section */}
-      <section style={{ background: '#059669', padding: '48px 24px 120px' }}>
+      <section style={{ background: 'linear-gradient(135deg, #2563eb 0%, #3b82f6 100%)', padding: '48px 24px 120px' }}>
         <div style={{ maxWidth: '900px', margin: '0 auto' }}>
           {/* Breadcrumb */}
           <nav style={{ marginBottom: '24px' }}>
@@ -74,7 +74,7 @@ export default function BlogDetailClient({ blog, relatedBlogs }: Props) {
                   <span key={i} style={{ width: '36px', height: '36px', borderRadius: '8px', background: '#f3f4f6', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px', color: '#374151' }}>{icon}</span>
                 ))}
               </div>
-              <Link href="/blog" style={{ color: '#059669', fontSize: '14px', fontWeight: 600, textDecoration: 'none' }}>← Back to Blog</Link>
+              <Link href="/blog" style={{ color: '#2563eb', fontSize: '14px', fontWeight: 600, textDecoration: 'none' }}>← Back to Blog</Link>
             </div>
           </article>
 

@@ -22,7 +22,7 @@ export default function BlogClient({ blogs }: Props) {
   return (
     <div style={{ background: '#f9fafb', minHeight: '100vh' }}>
       {/* Hero Section */}
-      <section style={{ background: '#059669', padding: '48px 24px 100px' }}>
+      <section style={{ background: 'linear-gradient(135deg, #2563eb 0%, #3b82f6 100%)', padding: '48px 24px 100px' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <nav style={{ marginBottom: '20px' }}>
             <ol style={{ display: 'flex', gap: '8px', listStyle: 'none', padding: 0, margin: 0, alignItems: 'center' }}>
@@ -55,7 +55,7 @@ export default function BlogClient({ blogs }: Props) {
                       ) : (
                         <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '64px', opacity: 0.3 }}>📄</div>
                       )}
-                      <div style={{ position: 'absolute', top: '16px', left: '16px', background: '#059669', color: 'white', padding: '6px 12px', borderRadius: '6px', fontSize: '12px', fontWeight: 700 }}>Featured</div>
+                      <div style={{ position: 'absolute', top: '16px', left: '16px', background: 'linear-gradient(135deg, #2563eb 0%, #3b82f6 100%)', color: 'white', padding: '6px 12px', borderRadius: '6px', fontSize: '12px', fontWeight: 700 }}>Featured</div>
                     </div>
                     <div style={{ padding: '32px' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
@@ -64,7 +64,7 @@ export default function BlogClient({ blogs }: Props) {
                       </div>
                       <h2 style={{ fontSize: '24px', fontWeight: 700, color: '#111827', margin: '0 0 12px', lineHeight: 1.3 }}>{featuredBlog.title}</h2>
                       <p style={{ color: '#6b7280', fontSize: '15px', lineHeight: 1.6, margin: '0 0 20px' }}>{featuredBlog.excerpt || featuredBlog.content?.slice(0, 180)}...</p>
-                      <span style={{ color: '#059669', fontWeight: 600, fontSize: '14px' }}>Read Article →</span>
+                      <span style={{ color: '#2563eb', fontWeight: 600, fontSize: '14px' }}>Read Article →</span>
                     </div>
                   </div>
                 </Link>
@@ -91,7 +91,7 @@ export default function BlogClient({ blogs }: Props) {
                           </div>
                           <h3 style={{ fontSize: '16px', fontWeight: 600, color: '#111827', margin: '0 0 8px', lineHeight: 1.4 }}>{blog.title}</h3>
                           <p style={{ color: '#6b7280', fontSize: '14px', lineHeight: 1.5, margin: '0 0 12px' }}>{blog.excerpt || blog.content?.slice(0, 100)}...</p>
-                          <span style={{ color: '#059669', fontWeight: 600, fontSize: '13px' }}>Read More →</span>
+                          <span style={{ color: '#2563eb', fontWeight: 600, fontSize: '13px' }}>Read More →</span>
                         </div>
                       </Link>
                     ))}

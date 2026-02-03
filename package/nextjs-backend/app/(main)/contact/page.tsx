@@ -39,7 +39,7 @@ export default function ContactPage() {
   return (
     <div style={{ background: '#f9fafb', minHeight: '100vh' }}>
       {/* Hero Section */}
-      <section style={{ background: '#059669', padding: '60px 24px 120px', textAlign: 'center' }}>
+      <section style={{ background: 'linear-gradient(135deg, #2563eb 0%, #3b82f6 100%)', padding: '60px 24px 120px', textAlign: 'center' }}>
         <nav style={{ marginBottom: '24px' }}>
           <ol style={{ display: 'flex', gap: '8px', justifyContent: 'center', listStyle: 'none', padding: 0, margin: 0, alignItems: 'center' }}>
             <li><Link href="/" style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none', fontSize: '14px' }}>Home</Link></li>
@@ -77,7 +77,7 @@ export default function ContactPage() {
                 <div style={{ fontSize: '48px', marginBottom: '16px' }}>✅</div>
                 <h3 style={{ fontSize: '18px', fontWeight: 700, color: '#111827', marginBottom: '8px' }}>Message Sent!</h3>
                 <p style={{ color: '#6b7280', marginBottom: '20px' }}>We&apos;ll get back to you soon.</p>
-                <button onClick={() => setSent(false)} style={{ padding: '12px 24px', background: '#059669', color: 'white', border: 'none', borderRadius: '8px', fontSize: '14px', fontWeight: 600, cursor: 'pointer' }}>Send Another</button>
+                <button onClick={() => setSent(false)} style={{ padding: '12px 24px', background: 'linear-gradient(135deg, #2563eb 0%, #3b82f6 100%)', color: 'white', border: 'none', borderRadius: '8px', fontSize: '14px', fontWeight: 600, cursor: 'pointer' }}>Send Another</button>
               </div>
             ) : (
               <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -85,7 +85,7 @@ export default function ContactPage() {
                 <input type="email" placeholder="Your Email" required value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} style={inputStyle} />
                 <input type="text" placeholder="Subject" required value={form.subject} onChange={(e) => setForm({ ...form, subject: e.target.value })} style={inputStyle} />
                 <textarea placeholder="Your Message" required rows={4} value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} style={{ ...inputStyle, resize: 'vertical' }} />
-                <button type="submit" style={{ padding: '14px 24px', background: '#059669', color: 'white', border: 'none', borderRadius: '8px', fontSize: '15px', fontWeight: 600, cursor: 'pointer' }}>Send Message →</button>
+                <button type="submit" style={{ padding: '14px 24px', background: 'linear-gradient(135deg, #2563eb 0%, #3b82f6 100%)', color: 'white', border: 'none', borderRadius: '8px', fontSize: '15px', fontWeight: 600, cursor: 'pointer' }}>Send Message →</button>
               </form>
             )}
           </div>

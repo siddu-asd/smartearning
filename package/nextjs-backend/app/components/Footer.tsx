@@ -34,7 +34,7 @@ export default function Footer() {
   return (
     <footer style={{ background: '#111827', color: 'white' }}>
       {/* Newsletter Section */}
-      <div style={{ background: '#059669', padding: '60px 24px' }}>
+      <div style={{ background: 'linear-gradient(135deg, #2563eb 0%, #3b82f6 100%)', padding: '60px 24px' }}>
         <div style={{ maxWidth: '700px', margin: '0 auto', textAlign: 'center' }}>
           <span style={{ display: 'inline-block', background: 'rgba(255,255,255,0.2)', padding: '8px 16px', borderRadius: '50px', fontSize: '14px', fontWeight: 600, marginBottom: '20px' }}>📬 Newsletter</span>
           <h2 style={{ fontSize: '28px', fontWeight: 800, marginBottom: '12px' }}>Never Miss a Deal Again!</h2>
@@ -60,14 +60,14 @@ export default function Footer() {
           {/* Brand Column */}
           <div>
             <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px', textDecoration: 'none' }}>
-              <div style={{ width: '44px', height: '44px', background: '#059669', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <div style={{ width: '44px', height: '44px', background: 'linear-gradient(135deg, #2563eb 0%, #3b82f6 100%)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                   <path d="M12 2L2 7l10 5 10-5-10-5z" fill="white"/>
                   <path d="M2 17l10 5 10-5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   <path d="M2 12l10 5 10-5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
               </div>
-              <div style={{ fontSize: '18px', fontWeight: 800, color: 'white' }}>Smart<span style={{ color: '#10b981' }}>Earning</span></div>
+              <div style={{ fontSize: '18px', fontWeight: 800, color: 'white' }}>Smart<span style={{ color: '#60a5fa' }}>Earning</span></div>
             </Link>
             <p style={{ color: '#9ca3af', lineHeight: 1.7, fontSize: '14px' }}>India&apos;s trusted destination for the best deals, discounts, and savings.</p>
           </div>

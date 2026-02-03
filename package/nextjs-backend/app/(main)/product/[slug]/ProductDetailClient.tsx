@@ -28,7 +28,7 @@ export default function ProductDetailClient({ product, relatedProducts }: Props)
   return (
     <div style={{ background: '#f9fafb', minHeight: '100vh' }}>
       {/* Hero Section */}
-      <section style={{ background: '#059669', padding: '48px 24px 120px' }}>
+      <section style={{ background: 'linear-gradient(135deg, #2563eb 0%, #3b82f6 100%)', padding: '48px 24px 120px' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <nav>
             <ol style={{ display: 'flex', gap: '8px', listStyle: 'none', padding: 0, margin: 0, alignItems: 'center', flexWrap: 'wrap' }}>
@@ -72,13 +72,13 @@ export default function ProductDetailClient({ product, relatedProducts }: Props)
                 {/* Price */}
                 <div style={{ marginBottom: '24px' }}>
                   <div style={{ display: 'flex', alignItems: 'baseline', gap: '12px', marginBottom: '8px' }}>
-                    <span style={{ fontSize: '32px', fontWeight: 800, color: '#059669' }}>₹{price.toLocaleString()}</span>
+                    <span style={{ fontSize: '32px', fontWeight: 800, color: '#2563eb' }}>₹{price.toLocaleString()}</span>
                     {originalPrice > price && (
                       <span style={{ fontSize: '18px', color: '#9ca3af', textDecoration: 'line-through' }}>₹{originalPrice.toLocaleString()}</span>
                     )}
                   </div>
                   {savings > 0 && (
-                    <div style={{ color: '#059669', fontSize: '15px', fontWeight: 600 }}>You save ₹{savings.toLocaleString()}</div>
+                    <div style={{ color: '#2563eb', fontSize: '15px', fontWeight: 600 }}>You save ₹{savings.toLocaleString()}</div>
                   )}
                 </div>
 
@@ -92,7 +92,7 @@ export default function ProductDetailClient({ product, relatedProducts }: Props)
                 </div>
 
                 {/* CTA Button */}
-                <a href={product.affiliate_link} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', width: '100%', padding: '16px 24px', background: '#059669', color: 'white', borderRadius: '8px', fontSize: '16px', fontWeight: 700, textDecoration: 'none' }}>
+                <a href={product.affiliate_link} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', width: '100%', padding: '16px 24px', background: 'linear-gradient(135deg, #2563eb 0%, #3b82f6 100%)', color: 'white', borderRadius: '8px', fontSize: '16px', fontWeight: 700, textDecoration: 'none' }}>
                   Get This Deal →
                 </a>
 
@@ -116,7 +116,7 @@ export default function ProductDetailClient({ product, relatedProducts }: Props)
             <div style={{ paddingBottom: '60px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', flexWrap: 'wrap', gap: '12px' }}>
                 <h2 style={{ fontSize: '20px', fontWeight: 700, color: '#111827' }}>Similar Deals</h2>
-                <Link href="/deals" style={{ color: '#059669', fontSize: '14px', fontWeight: 600, textDecoration: 'none' }}>View All →</Link>
+                <Link href="/deals" style={{ color: '#2563eb', fontSize: '14px', fontWeight: 600, textDecoration: 'none' }}>View All →</Link>
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '20px' }}>
                 {relatedProducts.slice(0, 4).map((p) => (

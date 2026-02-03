@@ -18,7 +18,7 @@ export default function AboutPage() {
   return (
     <div style={{ background: '#f9fafb', minHeight: '100vh' }}>
       {/* Hero Section */}
-      <section style={{ background: '#059669', padding: '60px 24px 120px', textAlign: 'center' }}>
+      <section style={{ background: 'linear-gradient(135deg, #2563eb 0%, #3b82f6 100%)', padding: '60px 24px 120px', textAlign: 'center' }}>
         <nav style={{ marginBottom: '24px' }}>
           <ol style={{ display: 'flex', gap: '8px', justifyContent: 'center', listStyle: 'none', padding: 0, margin: 0, alignItems: 'center' }}>
             <li><Link href="/" style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none', fontSize: '14px' }}>Home</Link></li>
@@ -40,7 +40,7 @@ export default function AboutPage() {
         <div style={{ maxWidth: '900px', margin: '0 auto', background: 'white', borderRadius: '12px', padding: '40px', boxShadow: '0 4px 20px rgba(0,0,0,0.08)', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '32px' }}>
           {stats.map((stat, i) => (
             <div key={i} style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: '32px', fontWeight: 800, color: '#059669', marginBottom: '4px' }}>{stat.value}</div>
+              <div style={{ fontSize: '32px', fontWeight: 800, color: '#2563eb', marginBottom: '4px' }}>{stat.value}</div>
               <div style={{ fontSize: '14px', color: '#6b7280' }}>{stat.label}</div>
             </div>
           ))}
@@ -51,7 +51,7 @@ export default function AboutPage() {
       <section style={{ padding: '60px 24px' }}>
         <div style={{ maxWidth: '800px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-            <span style={{ display: 'inline-block', background: '#ecfdf5', color: '#059669', padding: '8px 16px', borderRadius: '50px', fontSize: '13px', fontWeight: 700, marginBottom: '12px' }}>📖 OUR STORY</span>
+            <span style={{ display: 'inline-block', background: '#dbeafe', color: '#2563eb', padding: '8px 16px', borderRadius: '50px', fontSize: '13px', fontWeight: 700, marginBottom: '12px' }}>📖 OUR STORY</span>
             <h2 style={{ fontSize: '28px', fontWeight: 800, color: '#111827' }}>How It All Started</h2>
           </div>
 
@@ -73,7 +73,7 @@ export default function AboutPage() {
       <section style={{ padding: '40px 24px 60px' }}>
         <div style={{ maxWidth: '900px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-            <span style={{ display: 'inline-block', background: '#ecfdf5', color: '#059669', padding: '8px 16px', borderRadius: '50px', fontSize: '13px', fontWeight: 700, marginBottom: '12px' }}>💎 OUR VALUES</span>
+            <span style={{ display: 'inline-block', background: '#dbeafe', color: '#2563eb', padding: '8px 16px', borderRadius: '50px', fontSize: '13px', fontWeight: 700, marginBottom: '12px' }}>💎 OUR VALUES</span>
             <h2 style={{ fontSize: '28px', fontWeight: 800, color: '#111827' }}>What We Stand For</h2>
           </div>
 
@@ -91,10 +91,10 @@ export default function AboutPage() {
 
       {/* CTA Section */}
       <section style={{ padding: '40px 24px 80px' }}>
-        <div style={{ maxWidth: '600px', margin: '0 auto', background: '#059669', borderRadius: '12px', padding: '40px', textAlign: 'center' }}>
+        <div style={{ maxWidth: '600px', margin: '0 auto', background: 'linear-gradient(135deg, #2563eb 0%, #3b82f6 100%)', borderRadius: '12px', padding: '40px', textAlign: 'center' }}>
           <h2 style={{ fontSize: '24px', fontWeight: 800, color: 'white', marginBottom: '12px' }}>Ready to Start Saving?</h2>
           <p style={{ color: 'rgba(255,255,255,0.9)', fontSize: '16px', marginBottom: '24px' }}>Join thousands of smart shoppers today</p>
-          <Link href="/deals" style={{ display: 'inline-block', background: 'white', color: '#059669', padding: '14px 32px', borderRadius: '8px', fontSize: '15px', fontWeight: 700, textDecoration: 'none' }}>
+          <Link href="/deals" style={{ display: 'inline-block', background: 'white', color: '#2563eb', padding: '14px 32px', borderRadius: '8px', fontSize: '15px', fontWeight: 700, textDecoration: 'none' }}>
             Explore Deals →
           </Link>
         </div>

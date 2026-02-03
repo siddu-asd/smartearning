@@ -60,7 +60,7 @@ export default function DealsClient({ products, initialCategory = 'all' }: Props
   return (
     <div style={{ background: '#f9fafb', minHeight: '100vh' }}>
       {/* Hero Section */}
-      <section style={{ background: '#059669', padding: '48px 24px 100px' }}>
+      <section style={{ background: 'linear-gradient(135deg, #2563eb 0%, #3b82f6 100%)', padding: '48px 24px 100px' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <nav style={{ marginBottom: '20px' }}>
             <ol style={{ display: 'flex', gap: '8px', listStyle: 'none', padding: 0, margin: 0, alignItems: 'center' }}>
@@ -106,7 +106,7 @@ export default function DealsClient({ products, initialCategory = 'all' }: Props
                     padding: '10px 16px',
                     borderRadius: '8px',
                     border: isActive ? 'none' : '1px solid #e5e7eb',
-                    background: isActive ? '#059669' : 'white',
+                    background: isActive ? 'linear-gradient(135deg, #2563eb 0%, #3b82f6 100%)' : 'white',
                     color: isActive ? 'white' : '#374151',
                     fontSize: '14px',
                     fontWeight: 600,
@@ -153,7 +153,7 @@ export default function DealsClient({ products, initialCategory = 'all' }: Props
               <div style={{ fontSize: '48px', marginBottom: '16px' }}>🔍</div>
               <h3 style={{ fontSize: '20px', fontWeight: 700, color: '#111827', marginBottom: '8px' }}>No deals found</h3>
               <p style={{ color: '#6b7280', marginBottom: '20px' }}>Try adjusting your filters or search terms</p>
-              <button onClick={() => { setCategory('all'); setSearch(''); }} style={{ padding: '12px 24px', background: '#059669', color: 'white', border: 'none', borderRadius: '8px', fontSize: '14px', fontWeight: 600, cursor: 'pointer' }}>
+              <button onClick={() => { setCategory('all'); setSearch(''); }} style={{ padding: '12px 24px', background: 'linear-gradient(135deg, #2563eb 0%, #3b82f6 100%)', color: 'white', border: 'none', borderRadius: '8px', fontSize: '14px', fontWeight: 600, cursor: 'pointer' }}>
                 Clear Filters
               </button>
             </div>

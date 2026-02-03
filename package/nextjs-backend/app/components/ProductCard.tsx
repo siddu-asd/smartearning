@@ -65,7 +65,7 @@ export default function ProductCard({ product }: ProductCardProps) {
 
         {/* Price Section */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
-          <span style={{ fontSize: '18px', fontWeight: 700, color: '#059669' }}>₹{price.toLocaleString()}</span>
+          <span style={{ fontSize: '18px', fontWeight: 700, color: '#2563eb' }}>₹{price.toLocaleString()}</span>
           {originalPrice > price && (
             <span style={{ fontSize: '14px', color: '#9ca3af', textDecoration: 'line-through' }}>₹{originalPrice.toLocaleString()}</span>
           )}
