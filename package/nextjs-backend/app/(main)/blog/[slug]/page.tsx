@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { getBlogBySlug } from '../../../../lib/db';
+import { getBlogBySlug, getBlogs } from '../../../../lib/db';
 import BlogDetailClient from './BlogDetailClient';
 
 interface Props {
@@ -14,14 +14,18 @@ export default async function BlogDetailPage({ params }: Props) {
     notFound();
   }
 
-  return <BlogDetailClient blog={blog} />;
+  // Get related blogs (excluding current one)
+  const allBlogs = await getBlogs();
+  const relatedBlogs = allBlogs.filter(b => b.id !== blog.id).slice(0, 3);
+
+  return <BlogDetailClient blog={blog} relatedBlogs={relatedBlogs} />;
 }
 
 export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
   const blog = await getBlogBySlug(slug);
   return {
-    title: blog ? `${blog.title} - StudentCrazyDeals` : 'Blog Post',
+    title: blog ? `${blog.title} - SmartEarning` : 'Blog Post',
     description: blog?.content?.slice(0, 160) || 'Read our latest blog post.',
   };
 }

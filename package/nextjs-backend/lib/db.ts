@@ -38,6 +38,12 @@ export interface Blog {
   slug: string;
   content?: string;
   featured_image?: string;
+  image_url?: string;
+  category?: string;
+  excerpt?: string;
+  meta_title?: string;
+  meta_description?: string;
+  published?: boolean;
   created_at: string;
 }
 
