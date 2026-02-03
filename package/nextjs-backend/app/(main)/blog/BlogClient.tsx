@@ -78,7 +78,7 @@ export default function BlogClient({ blogs }: Props) {
                         fontWeight: 600,
                         borderRadius: '8px'
                       }}>
-                        SmartEarning Blog
+                        StudentsCrazyDeals Blog
                       </div>
                     )}
                       </div>

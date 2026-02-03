@@ -14,7 +14,7 @@ export default function ContactPage() {
   };
 
   const contactMethods = [
-    { icon: '📧', title: 'Email', value: 'hello@smartearning.in', href: 'mailto:hello@smartearning.in' },
+    { icon: '📧', title: 'Email', value: 'hello@studentscrazydeals.in', href: 'mailto:hello@studentscrazydeals.in' },
     { icon: '📍', title: 'Location', value: 'Bangalore, India', href: '#' },
     { icon: '⏰', title: 'Response', value: 'Within 24 hours', href: '#' },
   ];

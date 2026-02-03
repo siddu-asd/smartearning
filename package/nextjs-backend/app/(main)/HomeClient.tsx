@@ -121,7 +121,7 @@ export default function HomeClient({ products }: Props) {
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '40px' }}>
             <span style={{ display: 'inline-block', background: '#dbeafe', color: '#2563eb', padding: '8px 16px', borderRadius: '50px', fontSize: '13px', fontWeight: 700, marginBottom: '12px' }}>WHY US</span>
-            <h2 style={{ fontSize: '28px', fontWeight: 800, color: '#111827' }}>Why Choose SmartEarning</h2>
+            <h2 style={{ fontSize: '28px', fontWeight: 800, color: '#111827' }}>Why Choose StudentsCrazyDeals</h2>
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '20px' }}>

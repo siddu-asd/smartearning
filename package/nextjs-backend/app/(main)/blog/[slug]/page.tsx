@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
   const blog = await getBlogBySlug(slug);
   return {
-    title: blog ? `${blog.title} - SmartEarning` : 'Blog Post',
+    title: blog ? `${blog.title} - StudentsCrazyDeals` : 'Blog Post',
     description: blog?.content?.slice(0, 160) || 'Read our latest blog post.',
   };
 }

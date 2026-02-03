@@ -29,7 +29,7 @@ export default function Header() {
       {/* Top Announcement Bar */}
       <div style={{ background: 'linear-gradient(135deg, #2563eb 0%, #3b82f6 100%)', padding: '10px 20px', textAlign: 'center' }}>
         <p style={{ color: 'white', fontSize: '14px', fontWeight: 600, margin: 0 }}>
-          Welcome to SmartEarning — Your Trusted Destination for the Best Deals!
+          Welcome to StudentsCrazyDeals — Your Trusted Destination for the Best Deals!
         </p>
       </div>
 
@@ -47,7 +47,7 @@ export default function Header() {
         <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '72px' }}>
           {/* Logo */}
           <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
-            <div style={{ fontSize: '22px', fontWeight: 800, color: '#111827' }}>Smart<span style={{ color: '#2563eb' }}>Earning</span></div>
+            <div style={{ fontSize: '22px', fontWeight: 800, color: '#111827' }}>Students<span style={{ color: '#2563eb' }}>CrazyDeals</span></div>
           </Link>
 
           {/* Desktop Navigation */}

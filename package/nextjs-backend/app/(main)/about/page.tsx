@@ -28,7 +28,7 @@ export default function AboutPage() {
         </nav>
 
         <h1 style={{ fontSize: 'clamp(32px, 5vw, 48px)', fontWeight: 800, color: 'white', marginBottom: '16px' }}>
-          About SmartEarning
+          About StudentsCrazyDeals
         </h1>
         <p style={{ color: 'rgba(255,255,255,0.9)', fontSize: '17px', maxWidth: '560px', margin: '0 auto', lineHeight: 1.6 }}>
           On a mission to help everyone save money and shop smarter
@@ -57,7 +57,7 @@ export default function AboutPage() {
 
           <div style={{ background: 'white', padding: '32px', borderRadius: '12px', border: '1px solid #e5e7eb' }}>
             <p style={{ fontSize: '16px', color: '#374151', lineHeight: 1.8, marginBottom: '16px' }}>
-              SmartEarning was born from a simple idea: everyone deserves access to the best deals. We started as a small team passionate about helping people save money on their everyday purchases.
+              StudentsCrazyDeals was born from a simple idea: every student deserves access to the best deals. We started as a small team passionate about helping students save money on their everyday purchases.
             </p>
             <p style={{ fontSize: '16px', color: '#374151', lineHeight: 1.8, marginBottom: '16px' }}>
               Today, we&apos;ve grown into India&apos;s trusted deals platform, helping thousands of users save money every day. Our team works around the clock to find, verify, and share the best deals from across the web.
@@ -104,6 +104,6 @@ export default function AboutPage() {
 }
 
 export const metadata = {
-  title: 'About Us - SmartEarning',
-  description: 'Learn about SmartEarning - India\'s trusted deals platform helping users save money every day.',
+  title: 'About Us - StudentsCrazyDeals',
+  description: 'Learn about StudentsCrazyDeals - India\'s trusted student deals platform helping students save money every day.',
 };

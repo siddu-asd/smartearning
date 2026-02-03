@@ -60,7 +60,7 @@ export default function Footer() {
           {/* Brand Column */}
           <div>
             <Link href="/" style={{ display: 'inline-block', marginBottom: '20px', textDecoration: 'none' }}>
-              <div style={{ fontSize: '22px', fontWeight: 800, color: 'white' }}>Smart<span style={{ color: '#60a5fa' }}>Earning</span></div>
+              <div style={{ fontSize: '22px', fontWeight: 800, color: 'white' }}>Students<span style={{ color: '#60a5fa' }}>CrazyDeals</span></div>
             </Link>
             <p style={{ color: '#9ca3af', lineHeight: 1.7, fontSize: '14px' }}>India&apos;s trusted destination for the best deals, discounts, and savings.</p>
           </div>
@@ -93,8 +93,8 @@ export default function Footer() {
           <div>
             <h3 style={{ fontSize: '15px', fontWeight: 700, marginBottom: '20px', color: 'white' }}>Contact Us</h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              <a href="mailto:hello@smartearning.in" style={{ color: '#9ca3af', textDecoration: 'none', fontSize: '14px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span>📧</span> hello@smartearning.in
+              <a href="mailto:hello@studentscrazydeals.in" style={{ color: '#9ca3af', textDecoration: 'none', fontSize: '14px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span>📧</span> hello@studentscrazydeals.in
               </a>
               <div style={{ color: '#9ca3af', fontSize: '14px', display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <span>📍</span> Bangalore, India
@@ -105,7 +105,7 @@ export default function Footer() {
 
         {/* Bottom Bar */}
         <div style={{ marginTop: '48px', paddingTop: '24px', borderTop: '1px solid rgba(255,255,255,0.1)', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: '16px' }}>
-          <p style={{ color: '#6b7280', fontSize: '14px', margin: 0 }}>© {new Date().getFullYear()} SmartEarning. All rights reserved.</p>
+          <p style={{ color: '#6b7280', fontSize: '14px', margin: 0 }}>© {new Date().getFullYear()} StudentsCrazyDeals. All rights reserved.</p>
           <div style={{ display: 'flex', gap: '24px' }}>
             <Link href="#" style={{ color: '#6b7280', fontSize: '14px', textDecoration: 'none' }}>Privacy Policy</Link>
             <Link href="#" style={{ color: '#6b7280', fontSize: '14px', textDecoration: 'none' }}>Terms of Service</Link>
