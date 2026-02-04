@@ -17,19 +17,43 @@ export default function DealsClient({ products, initialCategory = 'all' }: Props
 
   const categories = [
     { id: 'all', name: 'All Deals', icon: '🔥' },
-    { id: 'mobiles', name: 'Mobiles', icon: '📱' },
-    { id: 'laptops', name: 'Laptops', icon: '💻' },
-    { id: 'audio', name: 'Audio', icon: '🎧' },
-    { id: 'electronics', name: 'Electronics', icon: '📺' },
-    { id: 'fashion', name: 'Fashion', icon: '👕' },
-    { id: 'home', name: 'Home', icon: '🏠' },
+    { id: 'mobiles', name: 'Mobiles', icon: '📱', aliases: ['mobile', '2', 'mobile deals'] },
+    { id: 'laptops', name: 'Laptops', icon: '💻', aliases: ['laptop', '1', 'laptop deals'] },
+    { id: 'audio', name: 'Audio', icon: '🎧', aliases: ['5', 'audio & headphones', 'headphones'] },
+    { id: 'electronics', name: 'Electronics', icon: '📺', aliases: ['7', 'entertainment'] },
+    { id: 'fashion', name: 'Fashion', icon: '👕', aliases: ['clothes', 'clothing'] },
+    { id: 'home', name: 'Home', icon: '🏠', aliases: ['3', '4', '6', 'home appliances', 'laundry', 'furniture', 'study furniture'] },
   ];
+
+  // Helper function to match category with aliases
+  const matchCategory = (productCategory: string | undefined, filterCategory: string) => {
+    if (!productCategory) return false;
+    const cat = categories.find(c => c.id === filterCategory);
+    if (!cat) return false;
+    
+    const productCatLower = productCategory.toLowerCase().trim();
+    const filterCatLower = filterCategory.toLowerCase();
+    
+    // Direct match
+    if (productCatLower === filterCatLower || productCatLower.includes(filterCatLower)) {
+      return true;
+    }
+    
+    // Check aliases
+    if (cat.aliases) {
+      return cat.aliases.some(alias => 
+        productCatLower === alias.toLowerCase() || productCatLower.includes(alias.toLowerCase())
+      );
+    }
+    
+    return false;
+  };
 
   const filtered = useMemo(() => {
     let result = [...products];
 
     if (category !== 'all') {
-      result = result.filter((p) => p.category?.toLowerCase().includes(category.toLowerCase()));
+      result = result.filter((p) => matchCategory(p.category, category));
     }
 
     if (search) {
