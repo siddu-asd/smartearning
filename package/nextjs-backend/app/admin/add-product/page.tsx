@@ -164,13 +164,12 @@ export default function AddProductPage() {
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
               >
                 <option value="">Select Category</option>
-                <option value="1">Laptop Deals</option>
-                <option value="2">Mobile Deals</option>
-                <option value="3">Home Appliances</option>
-                <option value="4">Laundry & Cleaning</option>
-                <option value="5">Audio & Headphones</option>
-                <option value="6">Study Furniture</option>
-                <option value="7">Entertainment</option>
+                <option value="mobiles">Mobiles</option>
+                <option value="laptops">Laptops</option>
+                <option value="audio">Audio</option>
+                <option value="electronics">Electronics</option>
+                <option value="fashion">Fashion</option>
+                <option value="home">Home</option>
               </select>
             </div>
 
