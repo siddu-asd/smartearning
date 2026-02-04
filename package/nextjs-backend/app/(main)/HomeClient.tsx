@@ -101,9 +101,20 @@ export default function HomeClient({ products }: Props) {
           </div>
 
           {products.length > 0 ? (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '20px' }}>
-              {products.slice(0, 8).map((product) => (
-                <ProductCard key={product.id} product={product} />
+            <div 
+              className="hide-scrollbar"
+              style={{ 
+                display: 'flex', 
+                gap: '20px', 
+                overflowX: 'auto', 
+                paddingBottom: '16px',
+                scrollSnapType: 'x mandatory',
+                WebkitOverflowScrolling: 'touch'
+              }}>
+              {products.slice(0, 10).map((product) => (
+                <div key={product.id} style={{ flex: '0 0 280px', scrollSnapAlign: 'start' }}>
+                  <ProductCard product={product} />
+                </div>
               ))}
             </div>
           ) : (

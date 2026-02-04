@@ -142,6 +142,15 @@ select:focus {
   background: var(--primary-600);
 }
 
+/* Hide scrollbar for horizontal scroll containers */
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 /* Selection */
 ::selection {
   background: rgba(16, 185, 129, 0.2);
