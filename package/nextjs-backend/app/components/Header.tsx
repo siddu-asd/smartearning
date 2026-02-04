@@ -79,17 +79,17 @@ export default function Header() {
       {mobileOpen && <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.5)', zIndex: 999 }} onClick={() => setMobileOpen(false)} />}
 
       {/* Mobile Menu Panel */}
-      <div style={{ position: 'fixed', top: 0, right: 0, width: '300px', maxWidth: '85%', height: '100vh', background: 'white', zIndex: 1001, transform: mobileOpen ? 'translateX(0)' : 'translateX(100%)', transition: 'transform 0.3s ease', boxShadow: '-10px 0 40px rgba(0,0,0,0.1)', display: 'flex', flexDirection: 'column' }}>
-        <div style={{ padding: '20px', borderBottom: '1px solid #e5e7eb', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <div style={{ position: 'fixed', top: 0, right: 0, width: '300px', maxWidth: '85%', height: '100%', maxHeight: '100dvh', background: 'white', zIndex: 1001, transform: mobileOpen ? 'translateX(0)' : 'translateX(100%)', transition: 'transform 0.3s ease', boxShadow: '-10px 0 40px rgba(0,0,0,0.1)', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+        <div style={{ padding: '20px', borderBottom: '1px solid #e5e7eb', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexShrink: 0 }}>
           <span style={{ fontWeight: 700, fontSize: '18px', color: '#111827' }}>Menu</span>
           <button onClick={() => setMobileOpen(false)} style={{ width: '40px', height: '40px', borderRadius: '8px', background: '#f3f4f6', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px' }}>✕</button>
         </div>
-        <nav style={{ flex: 1, padding: '20px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+        <nav style={{ flex: 1, padding: '20px', display: 'flex', flexDirection: 'column', gap: '8px', overflowY: 'auto' }}>
           {links.map((link) => (
             <Link key={link.name} href={link.href} onClick={() => setMobileOpen(false)} style={{ padding: '16px 20px', borderRadius: '8px', fontSize: '16px', fontWeight: 500, color: '#374151', textDecoration: 'none' }}>{link.name}</Link>
           ))}
         </nav>
-        <div style={{ padding: '20px', borderTop: '1px solid #e5e7eb' }}>
+        <div style={{ padding: '20px', paddingBottom: 'max(20px, env(safe-area-inset-bottom))', borderTop: '1px solid #e5e7eb', flexShrink: 0, background: 'white' }}>
           <Link href="/deals" onClick={() => setMobileOpen(false)} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', width: '100%', padding: '16px', background: 'linear-gradient(135deg, #2563eb 0%, #3b82f6 100%)', color: 'white', borderRadius: '8px', fontSize: '16px', fontWeight: 600, textDecoration: 'none' }}>Explore Hot Deals</Link>
         </div>
       </div>

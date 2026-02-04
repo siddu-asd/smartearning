@@ -30,11 +30,11 @@ export default function ScrollTop() {
         width: '56px',
         height: '56px',
         borderRadius: '16px',
-        background: 'linear-gradient(135deg, #059669, #10b981)',
+        background: 'linear-gradient(135deg, #2563eb, #3b82f6)',
         color: 'white',
         border: 'none',
         cursor: 'pointer',
-        boxShadow: '0 8px 24px rgba(16, 185, 129, 0.4)',
+        boxShadow: '0 8px 24px rgba(37, 99, 235, 0.4)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -44,11 +44,11 @@ export default function ScrollTop() {
       }}
       onMouseEnter={(e) => {
         e.currentTarget.style.transform = 'translateY(-4px) scale(1.05)';
-        e.currentTarget.style.boxShadow = '0 12px 32px rgba(16, 185, 129, 0.5)';
+        e.currentTarget.style.boxShadow = '0 12px 32px rgba(37, 99, 235, 0.5)';
       }}
       onMouseLeave={(e) => {
         e.currentTarget.style.transform = 'translateY(0) scale(1)';
-        e.currentTarget.style.boxShadow = '0 8px 24px rgba(16, 185, 129, 0.4)';
+        e.currentTarget.style.boxShadow = '0 8px 24px rgba(37, 99, 235, 0.4)';
       }}
     >
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
