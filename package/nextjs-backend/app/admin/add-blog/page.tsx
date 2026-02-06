@@ -252,38 +252,37 @@ export default function AddBlogPage() {
               <h3 className="text-lg font-medium mb-4">Publishing Options</h3>
               
               <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Schedule Publish Date & Time *
+                  </label>
+                  <input
+                    type="datetime-local"
+                    value={formData.scheduled_at}
+                    onChange={(e) => setFormData({ ...formData, scheduled_at: e.target.value })}
+                    min={new Date().toISOString().slice(0, 16)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                    required
+                  />
+                  <p className="text-sm text-gray-500 mt-1">
+                    {formData.scheduled_at 
+                      ? `Blog will be published automatically on ${new Date(formData.scheduled_at).toLocaleString()}`
+                      : 'Set the date and time when this blog should be published'}
+                  </p>
+                </div>
+
                 <div className="flex items-center">
                   <input
                     type="checkbox"
                     id="published"
                     checked={formData.published}
-                    onChange={(e) => setFormData({ ...formData, published: e.target.checked, scheduled_at: e.target.checked ? '' : formData.scheduled_at })}
+                    onChange={(e) => setFormData({ ...formData, published: e.target.checked })}
                     className="h-4 w-4 text-blue-600 border-gray-300 rounded"
                   />
                   <label htmlFor="published" className="ml-2 text-sm text-gray-700">
-                    Publish immediately (visible on website)
+                    Publish immediately (ignore schedule, make visible now)
                   </label>
                 </div>
-
-                {!formData.published && (
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Schedule for later (optional)
-                    </label>
-                    <input
-                      type="datetime-local"
-                      value={formData.scheduled_at}
-                      onChange={(e) => setFormData({ ...formData, scheduled_at: e.target.value })}
-                      min={new Date().toISOString().slice(0, 16)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-                    />
-                    <p className="text-sm text-gray-500 mt-1">
-                      {formData.scheduled_at 
-                        ? `Will be published automatically on ${new Date(formData.scheduled_at).toLocaleString()}`
-                        : 'Leave empty to save as draft. Set a date/time to schedule auto-publishing.'}
-                    </p>
-                  </div>
-                )}
               </div>
             </div>
 
