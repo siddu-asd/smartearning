@@ -2,6 +2,10 @@ import { notFound } from 'next/navigation';
 import { getBlogBySlug, getBlogs } from '../../../../lib/db';
 import BlogDetailClient from './BlogDetailClient';
 
+// Disable caching to always show latest blogs
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 interface Props {
   params: Promise<{ slug: string }>;
 }

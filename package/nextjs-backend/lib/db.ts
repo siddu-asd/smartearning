@@ -89,6 +89,7 @@ export async function getBlogs(): Promise<Blog[]> {
   const { data, error } = await client
     .from('blogs')
     .select('*')
+    .eq('published', true)
     .order('created_at', { ascending: false });
 
   if (error) {
