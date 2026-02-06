@@ -51,20 +51,66 @@ export default function BlogDetailClient({ blog, relatedBlogs }: Props) {
         <div style={{ maxWidth: '900px', margin: '0 auto' }}>
           {/* Featured Image */}
           {(blog.image_url || blog.featured_image) && (
-            <div style={{ borderRadius: '12px', overflow: 'hidden', marginBottom: '32px', boxShadow: '0 4px 20px rgba(0,0,0,0.1)', background: 'white' }}>
-              <img src={blog.image_url || blog.featured_image} alt={blog.title} style={{ width: '100%', height: 'auto', maxHeight: '450px', objectFit: 'cover', display: 'block' }} />
+            <div style={{ borderRadius: '12px', overflow: 'hidden', marginBottom: '32px', boxShadow: '0 4px 20px rgba(0,0,0,0.1)', background: 'white', padding: '16px' }}>
+              <img src={blog.image_url || blog.featured_image} alt={blog.title} style={{ width: '100%', height: 'auto', objectFit: 'contain', display: 'block' }} />
             </div>
           )}
 
           {/* Article Content */}
           <article style={{ background: 'white', borderRadius: '12px', padding: 'clamp(24px, 5vw, 48px)', boxShadow: '0 2px 12px rgba(0,0,0,0.05)', marginBottom: '48px' }}>
-            <div style={{ fontSize: '17px', lineHeight: 1.8, color: '#374151' }}>
-              {blog.content?.split('\n').map((paragraph, index) => (
-                paragraph.trim() && (
-                  <p key={index} style={{ marginBottom: '20px' }}>{paragraph}</p>
-                )
-              ))}
-            </div>
+            <div 
+              style={{ fontSize: '17px', lineHeight: 1.8, color: '#374151' }}
+              className="blog-content"
+              dangerouslySetInnerHTML={{ __html: blog.content || '' }}
+            />
+            <style jsx global>{`
+              .blog-content h1, .blog-content h2, .blog-content h3, .blog-content h4, .blog-content h5, .blog-content h6 {
+                color: #111827;
+                margin-top: 24px;
+                margin-bottom: 16px;
+                font-weight: 600;
+              }
+              .blog-content h1 { font-size: 28px; }
+              .blog-content h2 { font-size: 24px; }
+              .blog-content h3 { font-size: 20px; }
+              .blog-content p {
+                margin-bottom: 16px;
+              }
+              .blog-content ul, .blog-content ol {
+                margin-bottom: 16px;
+                padding-left: 24px;
+              }
+              .blog-content li {
+                margin-bottom: 8px;
+              }
+              .blog-content a {
+                color: #2563eb;
+                text-decoration: underline;
+              }
+              .blog-content img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 8px;
+                margin: 16px 0;
+              }
+              .blog-content blockquote {
+                border-left: 4px solid #2563eb;
+                padding-left: 16px;
+                margin: 16px 0;
+                color: #6b7280;
+                font-style: italic;
+              }
+              .blog-content pre, .blog-content code {
+                background: #f3f4f6;
+                padding: 2px 6px;
+                border-radius: 4px;
+                font-family: monospace;
+              }
+              .blog-content pre {
+                padding: 16px;
+                overflow-x: auto;
+              }
+            `}</style>
 
             {/* Back Link */}
             <div style={{ marginTop: '40px', paddingTop: '24px', borderTop: '1px solid #e5e7eb', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
@@ -85,11 +131,11 @@ export default function BlogDetailClient({ blog, relatedBlogs }: Props) {
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '20px' }}>
                 {relatedBlogs.slice(0, 3).map((relatedBlog) => (
                   <Link key={relatedBlog.id} href={`/blog/${relatedBlog.slug}`} style={{ background: 'white', borderRadius: '12px', overflow: 'hidden', textDecoration: 'none', boxShadow: '0 2px 10px rgba(0,0,0,0.05)' }}>
-                    <div style={{ paddingTop: '55%', position: 'relative', background: '#f3f4f6' }}>
+                    <div style={{ padding: '16px', minHeight: '150px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f9fafb' }}>
                       {(relatedBlog.image_url || relatedBlog.featured_image) ? (
-                        <img src={relatedBlog.image_url || relatedBlog.featured_image} alt={relatedBlog.title} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
+                        <img src={relatedBlog.image_url || relatedBlog.featured_image} alt={relatedBlog.title} style={{ maxWidth: '100%', maxHeight: '150px', objectFit: 'contain' }} />
                       ) : (
-                        <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '36px', opacity: 0.3 }}>📄</div>
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '36px', opacity: 0.3 }}>📄</div>
                       )}
                     </div>
                     <div style={{ padding: '16px' }}>

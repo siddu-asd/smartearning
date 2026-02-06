@@ -16,6 +16,11 @@ export default function BlogClient({ blogs }: Props) {
     });
   };
 
+  // Strip HTML tags for excerpt display
+  const stripHtml = (html: string) => {
+    return html?.replace(/<[^>]*>/g, '') || '';
+  };
+
   return (
     <div style={{ background: '#f8fafc', minHeight: '100vh' }}>
       {/* Simple Header */}
@@ -128,7 +133,7 @@ export default function BlogClient({ blogs }: Props) {
                       WebkitBoxOrient: 'vertical',
                       overflow: 'hidden'
                     }}>
-                      {blog.excerpt || blog.content?.slice(0, 150)}...
+                      {stripHtml(blog.excerpt || blog.content?.slice(0, 150) || '')}...
                     </p>
 
                     {/* Read More */}
