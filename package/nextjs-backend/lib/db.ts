@@ -44,6 +44,7 @@ export interface Blog {
   meta_title?: string;
   meta_description?: string;
   published?: boolean;
+  scheduled_at?: string | null;
   created_at: string;
 }
 

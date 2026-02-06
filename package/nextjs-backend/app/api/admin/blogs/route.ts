@@ -52,6 +52,7 @@ export async function POST(request: NextRequest) {
       meta_description: body.meta_description || '',
       category: body.category || 'general',
       published: body.published ?? false,
+      scheduled_at: body.scheduled_at ? new Date(body.scheduled_at).toISOString() : null,
       created_at: new Date().toISOString(),
     };
     console.log('📦 Insert data:', insertData);

@@ -42,6 +42,7 @@ CREATE TABLE IF NOT EXISTS blogs (
   meta_description TEXT DEFAULT '',
   category TEXT DEFAULT 'general',
   published BOOLEAN DEFAULT false,
+  scheduled_at TIMESTAMP WITH TIME ZONE DEFAULT NULL,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
@@ -50,6 +51,7 @@ CREATE TABLE IF NOT EXISTS blogs (
 CREATE INDEX IF NOT EXISTS idx_blogs_slug ON blogs(slug);
 CREATE INDEX IF NOT EXISTS idx_blogs_category ON blogs(category);
 CREATE INDEX IF NOT EXISTS idx_blogs_published ON blogs(published);
+CREATE INDEX IF NOT EXISTS idx_blogs_scheduled ON blogs(scheduled_at);
 
 -- ================================================
 -- OPTIONAL: Row Level Security (RLS)

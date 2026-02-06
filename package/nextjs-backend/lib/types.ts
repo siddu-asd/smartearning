@@ -25,6 +25,7 @@ export interface Blog {
   meta_description: string;
   category: string;
   published: boolean;
+  scheduled_at: string | null;
   created_at: string;
 }
 
@@ -48,6 +49,7 @@ export interface BlogInput {
   meta_description: string;
   category: string;
   published?: boolean;
+  scheduled_at?: string | null;
 }
 
 export interface ApiResponse<T = unknown> {

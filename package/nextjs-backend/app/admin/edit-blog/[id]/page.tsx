@@ -24,6 +24,7 @@ export default function EditBlogPage() {
     meta_description: '',
     category: '',
     published: false,
+    scheduled_at: '',
   });
 
   // Fetch blog data
@@ -48,6 +49,7 @@ export default function EditBlogPage() {
               meta_description: blog.meta_description || '',
               category: blog.category || '',
               published: blog.published ?? false,
+              scheduled_at: blog.scheduled_at ? new Date(blog.scheduled_at).toISOString().slice(0, 16) : '',
             });
           } else {
             setError('Blog post not found');
@@ -310,17 +312,43 @@ export default function EditBlogPage() {
           </div>
 
           {/* Published Status */}
-          <div className="flex items-center gap-3 pt-4 border-t">
-            <input
-              type="checkbox"
-              id="published"
-              checked={formData.published}
-              onChange={(e) => setFormData({ ...formData, published: e.target.checked })}
-              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-            />
-            <label htmlFor="published" className="text-sm font-medium text-gray-700">
-              Publish this blog post (visible on site)
-            </label>
+          <div className="border-t pt-6">
+            <h3 className="text-lg font-medium text-gray-900 mb-4">Publishing Options</h3>
+            
+            <div className="space-y-4">
+              <div className="flex items-center gap-3">
+                <input
+                  type="checkbox"
+                  id="published"
+                  checked={formData.published}
+                  onChange={(e) => setFormData({ ...formData, published: e.target.checked, scheduled_at: e.target.checked ? '' : formData.scheduled_at })}
+                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                />
+                <label htmlFor="published" className="text-sm font-medium text-gray-700">
+                  Publish this blog post (visible on site)
+                </label>
+              </div>
+
+              {!formData.published && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Schedule for later (optional)
+                  </label>
+                  <input
+                    type="datetime-local"
+                    value={formData.scheduled_at}
+                    onChange={(e) => setFormData({ ...formData, scheduled_at: e.target.value })}
+                    min={new Date().toISOString().slice(0, 16)}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                  />
+                  <p className="text-xs text-gray-500 mt-1">
+                    {formData.scheduled_at 
+                      ? `Will be published automatically on ${new Date(formData.scheduled_at).toLocaleString()}`
+                      : 'Leave empty to save as draft. Set a date/time to schedule auto-publishing.'}
+                  </p>
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Submit */}

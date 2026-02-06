@@ -38,6 +38,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
         ...(body.meta_description && { meta_description: body.meta_description }),
         ...(body.category && { category: body.category }),
         ...(body.published !== undefined && { published: body.published }),
+        scheduled_at: body.scheduled_at ? new Date(body.scheduled_at).toISOString() : null,
       })
       .eq('id', id)
       .select()
